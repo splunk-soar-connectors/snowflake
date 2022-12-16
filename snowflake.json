@@ -15,7 +15,7 @@
     "utctime_updated": "2022-12-16T01:30:34.325845Z",
     "package_name": "phantom_snowflake",
     "main_module": "snowflake_connector.py",
-    "min_phantom_version": "10155.0.0.0",
+    "min_phantom_version": "5.3.5",
     "app_wizard_version": "1.0.0",
     "configuration": {},
     "actions": [
