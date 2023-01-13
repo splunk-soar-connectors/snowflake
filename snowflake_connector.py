@@ -14,6 +14,7 @@
 # and limitations under the License.
 #
 
+import datetime
 import json
 
 # Phantom App imports
@@ -179,6 +180,17 @@ class SnowflakeConnector(BaseConnector):
 
         return self._process_response(r, action_result)
 
+    def convert_value(self, value):
+        if isinstance(value, (bytearray, bytes)):
+            return value.decode('utf-8')
+        elif isinstance(value, (datetime.datetime, datetime.timedelta, datetime.date)):
+            return str(value)
+        else:
+            return value
+
+    def _cleanup_row_values(self, row):
+        return {k: self.convert_value(v) for k, v in row.items()}
+
     def _handle_test_connectivity(self, param):
 
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -189,7 +201,7 @@ class SnowflakeConnector(BaseConnector):
         cursor = connection.cursor()
 
         try:
-            cursor.execute("SELECT current_version()")
+            cursor.execute(SNOWFLAKE_VERSION_QUERY)
             one_row = cursor.fetchone()
             self.debug_print('Version is: {}'.format(one_row[0]))
             ret_val = True
@@ -219,32 +231,35 @@ class SnowflakeConnector(BaseConnector):
         schema = param.get('schema')
 
         connection = self._handle_create_connection(role, warehouse, database, schema)
-        cursor = connection.cursor()
+        cursor = connection.cursor(snowflake.connector.DictCursor)
 
         try:
             cursor.execute(query)
             returned_data = cursor.fetchmany(100)
             # self.debug_print(cursor.rowcount())
-            for item in returned_data:
-                action_result.add_data(item[0])
+            for row in returned_data:
+                action_result.add_data(self._cleanup_row_values(row))
             self.debug_print("returned_data: {}".format(returned_data))
 
             while len(returned_data) > 0:
                 returned_data = cursor.fetchmany(100)
-                for item in returned_data:
-                    action_result.add_data(item[0])
+                for row in returned_data:
+                    action_result.add_data(self._cleanup_row_values(row))
 
         except Exception as e:
-            self.debug_print("Error: {}".format(e))
-            action_result.set_status(phantom.APP_ERROR, 'SQL query failed: {}'.format(e))
+            error_msg = self._get_error_message_from_exception(e)
+            self.save_progress("Error: {}".format(error_msg))
+            return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(SQL_QUERY_ERROR_MSG, error_msg))
 
         finally:
             cursor.close()
         summary = action_result.update_summary({})
-        summary['num_data'] = len(action_result.get_data())
 
-        # Return success, no need to set the message, only the status
-        # BaseConnector will create a textual message based off of the summary dictionary
+        if cursor.rowcount > 0:
+            summary[SNOWFLAKE_TOTAL_ROWS_JSON] = cursor.rowcount
+        else:
+            summary[SNOWFLAKE_TOTAL_ROWS_JSON] = 0
+
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_execute_update(self, param):
@@ -325,7 +340,7 @@ class SnowflakeConnector(BaseConnector):
         except Exception as e:
             error_msg = self._get_error_message_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
-            return action_result.set_status(phantom.APP_ERROR, 'SQL query failed: {}'.format(error_msg))
+            return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(SQL_QUERY_ERROR_MSG, error_msg))
 
         finally:
             connection.close()

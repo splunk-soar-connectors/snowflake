@@ -17,6 +17,7 @@
 SNOWFLAKE_DATABASE = 'SNOWFLAKE'
 SNOWFLAKE_ACCOUNT_ADMIN_ROLE = 'ACCOUNTADMIN'
 
+SNOWFLAKE_VERSION_QUERY = 'SELECT current_version()'
 TEST_CONNECTIVITY_MSG = 'Connecting to Snowflake endpoint'
 
 EXECUTE_UPDATE_SQL_STATEMENT = ''
@@ -24,11 +25,12 @@ DISABLE_SNOWFLAKE_USER_SQL_STATEMENT = 'alter user {username} set disabled=true'
 UPDATE_BLOCK_LIST_SQL_STATEMENT = ''
 REMOVE_GRANTS_SQL_STATEMENT = ''
 EDIT_TASK_AUTOMATION_SQL_STATEMENT = ''
-SNOW_SENTRY_INSIGHTS_SQL_STATEMENT = ''
 
+SQL_QUERY_ERROR_MSG = 'SQL query failed'
 SNOWFLAKE_ERROR_CODE_UNAVAILABLE = 'Unavailable'
 SNOWFLAKE_ERROR_MSG_UNAVAILABLE = 'Unavailable. Please check the asset configuration and|or the action parameters.'
 
+SNOWFLAKE_TOTAL_ROWS_JSON = 'total_rows'
 
 # Security Insights SQL statements
 SECURITY_INSIGHTS_SQL = {
@@ -88,7 +90,7 @@ SECURITY_INSIGHTS_SQL = {
 
     "Stale User Accounts": """
     select name, datediff("day", last_success_login, current_timestamp()) || ' days ago' Last_Login
-    from users
+    from account_usage.users
     order by last_success_login;
     """,
 
@@ -97,7 +99,7 @@ SECURITY_INSIGHTS_SQL = {
 
     "Users by Password Age": """
     select name, datediff('day', password_last_set_time, current_timestamp()) || ' days ago' as password_last_changed
-    from users
+    from account_usage.users
     where deleted_on is null and
     password_last_set_time is not null
     order by password_last_set_time;
