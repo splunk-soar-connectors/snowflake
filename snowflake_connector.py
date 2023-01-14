@@ -278,22 +278,22 @@ class SnowflakeConnector(BaseConnector):
         username = param['username']
 
         connection = self._handle_create_connection(role=role, database=database)
-        cursor = connection.cursor()
+        cursor = connection.cursor(snowflake.connector.DictCursor)
 
         try:
             cursor.execute(DISABLE_SNOWFLAKE_USER_SQL_STATEMENT.format(username=username))
-            returned_data = cursor.fetchone()
-            action_result.add_data(returned_data[0])
-            # self.debug_print("returned_data: {}".format(returned_data))
+            row = cursor.fetchone()
+            action_result.add_data(row)
 
         except Exception as e:
-            self.debug_print("Error: {}".format(e))
-            action_result.set_status(phantom.APP_ERROR, 'Disable user failed: {}'.format(e))
-            return action_result.get_status()
+            error_msg = self._get_error_message_from_exception(e)
+            self.save_progress("Error: {}".format(error_msg))
+            return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(DISABLE_USER_ERROR_MSG, error_msg))
         finally:
             cursor.close()
+
         summary = action_result.update_summary({})
-        summary['message'] = action_result.get_data()[0]
+        summary['status'] = action_result.get_data()[0]['status']
 
         return action_result.set_status(phantom.APP_SUCCESS)
 

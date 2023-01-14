@@ -27,6 +27,7 @@ REMOVE_GRANTS_SQL_STATEMENT = ''
 EDIT_TASK_AUTOMATION_SQL_STATEMENT = ''
 
 SQL_QUERY_ERROR_MSG = 'SQL query failed'
+DISABLE_USER_ERROR_MSG = 'Disable user failed'
 SNOWFLAKE_ERROR_CODE_UNAVAILABLE = 'Unavailable'
 SNOWFLAKE_ERROR_MSG_UNAVAILABLE = 'Unavailable. Please check the asset configuration and|or the action parameters.'
 
