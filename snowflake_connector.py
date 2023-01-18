@@ -280,11 +280,18 @@ class SnowflakeConnector(BaseConnector):
         connection = self._handle_create_connection(role=role, database=database)
         cursor = connection.cursor(snowflake.connector.DictCursor)
 
+        # First to check to see if the user is already disabled
         try:
+            cursor.execute(DESCRIBE_SNOWFLAKE_USER_SQL.format(username=username))
+            desc_user_row = cursor.fetchall()
+            for item in desc_user_row:
+                if 'property' in item and item['property'] == 'DISABLED' and item['value'] == 'true':
+                    action_result.add_data({'status': 'disabled'})
+                    return action_result.set_status(phantom.APP_SUCCESS, 'User {} is already disabled.'.format(username))
+
             cursor.execute(DISABLE_SNOWFLAKE_USER_SQL_STATEMENT.format(username=username))
             row = cursor.fetchone()
             action_result.add_data(row)
-
         except Exception as e:
             error_msg = self._get_error_message_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
@@ -293,7 +300,7 @@ class SnowflakeConnector(BaseConnector):
             cursor.close()
 
         summary = action_result.update_summary({})
-        summary['status'] = action_result.get_data()[0]['status']
+        summary['user_status'] = 'disabled'
 
         return action_result.set_status(phantom.APP_SUCCESS)
 

@@ -21,10 +21,14 @@ SNOWFLAKE_VERSION_QUERY = 'SELECT current_version()'
 TEST_CONNECTIVITY_MSG = 'Connecting to Snowflake endpoint'
 
 EXECUTE_UPDATE_SQL_STATEMENT = ''
+DESCRIBE_SNOWFLAKE_USER_SQL = 'desc user {username}'
 DISABLE_SNOWFLAKE_USER_SQL_STATEMENT = 'alter user {username} set disabled=true'
 UPDATE_BLOCK_LIST_SQL_STATEMENT = ''
 REMOVE_GRANTS_SQL_STATEMENT = ''
 EDIT_TASK_AUTOMATION_SQL_STATEMENT = ''
+# Commented out unless we decide to add a "show grants" action
+# SHOW_GRANTS_SQL_STATEMENT = 'show grants to user {username}'
+SHOW_SNOWFLAKE_USER_STATUS_SQL = 'select '
 
 SQL_QUERY_ERROR_MSG = 'SQL query failed'
 DISABLE_USER_ERROR_MSG = 'Disable user failed'

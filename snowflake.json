@@ -164,7 +164,9 @@
                     "data_type": "string",
                     "example_values": [
                         "Statement executed successfully."
-                    ]
+                    ],
+                    "column_name": "Status",
+                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.status",
@@ -195,7 +197,9 @@
                     ],
                     "contains": [
                         "user name"
-                    ]
+                    ],
+                    "column_name": "Username",
+                    "column_order": 0
                 },
                 {
                     "data_path": "summary.total_objects",
@@ -215,11 +219,7 @@
             "read_only": false,
             "type": "investigate",
             "render": {
-                "type": "custom",
-                "width": 10,
-                "height": 5,
-                "view": "snowflake_view.display_query_results",
-                "title": "Disable User"
+                "type": "table"
             },
             "versions": "EQ(*)"
         },
@@ -227,7 +227,25 @@
             "action": "update block list",
             "identifier": "update_block_list",
             "description": "Update the network policy block list",
-            "parameters": {},
+            "parameters": {
+                "update_type": {
+                    "description": "Type of update",
+                    "data_type": "string",
+                    "required": true,
+                    "value_list": [
+                        "add",
+                        "remove"
+                    ],
+                    "default": "add",
+                    "order": 0
+                },
+                "ip_list": {
+                    "description": "Comma-separated list of IPs to add or remove from block list. Add an empty list to clear all IPs from block list.",
+                    "data_type": "string",
+                    "required": false,
+                    "order": 1
+                }
+            },
             "output": [],
             "read_only": false,
             "type": "investigate",
@@ -240,7 +258,20 @@
             "action": "remove grants",
             "identifier": "remove_grants",
             "description": "Remove specified grants from a Snowflake user",
-            "parameters": {},
+            "parameters": {
+                "username": {
+                    "description": "User name",
+                    "data_type": "string",
+                    "required": true,
+                    "order": 0
+                },
+                "grants_list": {
+                    "description": "Comma-separated list of grants to remove from specified user",
+                    "data_type": "string",
+                    "required": true,
+                    "order": 1
+                }
+            },
             "output": [],
             "read_only": false,
             "type": "investigate",
