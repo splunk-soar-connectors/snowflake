@@ -224,6 +224,23 @@
             "versions": "EQ(*)"
         },
         {
+            "action": "show network policies",
+            "identifier": "show_network_policies",
+            "description": "Show network policies",
+            "parameters": {},
+            "output": [],
+            "read_only": true,
+            "type": "investigate",
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "snowflake_view.display_query_results",
+                "title": "Show Network Policies"
+            },
+            "versions": "EQ(*)"
+        },
+        {
             "action": "update block list",
             "identifier": "update_block_list",
             "description": "Update the network policy block list",

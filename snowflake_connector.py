@@ -304,10 +304,39 @@ class SnowflakeConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_update_block_list(self, param):
+    def _handle_show_network_policies(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        action_result = self.add_action_result(ActionResult(dict(param)))
 
-        # action_result = self.add_action_result(ActionResult(dict(param)))
+        database = SNOWFLAKE_DATABASE
+        role = SNOWFLAKE_ACCOUNT_ADMIN_ROLE
+
+        connection = self._handle_create_connection(role=role, database=database)
+        cursor = connection.cursor(snowflake.connector.DictCursor)
+
+        try:
+            cursor.execute(SHOW_NETWORK_POLICIES_SQL)
+            rows = cursor.fetchmany(100)
+            for row in rows:
+                action_result.add_data(self._cleanup_row_values(row))
+            self.debug_print("returned_rows: {}".format(rows))
+
+            while len(rows) > 0:
+                rows = cursor.fetchmany(100)
+                for row in rows:
+                    action_result.add_data(self._cleanup_row_values(row))
+
+        except Exception as e:
+            error_msg = self._get_error_message_from_exception(e)
+            self.save_progress("Error: {}".format(error_msg))
+            return action_result.set_status(phantom.APP_ERROR, error_msg)
+        finally:
+            cursor.close()
+
+        summary = action_result.update_summary({})
+        summary['total_policies'] = len(action_result.get_data())
+
+        return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_remove_grants(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -429,6 +458,9 @@ class SnowflakeConnector(BaseConnector):
 
         if action_id == 'security_insights':
             ret_val = self._handle_security_insights(param)
+
+        if action_id == 'show_network_policies':
+            ret_val = self._handle_show_network_policies(param)
 
         return ret_val
 
