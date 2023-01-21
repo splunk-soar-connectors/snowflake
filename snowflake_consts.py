@@ -14,25 +14,35 @@
 # and limitations under the License.
 #
 
-SNOWFLAKE_DATABASE = 'SNOWFLAKE'
-SNOWFLAKE_ACCOUNT_ADMIN_ROLE = 'ACCOUNTADMIN'
+# Database admin config parameters
+SNOWFLAKE_DATABASE = "SNOWFLAKE"
+SNOWFLAKE_ACCOUNT_ADMIN_ROLE = "ACCOUNTADMIN"
 
-SNOWFLAKE_VERSION_QUERY = 'SELECT current_version()'
-TEST_CONNECTIVITY_MSG = 'Connecting to Snowflake endpoint'
+# Test connectivity constants
+SNOWFLAKE_VERSION_QUERY = "SELECT current_version()"
+TEST_CONNECTIVITY_MSG = "Connecting to Snowflake endpoint"
 
+# Action SQL statements
 EXECUTE_UPDATE_SQL_STATEMENT = ''
-DESCRIBE_SNOWFLAKE_USER_SQL = 'desc user {username}'
-DISABLE_SNOWFLAKE_USER_SQL_STATEMENT = 'alter user {username} set disabled=true;'
-SHOW_NETWORK_POLICIES_SQL = 'show network policies;'
-UPDATE_BLOCK_LIST_SQL_STATEMENT = ''
-REMOVE_GRANTS_SQL_STATEMENT = ''
+DESCRIBE_SNOWFLAKE_USER_SQL = "desc user {username};"
+DISABLE_SNOWFLAKE_USER_SQL_STATEMENT = "alter user {username} set disabled=true;"
+SHOW_NETWORK_POLICIES_SQL = "show network policies;"
+DESCRIBE_NETWORK_POLICY_SQL = "describe network policy {policy_name};"
+UPDATE_NETWORK_POLICY_SQL = "alter network policy {policy_name} \
+                             set allowed_ip_list=({allowed_ip_list}) blocked_ip_list=({blocked_ip_list}) comment='{comment}';"
+REMOVE_GRANTS_SQL = 'revoke role {role} from user {username};'
 EDIT_TASK_AUTOMATION_SQL_STATEMENT = ''
+
 # Commented out unless we decide to add a "show grants" action
 # SHOW_GRANTS_SQL_STATEMENT = 'show grants to user {username}'
 SHOW_SNOWFLAKE_USER_STATUS_SQL = 'select '
 
+# Action error messages
 SQL_QUERY_ERROR_MSG = 'SQL query failed'
 DISABLE_USER_ERROR_MSG = 'Disable user failed'
+SHOW_NETWORK_POLICIES_ERROR_MSG = 'Show network policies failed'
+DESCRIBE_NETWORK_POLICY_ERROR_MSG = 'Describe network policy failed'
+
 SNOWFLAKE_ERROR_CODE_UNAVAILABLE = 'Unavailable'
 SNOWFLAKE_ERROR_MSG_UNAVAILABLE = 'Unavailable. Please check the asset configuration and|or the action parameters.'
 
@@ -59,9 +69,22 @@ SECURITY_INSIGHTS_SQL = {
     """,
 
     "Disabled Users": """
+    select name, datediff('day', password_last_set_time, current_timestamp()) || ' days ago' as password_last_changed
+    from account_usage.users
+    where deleted_on is null and
+    password_last_set_time is not null
+    order by password_last_set_time;
     """,
 
-    "Least Used Role Grants": """
+    "Key Pair Bypass": """
+    SELECT u.name, first_authentication_factor, second_authentication_factor, count(*)
+    FROM snowflake.account_usage.login_history as l
+    JOIN snowflake.account_usage.users u on l.user_name = u.name
+    and has_rsa_public_key = 'true'
+    WHERE is_success = 'YES'
+    AND first_authentication_factor != 'RSA_KEYPAIR'
+    GROUP BY name, first_authentication_factor, second_authentication_factor
+    ORDER BY count(*) desc;
     """,
 
     "Login Failures, by User, by Reason": """
@@ -70,9 +93,6 @@ SECURITY_INSIGHTS_SQL = {
     where is_success='NO'
     group by user_name, error_message
     order by num_of_failures desc;
-    """,
-
-    "Most Dangerous Person": """
     """,
 
     "Network Policy Change Management": """
@@ -98,9 +118,6 @@ SECURITY_INSIGHTS_SQL = {
     select name, datediff("day", last_success_login, current_timestamp()) || ' days ago' Last_Login
     from account_usage.users
     order by last_success_login;
-    """,
-
-    "User to Role Ratio": """
     """,
 
     "Users by Password Age": """

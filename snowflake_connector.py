@@ -338,10 +338,107 @@ class SnowflakeConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
+    def _handle_describe_network_policy(self, param):
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        database = SNOWFLAKE_DATABASE
+        role = SNOWFLAKE_ACCOUNT_ADMIN_ROLE
+        policy_name = param['policy_name']
+
+        connection = self._handle_create_connection(role=role, database=database)
+        cursor = connection.cursor(snowflake.connector.DictCursor)
+
+        try:
+            cursor.execute(DESCRIBE_NETWORK_POLICY_SQL.format(policy_name=policy_name))
+            rows = cursor.fetchmany(100)
+            for row in rows:
+                action_result.add_data(self._cleanup_row_values(row))
+            self.debug_print("returned_rows: {}".format(rows))
+
+            while len(rows) > 0:
+                rows = cursor.fetchmany(100)
+                for row in rows:
+                    action_result.add_data(self._cleanup_row_values(row))
+
+        except Exception as e:
+            error_msg = self._get_error_message_from_exception(e)
+            self.save_progress("Error: {}".format(error_msg))
+            return action_result.set_status(phantom.APP_ERROR, error_msg)
+        finally:
+            cursor.close()
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
+    def _handle_update_network_policy(self, param):
+        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        database = SNOWFLAKE_DATABASE
+        role = SNOWFLAKE_ACCOUNT_ADMIN_ROLE
+        policy_name = param['policy_name']
+        try:
+            allowed_ip_list = param.get('allowed_ip_list')
+            if allowed_ip_list:
+                allowed_ip_list = allowed_ip_list.split(',')
+                allowed_ip_list = [x.strip() for x in allowed_ip_list if x.strip()]
+                allowed_ip_list = "'{0}'".format("','".join(allowed_ip_list))
+
+            blocked_ip_list = param.get('blocked_ip_list')
+            if blocked_ip_list:
+                blocked_ip_list = blocked_ip_list.split(',')
+                blocked_ip_list = [x.strip() for x in blocked_ip_list if x.strip()]
+                blocked_ip_list = "'{0}'".format("','".join(blocked_ip_list))
+
+            comment = param.get('comment')
+
+        except Exception as e:
+            error_msg = self._get_error_message_from_exception(e)
+            self.save_progress("Error: {}".format(error_msg))
+            return action_result.set_status(phantom.APP_ERROR, error_msg)
+
+        try:
+            connection = self._handle_create_connection(role=role, database=database)
+            cursor = connection.cursor(snowflake.connector.DictCursor)
+            cursor.execute(UPDATE_NETWORK_POLICY_SQL.format(policy_name=policy_name,
+                allowed_ip_list=allowed_ip_list, blocked_ip_list=blocked_ip_list, comment=comment))
+            row = cursor.fetchall()
+            action_result.add_data(row)
+
+        except Exception as e:
+            error_msg = self._get_error_message_from_exception(e)
+            self.save_progress("Error: {}".format(error_msg))
+            return action_result.set_status(phantom.APP_ERROR, error_msg)
+
+        finally:
+            cursor.close()
+
+        return action_result.set_status(phantom.APP_SUCCESS)
+
     def _handle_remove_grants(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
-        # action_result = self.add_action_result(ActionResult(dict(param)))
+        action_result = self.add_action_result(ActionResult(dict(param)))
+
+        username = param['username']
+        role = param['role']
+
+        try:
+            connection = self._handle_create_connection()
+            cursor = connection.cursor(snowflake.connector.DictCursor)
+            cursor.execute(REMOVE_GRANTS_SQL.format(username=username, role=role))
+            row = cursor.fetchone()
+            action_result.add_data(row)
+
+        except Exception as e:
+            error_msg = self._get_error_message_from_exception(e)
+            self.save_progress("Error: {}".format(error_msg))
+            return action_result.set_status(phantom.APP_ERROR, error_msg)
+
+        finally:
+            cursor.close()
+
+        return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_edit_task_automation(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -461,6 +558,12 @@ class SnowflakeConnector(BaseConnector):
 
         if action_id == 'show_network_policies':
             ret_val = self._handle_show_network_policies(param)
+
+        if action_id == 'describe_network_policy':
+            ret_val = self._handle_describe_network_policy(param)
+
+        if action_id == 'update_network_policy':
+            ret_val = self._handle_update_network_policy(param)
 
         return ret_val
 
