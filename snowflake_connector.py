@@ -77,7 +77,7 @@ class SnowflakeConnector(BaseConnector):
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        self.save_progress(TEST_CONNECTIVITY_MSG)
+        self.save_progress(TEST_CONNECTIVITY_PROGRESS_MSG)
 
         connection = self._handle_create_connection()
         cursor = connection.cursor()
