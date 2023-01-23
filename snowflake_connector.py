@@ -95,10 +95,10 @@ class SnowflakeConnector(BaseConnector):
             connection.close()
 
         if phantom.is_fail(ret_val):
-            self.save_progress("Test Connectivity Failed.")
+            self.save_progress(TEST_CONNECTIVITY_ERROR_MSG)
             return action_result.get_status()
 
-        self.save_progress("Test Connectivity Passed")
+        self.save_progress(TEST_CONNECTIVITY_SUCCESS_MSG)
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_run_query(self, param):

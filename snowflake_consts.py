@@ -20,7 +20,7 @@ SNOWFLAKE_ACCOUNT_ADMIN_ROLE = "ACCOUNTADMIN"
 
 # Test connectivity constants
 SNOWFLAKE_VERSION_QUERY = "SELECT current_version()"
-TEST_CONNECTIVITY_MSG = "Connecting to Snowflake endpoint"
+TEST_CONNECTIVITY_PROGRESS_MSG = "Connecting to Snowflake endpoint"
 
 # Action SQL statements
 DESCRIBE_SNOWFLAKE_USER_SQL = "desc user {username};"
@@ -37,12 +37,14 @@ EDIT_TASK_AUTOMATION_SQL_STATEMENT = ''
 SHOW_SNOWFLAKE_USER_STATUS_SQL = 'select '
 
 # Action error messages
+TEST_CONNECTIVITY_ERROR_MSG = 'Test connectivity failed'
 SQL_QUERY_ERROR_MSG = 'SQL query failed'
 DISABLE_USER_ERROR_MSG = 'Disable user failed'
 SHOW_NETWORK_POLICIES_ERROR_MSG = 'Show network policies failed'
 DESCRIBE_NETWORK_POLICY_ERROR_MSG = 'Describe network policy failed'
 
 # Action success messages
+TEST_CONNECTIVITY_SUCCESS_MSG = 'Test connectivity passed'
 REMOVE_GRANTS_SUCCESS_MSG = 'Role {role} was successfully removed from user'
 UPDATE_NETWORK_POLICY_SUCCESS_MSG = 'Network policy {policy_name} was updated successfully'
 
