@@ -459,29 +459,24 @@ class SnowflakeConnector(BaseConnector):
         query = SECURITY_INSIGHTS_SQL[param['insight']]
         self.debug_print('Insight: {}, Query: {}'.format(param['insight'], query))
 
-        # action_result = self._run_query(query, param, action_result)
-        # return action_result
-
         database = 'SNOWFLAKE'
-        role = 'ACCOUNTADMIN'
-        warehouse = 'warehouse1'
+        role = param.get('role')
 
-        connection = self._handle_create_connection(database=database, role=role, warehouse=warehouse)
+        connection = self._handle_create_connection(database=database, role=role)
 
         cursor = connection.cursor(snowflake.connector.DictCursor)
         try:
             cursor.execute(query)
-            # data = cursor.fetchall()
-            for row in cursor:
+            returned_rows = cursor.fetchall()
+            for row in returned_rows:
                 self.debug_print(row)
                 action_result.add_data(row)
-
         except Exception as e:
             error_msg = self._get_error_message_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(SQL_QUERY_ERROR_MSG, error_msg))
-
         finally:
+            cursor.close()
             connection.close()
 
         return action_result.set_status(phantom.APP_SUCCESS)

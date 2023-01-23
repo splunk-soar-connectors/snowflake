@@ -46,6 +46,8 @@ DESCRIBE_NETWORK_POLICY_ERROR_MSG = 'Describe network policy failed'
 # Action success messages
 REMOVE_GRANTS_SUCCESS_MSG = 'Role {role} was successfully removed from user'
 UPDATE_NETWORK_POLICY_SUCCESS_MSG = 'Network policy {policy_name} was updated successfully'
+
+# Default error messages
 SNOWFLAKE_ERROR_CODE_UNAVAILABLE = 'Unavailable'
 SNOWFLAKE_ERROR_MSG_UNAVAILABLE = 'Unavailable. Please check the asset configuration and|or the action parameters.'
 
@@ -64,7 +66,7 @@ SECURITY_INSIGHTS_SQL = {
 
     "Authentication Breakdown": """
     select first_authentication_factor || ' ' ||nvl(second_authentication_factor, '')
-    as authentication_method, count(*)
+    as authentication_method, count(*) as count
     from account_usage.login_history
     where is_success = 'YES'
     group by authentication_method
@@ -72,11 +74,9 @@ SECURITY_INSIGHTS_SQL = {
     """,
 
     "Disabled Users": """
-    select name, datediff('day', password_last_set_time, current_timestamp()) || ' days ago' as password_last_changed
+    select name, created_on, disabled, last_success_login
     from account_usage.users
-    where deleted_on is null and
-    password_last_set_time is not null
-    order by password_last_set_time;
+    where disabled = 'true';
     """,
 
     "Key Pair Bypass": """
