@@ -236,7 +236,6 @@ class SnowflakeConnector(BaseConnector):
         try:
             cursor.execute(query)
             returned_rows = cursor.fetchmany(100)
-            self.debug_print(cursor.rowcount)
 
             for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
