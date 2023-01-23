@@ -273,7 +273,60 @@
                     "order": 1
                 }
             },
-            "output": [],
+            "output": [
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string",
+                    "example_values": [
+                        "ALLOWED_IP_LIST"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.value",
+                    "data_type": "string",
+                    "example_values": [
+                        "192.168.1.0/24,192.168.2.0/24"
+                    ],
+                    "contains": [
+                        "ip"
+                    ]
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        ""
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.policy_name",
+                    "data_type": "string",
+                    "example_values": [
+                        "mypolicy1"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
             "read_only": true,
             "type": "investigate",
             "render": {
@@ -294,6 +347,10 @@
                     "description": "Name of network policy to update",
                     "data_type": "string",
                     "required": true,
+                    "primary": true,
+                    "contains": [
+                        "policy name"
+                    ],
                     "order": 0
                 },
                 "role": {
@@ -317,7 +374,79 @@
                     "order": 4
                 }
             },
-            "output": [],
+            "output": [
+                {
+                    "data_path": "action_result.data.*.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Statement executed successfully."
+                    ],
+                    "column_name": "Status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "",
+                        "Network policy mypolicy1 was updated successfully"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.comment",
+                    "data_type": "string",
+                    "example_values": [
+                        "updated policy",
+                        "a new update"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.policy_name",
+                    "data_type": "string",
+                    "example_values": [
+                        "mypolicy1"
+                    ],
+                    "column_name": "Policy Name",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.allowed_ip_list",
+                    "data_type": "string",
+                    "example_values": [
+                        "192.168.1.0/24, 192.168.2.0/24",
+                        "192.168.10.0/24"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.blocked_ip_list",
+                    "data_type": "string",
+                    "example_values": [
+                        "192.168.1.1, 192.168.2.1",
+                        "192.168.10.1, 192.168.10.5, 192.168.10.6"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
             "read_only": false,
             "type": "investigate",
             "render": {
@@ -331,7 +460,7 @@
             "description": "Remove specified grants from a Snowflake user",
             "parameters": {
                 "username": {
-                    "description": "User name",
+                    "description": "Username",
                     "data_type": "string",
                     "required": true,
                     "order": 0

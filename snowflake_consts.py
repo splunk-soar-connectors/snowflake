@@ -45,6 +45,7 @@ DESCRIBE_NETWORK_POLICY_ERROR_MSG = 'Describe network policy failed'
 
 # Action success messages
 REMOVE_GRANTS_SUCCESS_MSG = 'Role {role} was successfully removed from user'
+UPDATE_NETWORK_POLICY_SUCCESS_MSG = 'Network policy {policy_name} was updated successfully'
 SNOWFLAKE_ERROR_CODE_UNAVAILABLE = 'Unavailable'
 SNOWFLAKE_ERROR_MSG_UNAVAILABLE = 'Unavailable. Please check the asset configuration and|or the action parameters.'
 

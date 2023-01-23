@@ -236,7 +236,7 @@ class SnowflakeConnector(BaseConnector):
         try:
             cursor.execute(query)
             returned_rows = cursor.fetchmany(100)
-            self.debug_print(cursor.rowcount())
+            self.debug_print(cursor.rowcount)
 
             for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
@@ -387,15 +387,18 @@ class SnowflakeConnector(BaseConnector):
                 allowed_ip_list = allowed_ip_list.split(',')
                 allowed_ip_list = [x.strip() for x in allowed_ip_list if x.strip()]
                 allowed_ip_list = "'{0}'".format("','".join(allowed_ip_list))
+            else:
+                allowed_ip_list = ''
 
             blocked_ip_list = param.get('blocked_ip_list')
             if blocked_ip_list:
                 blocked_ip_list = blocked_ip_list.split(',')
                 blocked_ip_list = [x.strip() for x in blocked_ip_list if x.strip()]
                 blocked_ip_list = "'{0}'".format("','".join(blocked_ip_list))
+            else:
+                blocked_ip_list = ''
 
             comment = param.get('comment')
-
         except Exception as e:
             error_msg = self._get_error_message_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
@@ -406,18 +409,17 @@ class SnowflakeConnector(BaseConnector):
             cursor = connection.cursor(snowflake.connector.DictCursor)
             cursor.execute(UPDATE_NETWORK_POLICY_SQL.format(policy_name=policy_name,
                 allowed_ip_list=allowed_ip_list, blocked_ip_list=blocked_ip_list, comment=comment))
-            row = cursor.fetchall()
+            row = cursor.fetchone()
             action_result.add_data(row)
-
         except Exception as e:
             error_msg = self._get_error_message_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, error_msg)
-
         finally:
             cursor.close()
+            connection.close()
 
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, UPDATE_NETWORK_POLICY_SUCCESS_MSG.format(policy_name=policy_name))
 
     def _handle_remove_grants(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -441,6 +443,7 @@ class SnowflakeConnector(BaseConnector):
 
         finally:
             cursor.close()
+            connection.close()
 
         return action_result.set_status(phantom.APP_SUCCESS, REMOVE_GRANTS_SUCCESS_MSG.format(role=role_to_remove))
 
