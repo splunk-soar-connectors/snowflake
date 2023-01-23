@@ -23,7 +23,6 @@ SNOWFLAKE_VERSION_QUERY = "SELECT current_version()"
 TEST_CONNECTIVITY_MSG = "Connecting to Snowflake endpoint"
 
 # Action SQL statements
-EXECUTE_UPDATE_SQL_STATEMENT = ''
 DESCRIBE_SNOWFLAKE_USER_SQL = "desc user {username};"
 DISABLE_SNOWFLAKE_USER_SQL_STATEMENT = "alter user {username} set disabled=true;"
 SHOW_NETWORK_POLICIES_SQL = "show network policies;"

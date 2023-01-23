@@ -130,19 +130,6 @@
             "versions": "EQ(*)"
         },
         {
-            "action": "execute update",
-            "identifier": "execute_update",
-            "description": "Execute a DML change",
-            "parameters": {},
-            "output": [],
-            "read_only": false,
-            "type": "investigate",
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
             "action": "disable user",
             "identifier": "disable_user",
             "description": "Disable a Snowflake user",
