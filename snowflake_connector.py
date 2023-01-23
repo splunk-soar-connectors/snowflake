@@ -219,7 +219,7 @@ class SnowflakeConnector(BaseConnector):
         self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
 
-    def _handle_execute_query(self, param):
+    def _handle_run_query(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -235,24 +235,26 @@ class SnowflakeConnector(BaseConnector):
 
         try:
             cursor.execute(query)
-            returned_data = cursor.fetchmany(100)
-            # self.debug_print(cursor.rowcount())
-            for row in returned_data:
+            returned_rows = cursor.fetchmany(100)
+            self.debug_print(cursor.rowcount())
+
+            for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
-            self.debug_print("returned_data: {}".format(returned_data))
 
-            while len(returned_data) > 0:
-                returned_data = cursor.fetchmany(100)
-                for row in returned_data:
+            self.debug_print("returned_rows: {}".format(returned_rows))
+
+            while len(returned_rows) > 0:
+                returned_rows = cursor.fetchmany(100)
+                for row in returned_rows:
                     action_result.add_data(self._cleanup_row_values(row))
-
         except Exception as e:
             error_msg = self._get_error_message_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(SQL_QUERY_ERROR_MSG, error_msg))
-
         finally:
             cursor.close()
+            connection.close()
+
         summary = action_result.update_summary({})
 
         if cursor.rowcount > 0:
@@ -273,9 +275,8 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        role = SNOWFLAKE_ACCOUNT_ADMIN_ROLE
-
         username = param['username']
+        role = param.get('role')
 
         connection = self._handle_create_connection(role=role, database=database)
         cursor = connection.cursor(snowflake.connector.DictCursor)
@@ -309,21 +310,21 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        role = SNOWFLAKE_ACCOUNT_ADMIN_ROLE
+        role = param.get('role')
 
         connection = self._handle_create_connection(role=role, database=database)
         cursor = connection.cursor(snowflake.connector.DictCursor)
 
         try:
             cursor.execute(SHOW_NETWORK_POLICIES_SQL)
-            rows = cursor.fetchmany(100)
-            for row in rows:
+            returned_rows = cursor.fetchmany(100)
+            for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
-            self.debug_print("returned_rows: {}".format(rows))
+            self.debug_print("returned_rows: {}".format(returned_rows))
 
-            while len(rows) > 0:
-                rows = cursor.fetchmany(100)
-                for row in rows:
+            while len(returned_rows) > 0:
+                returned_rows = cursor.fetchmany(100)
+                for row in returned_rows:
                     action_result.add_data(self._cleanup_row_values(row))
 
         except Exception as e:
@@ -332,6 +333,7 @@ class SnowflakeConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
             cursor.close()
+            connection.close()
 
         summary = action_result.update_summary({})
         summary['total_policies'] = len(action_result.get_data())
@@ -343,7 +345,8 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        role = SNOWFLAKE_ACCOUNT_ADMIN_ROLE
+        role = param.get('role')
+
         policy_name = param['policy_name']
 
         connection = self._handle_create_connection(role=role, database=database)
@@ -351,14 +354,14 @@ class SnowflakeConnector(BaseConnector):
 
         try:
             cursor.execute(DESCRIBE_NETWORK_POLICY_SQL.format(policy_name=policy_name))
-            rows = cursor.fetchmany(100)
-            for row in rows:
+            returned_rows = cursor.fetchmany(100)
+            for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
-            self.debug_print("returned_rows: {}".format(rows))
+            self.debug_print("returned_rows: {}".format(returned_rows))
 
-            while len(rows) > 0:
-                rows = cursor.fetchmany(100)
-                for row in rows:
+            while len(returned_rows) > 0:
+                returned_rows = cursor.fetchmany(100)
+                for row in returned_rows:
                     action_result.add_data(self._cleanup_row_values(row))
 
         except Exception as e:
@@ -367,7 +370,7 @@ class SnowflakeConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
             cursor.close()
-
+            connection.close()
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_update_network_policy(self, param):
@@ -375,8 +378,9 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        role = SNOWFLAKE_ACCOUNT_ADMIN_ROLE
         policy_name = param['policy_name']
+        role = param.get('role')
+
         try:
             allowed_ip_list = param.get('allowed_ip_list')
             if allowed_ip_list:
@@ -421,12 +425,12 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         username = param['username']
-        role = param['role']
+        role_to_remove = param['role']
 
         try:
-            connection = self._handle_create_connection()
+            connection = self._handle_create_connection(role='ACCOUNTADMIN', database='SNOWFLAKE')
             cursor = connection.cursor(snowflake.connector.DictCursor)
-            cursor.execute(REMOVE_GRANTS_SQL.format(username=username, role=role))
+            cursor.execute(REMOVE_GRANTS_SQL.format(username=username, role=role_to_remove))
             row = cursor.fetchone()
             action_result.add_data(row)
 
@@ -438,7 +442,7 @@ class SnowflakeConnector(BaseConnector):
         finally:
             cursor.close()
 
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, REMOVE_GRANTS_SUCCESS_MSG.format(role=role_to_remove))
 
     def _handle_edit_task_automation(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -535,8 +539,8 @@ class SnowflakeConnector(BaseConnector):
         if action_id == 'test_connectivity':
             ret_val = self._handle_test_connectivity(param)
 
-        if action_id == 'execute_query':
-            ret_val = self._handle_execute_query(param)
+        if action_id == 'run_query':
+            ret_val = self._handle_run_query(param)
 
         if action_id == 'execute_update':
             ret_val = self._handle_execute_update(param)

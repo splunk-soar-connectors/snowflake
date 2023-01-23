@@ -52,8 +52,8 @@
             "versions": "EQ(*)"
         },
         {
-            "action": "execute query",
-            "identifier": "execute_query",
+            "action": "run query",
+            "identifier": "run_query",
             "description": "Perform a SQL query",
             "type": "investigate",
             "read_only": false,
@@ -63,9 +63,9 @@
                     "data_type": "string",
                     "required": true,
                     "primary": true,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
+                    "contains": [
+                        "sql query"
+                    ],
                     "order": 0
                 },
                 "role": {
@@ -156,6 +156,12 @@
                         "username"
                     ],
                     "order": 0
+                },
+                "role": {
+                    "description": "Role",
+                    "data_type": "string",
+                    "primary": false,
+                    "order": 1
                 }
             },
             "output": [
@@ -227,7 +233,13 @@
             "action": "show network policies",
             "identifier": "show_network_policies",
             "description": "Show network policies",
-            "parameters": {},
+            "parameters": {
+                "role": {
+                    "description": "Role",
+                    "data_type": "string",
+                    "order": 1
+                }
+            },
             "output": [],
             "read_only": true,
             "type": "investigate",
@@ -249,7 +261,16 @@
                     "description": "Name of policy to describe",
                     "data_type": "string",
                     "required": true,
+                    "primary": true,
+                    "contains": [
+                        "policy name"
+                    ],
                     "order": 0
+                },
+                "role": {
+                    "description": "Role",
+                    "data_type": "string",
+                    "order": 1
                 }
             },
             "output": [],
@@ -275,23 +296,25 @@
                     "required": true,
                     "order": 0
                 },
+                "role": {
+                    "description": "Role",
+                    "data_type": "string",
+                    "order": 1
+                },
                 "allowed_ip_list": {
                     "description": "Comma-separated list of IPs to replace current allow list. Add an empty list to clear all IPs from allow list.",
                     "data_type": "string",
-                    "required": false,
-                    "order": 1
+                    "order": 2
                 },
                 "blocked_ip_list": {
                     "description": "Comma-separated list of IPs to replace current block list. Add an empty list to clear all IPs from block list.",
                     "data_type": "string",
-                    "required": false,
-                    "order": 2
+                    "order": 3
                 },
                 "comment": {
                     "description": "Replace current comment on network policy",
                     "data_type": "string",
-                    "required": false,
-                    "order": 3
+                    "order": 4
                 }
             },
             "output": [],
@@ -320,7 +343,66 @@
                     "order": 1
                 }
             },
-            "output": [],
+            "output": [
+                {
+                    "data_path": "action_result.data.*.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Revoke not executed: Insufficient privileges."
+                    ],
+                    "column_name": "Status",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        ""
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "test_role"
+                    ],
+                    "column_name": "Role",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.parameter.username",
+                    "data_type": "string",
+                    "example_values": [
+                        "test1"
+                    ],
+                    "contains": [
+                        "user name"
+                    ],
+                    "column_name": "Username",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
             "read_only": false,
             "type": "investigate",
             "render": {
