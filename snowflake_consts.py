@@ -17,6 +17,7 @@
 # Database admin config parameters
 SNOWFLAKE_DATABASE = "SNOWFLAKE"
 SNOWFLAKE_ACCOUNT_ADMIN_ROLE = "ACCOUNTADMIN"
+DEFAULT_NUM_ROWS_TO_FETCH = 100
 
 # Test connectivity constants
 SNOWFLAKE_VERSION_QUERY = "SELECT current_version()"

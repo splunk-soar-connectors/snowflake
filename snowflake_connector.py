@@ -107,7 +107,7 @@ class SnowflakeConnector(BaseConnector):
 
         try:
             cursor.execute(query)
-            returned_rows = cursor.fetchmany(100)
+            returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
 
             for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
@@ -115,7 +115,7 @@ class SnowflakeConnector(BaseConnector):
             self.debug_print("returned_rows: {}".format(returned_rows))
 
             while len(returned_rows) > 0:
-                returned_rows = cursor.fetchmany(100)
+                returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
                 for row in returned_rows:
                     action_result.add_data(self._cleanup_row_values(row))
         except Exception as e:
@@ -183,13 +183,13 @@ class SnowflakeConnector(BaseConnector):
 
         try:
             cursor.execute(SHOW_NETWORK_POLICIES_SQL)
-            returned_rows = cursor.fetchmany(100)
+            returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
             for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
             self.debug_print("returned_rows: {}".format(returned_rows))
 
             while len(returned_rows) > 0:
-                returned_rows = cursor.fetchmany(100)
+                returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
                 for row in returned_rows:
                     action_result.add_data(self._cleanup_row_values(row))
 
@@ -220,13 +220,13 @@ class SnowflakeConnector(BaseConnector):
 
         try:
             cursor.execute(DESCRIBE_NETWORK_POLICY_SQL.format(policy_name=policy_name))
-            returned_rows = cursor.fetchmany(100)
+            returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
             for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
             self.debug_print("returned_rows: {}".format(returned_rows))
 
             while len(returned_rows) > 0:
-                returned_rows = cursor.fetchmany(100)
+                returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
                 for row in returned_rows:
                     action_result.add_data(self._cleanup_row_values(row))
 
