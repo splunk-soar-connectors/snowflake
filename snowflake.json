@@ -18,7 +18,7 @@
     "min_phantom_version": "5.3.5",
     "app_wizard_version": "1.0.0",
     "latest_tested_versions": [
-        "Snowflake Dec 2022"
+        "Snowflake Jan 2023"
     ],
     "configuration": {
         "account": {
@@ -95,29 +95,81 @@
             },
             "output": [
                 {
-                    "data_path": "action_result.parameter.query",
-                    "data_type": "string",
-                    "contains": [],
-                    "column_name": "query",
-                    "column_order": 0
+                    "data_path": "action_result.data",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "status",
-                    "column_order": 1
+                    "example_values": [
+                        "success"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "Total rows: 4"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.total_rows",
+                    "data_type": "numeric",
+                    "example_values": [
+                        4
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.query",
+                    "data_type": "string",
+                    "example_values": [
+                        "select * from test_table;"
+                    ],
+                    "contains": [
+                        "sql query"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.schema",
+                    "data_type": "string",
+                    "example_values": [
+                        "testschema"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.database",
+                    "data_type": "string",
+                    "example_values": [
+                        "test1db"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.warehouse",
+                    "data_type": "string",
+                    "example_values": [
+                        "warehouse1"
+                    ]
                 },
                 {
                     "data_path": "summary.total_objects",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
                 },
                 {
                     "data_path": "summary.total_objects_successful",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
                 }
             ],
             "render": {
@@ -140,7 +192,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "username"
+                        "user name"
                     ],
                     "order": 0
                 },
@@ -195,6 +247,13 @@
                     "column_order": 0
                 },
                 {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ]
+                },
+                {
                     "data_path": "summary.total_objects",
                     "data_type": "numeric",
                     "example_values": [
@@ -227,7 +286,85 @@
                     "order": 1
                 }
             },
-            "output": [],
+            "output": [
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string",
+                    "example_values": [
+                        "MYPOLICY1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.comment",
+                    "data_type": "string",
+                    "example_values": [
+                        "testing app"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.created_on",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-12-19 14:10:12.084000-08:00"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.entries_in_allowed_ip_list",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.entries_in_blocked_ip_list",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Total policies: 1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.total_policies",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
             "read_only": true,
             "type": "investigate",
             "render": {
@@ -250,7 +387,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "policy name"
+                        "snowflake policy name"
                     ],
                     "order": 0
                 },
@@ -297,6 +434,16 @@
                     "data_type": "string",
                     "example_values": [
                         "mypolicy1"
+                    ],
+                    "contains": [
+                        "snowflake policy name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
                     ]
                 },
                 {
@@ -336,7 +483,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "policy name"
+                        "snowflake policy name"
                     ],
                     "order": 0
                 },
@@ -400,8 +547,18 @@
                     "example_values": [
                         "mypolicy1"
                     ],
+                    "contains": [
+                        "snowflake policy name"
+                    ],
                     "column_name": "Policy Name",
                     "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.allowed_ip_list",
@@ -450,6 +607,9 @@
                     "description": "Username",
                     "data_type": "string",
                     "required": true,
+                    "contains": [
+                        "user name"
+                    ],
                     "order": 0
                 },
                 "role_to_remove": {
@@ -469,7 +629,7 @@
                     "data_path": "action_result.data.*.status",
                     "data_type": "string",
                     "example_values": [
-                        "Revoke not executed: Insufficient privileges."
+                        "Statement executed successfully."
                     ],
                     "column_name": "Status",
                     "column_order": 2
@@ -485,29 +645,29 @@
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
-                        ""
+                        "Role accountadmin was successfully removed from user"
                     ]
-                },
-                {
-                    "data_path": "action_result.parameter.role",
-                    "data_type": "string",
-                    "example_values": [
-                        "test_role"
-                    ],
-                    "column_name": "Role",
-                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.parameter.username",
                     "data_type": "string",
                     "example_values": [
-                        "test1"
+                        "test2"
                     ],
                     "contains": [
                         "user name"
                     ],
                     "column_name": "Username",
                     "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.role_to_remove",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ],
+                    "column_name": "Role to Remove",
+                    "column_order": 1
                 },
                 {
                     "data_path": "summary.total_objects",
@@ -524,19 +684,6 @@
                     ]
                 }
             ],
-            "read_only": false,
-            "type": "investigate",
-            "render": {
-                "type": "table"
-            },
-            "versions": "EQ(*)"
-        },
-        {
-            "action": "edit task automation",
-            "identifier": "edit_task_automation",
-            "description": "Add, change, or delete Snowflake automation",
-            "parameters": {},
-            "output": [],
             "read_only": false,
             "type": "investigate",
             "render": {
@@ -568,7 +715,44 @@
                     "order": 0
                 }
             },
-            "output": [],
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.insight",
+                    "data_type": "string",
+                    "example_values": [
+                        "Authentication Breakdown"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
             "read_only": true,
             "type": "investigate",
             "render": {
