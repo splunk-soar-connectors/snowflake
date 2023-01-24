@@ -79,27 +79,17 @@ class SnowflakeConnector(BaseConnector):
 
         self.save_progress(TEST_CONNECTIVITY_PROGRESS_MSG)
 
-        connection = self._handle_create_connection()
-        cursor = connection.cursor()
-
         try:
+            connection = self._handle_create_connection()
+            cursor = connection.cursor()
+
             cursor.execute(SNOWFLAKE_VERSION_QUERY)
-            one_row = cursor.fetchone()
-            self.debug_print('Version is: {}'.format(one_row[0]))
-            ret_val = True
-        except Exception:
-            action_result.set_status(phantom.APP_ERROR, 'Error connecting to Snowflake')
-            ret_val = False
-        finally:
-            cursor.close()
-            connection.close()
-
-        if phantom.is_fail(ret_val):
-            self.save_progress(TEST_CONNECTIVITY_ERROR_MSG)
-            return action_result.get_status()
-
-        self.save_progress(TEST_CONNECTIVITY_SUCCESS_MSG)
-        return action_result.set_status(phantom.APP_SUCCESS)
+            if cursor:
+                self.save_progress(TEST_CONNECTIVITY_SUCCESS_MSG)
+                return action_result.set_status(phantom.APP_SUCCESS)
+        except Exception as e:
+            self.save_progress(self._get_error_message_from_exception(e))
+            return action_result.set_status(phantom.APP_ERROR, TEST_CONNECTIVITY_ERROR_MSG)
 
     def _handle_run_query(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
