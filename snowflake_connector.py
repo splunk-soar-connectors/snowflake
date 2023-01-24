@@ -144,7 +144,7 @@ class SnowflakeConnector(BaseConnector):
         username = param['username']
         role = param.get('role')
 
-        connection = self._handle_create_connection(role=role, database=database)
+        connection = self._handle_create_connection(database=database, role=role)
         cursor = connection.cursor(snowflake.connector.DictCursor)
 
         # First to check to see if the user is already disabled
@@ -165,6 +165,7 @@ class SnowflakeConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(DISABLE_USER_ERROR_MSG, error_msg))
         finally:
             cursor.close()
+            connection.close()
 
         summary = action_result.update_summary({})
         summary['user_status'] = 'disabled'
@@ -172,13 +173,15 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_show_network_policies(self, param):
+
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
         role = param.get('role')
 
-        connection = self._handle_create_connection(role=role, database=database)
+        connection = self._handle_create_connection(database=database, role=role)
         cursor = connection.cursor(snowflake.connector.DictCursor)
 
         try:
@@ -207,7 +210,9 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_describe_network_policy(self, param):
+
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
@@ -215,7 +220,7 @@ class SnowflakeConnector(BaseConnector):
 
         policy_name = param['policy_name']
 
-        connection = self._handle_create_connection(role=role, database=database)
+        connection = self._handle_create_connection(database=database, role=role)
         cursor = connection.cursor(snowflake.connector.DictCursor)
 
         try:
@@ -240,7 +245,9 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_update_network_policy(self, param):
+
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
@@ -271,7 +278,7 @@ class SnowflakeConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, error_msg)
 
         try:
-            connection = self._handle_create_connection(role=role, database=database)
+            connection = self._handle_create_connection(database=database, role=role)
             cursor = connection.cursor(snowflake.connector.DictCursor)
             cursor.execute(UPDATE_NETWORK_POLICY_SQL.format(policy_name=policy_name,
                 allowed_ip_list=allowed_ip_list, blocked_ip_list=blocked_ip_list, comment=comment))
@@ -288,17 +295,20 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS, UPDATE_NETWORK_POLICY_SUCCESS_MSG.format(policy_name=policy_name))
 
     def _handle_remove_grants(self, param):
+
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
+        database = SNOWFLAKE_DATABASE
         username = param['username']
-        role_to_remove = param['role']
+        role_to_remove = param['role_to_remove']
+        role = param.get('role')
 
         try:
-            connection = self._handle_create_connection(role='ACCOUNTADMIN', database='SNOWFLAKE')
+            connection = self._handle_create_connection(role=role, database=database)
             cursor = connection.cursor(snowflake.connector.DictCursor)
-            cursor.execute(REMOVE_GRANTS_SQL.format(username=username, role=role_to_remove))
+            cursor.execute(REMOVE_GRANTS_SQL.format(username=username, role_to_remove=role_to_remove))
             row = cursor.fetchone()
             action_result.add_data(row)
 
@@ -312,11 +322,6 @@ class SnowflakeConnector(BaseConnector):
             connection.close()
 
         return action_result.set_status(phantom.APP_SUCCESS, REMOVE_GRANTS_SUCCESS_MSG.format(role=role_to_remove))
-
-    def _handle_edit_task_automation(self, param):
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
-
-        # action_result = self.add_action_result(ActionResult(dict(param)))
 
     def _handle_security_insights(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -409,14 +414,8 @@ class SnowflakeConnector(BaseConnector):
         if action_id == 'disable_user':
             ret_val = self._handle_disable_user(param)
 
-        if action_id == 'update_block_list':
-            ret_val = self._handle_update_block_list(param)
-
         if action_id == 'remove_grants':
             ret_val = self._handle_remove_grants(param)
-
-        if action_id == 'edit_task_automation':
-            ret_val = self._handle_edit_task_automation(param)
 
         if action_id == 'security_insights':
             ret_val = self._handle_security_insights(param)

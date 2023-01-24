@@ -30,7 +30,7 @@ SHOW_NETWORK_POLICIES_SQL = "show network policies;"
 DESCRIBE_NETWORK_POLICY_SQL = "describe network policy {policy_name};"
 UPDATE_NETWORK_POLICY_SQL = "alter network policy {policy_name} \
                              set allowed_ip_list=({allowed_ip_list}) blocked_ip_list=({blocked_ip_list}) comment='{comment}';"
-REMOVE_GRANTS_SQL = 'revoke role {role} from user {username};'
+REMOVE_GRANTS_SQL = 'revoke role {role_to_remove} from user {username};'
 EDIT_TASK_AUTOMATION_SQL_STATEMENT = ''
 
 # Commented out unless we decide to add a "show grants" action
