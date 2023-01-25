@@ -14,6 +14,9 @@
 # and limitations under the License.
 #
 
+import snowflake.connector  # isort: skip
+from snowflake_consts import *  # isort: skip
+
 import datetime
 import json
 
@@ -22,9 +25,6 @@ import phantom.app as phantom
 import requests
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
-
-import snowflake.connector
-from snowflake_consts import *
 
 
 class RetVal(tuple):
