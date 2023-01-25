@@ -156,7 +156,7 @@ class SnowflakeConnector(BaseConnector):
                     action_result.add_data({'status': 'disabled'})
                     return action_result.set_status(phantom.APP_SUCCESS, 'User {} is already disabled.'.format(username))
 
-            cursor.execute(DISABLE_SNOWFLAKE_USER_SQL_STATEMENT.format(username=username))
+            cursor.execute(DISABLE_SNOWFLAKE_USER_SQL.format(username=username))
             row = cursor.fetchone()
             action_result.add_data(row)
         except Exception as e:
@@ -323,36 +323,6 @@ class SnowflakeConnector(BaseConnector):
 
         return action_result.set_status(phantom.APP_SUCCESS, REMOVE_GRANTS_SUCCESS_MSG.format(role=role_to_remove))
 
-    def _handle_security_insights(self, param):
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
-
-        action_result = self.add_action_result(ActionResult(dict(param)))
-
-        query = SECURITY_INSIGHTS_SQL[param['insight']]
-        self.debug_print('Insight: {}, Query: {}'.format(param['insight'], query))
-
-        database = 'SNOWFLAKE'
-        role = param.get('role')
-
-        connection = self._handle_create_connection(database=database, role=role)
-
-        cursor = connection.cursor(snowflake.connector.DictCursor)
-        try:
-            cursor.execute(query)
-            returned_rows = cursor.fetchall()
-            for row in returned_rows:
-                self.debug_print(row)
-                action_result.add_data(row)
-        except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
-            self.save_progress("Error: {}".format(error_msg))
-            return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(SQL_QUERY_ERROR_MSG, error_msg))
-        finally:
-            cursor.close()
-            connection.close()
-
-        return action_result.set_status(phantom.APP_SUCCESS)
-
     def _run_query(self, sql, param, action_result):
         ret_val = False
 
@@ -416,9 +386,6 @@ class SnowflakeConnector(BaseConnector):
 
         if action_id == 'remove_grants':
             ret_val = self._handle_remove_grants(param)
-
-        if action_id == 'security_insights':
-            ret_val = self._handle_security_insights(param)
 
         if action_id == 'show_network_policies':
             ret_val = self._handle_show_network_policies(param)
