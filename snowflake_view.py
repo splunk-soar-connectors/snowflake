@@ -37,4 +37,4 @@ def display_query_results(provides, all_results, context):
                 rows.append(row)
             results.append(table)
 
-    return 'security_insights.html'
+    return 'query_results.html'
