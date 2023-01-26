@@ -10,13 +10,14 @@
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) Splunk, 2022",
+    "license": "Copyright (c) 2023 Splunk Inc.",
     "app_version": "1.0.0",
     "utctime_updated": "2022-12-13T22:47:10.338441Z",
     "package_name": "phantom_snowflake",
     "main_module": "snowflake_connector.py",
     "min_phantom_version": "5.3.5",
     "app_wizard_version": "1.0.0",
+    "fips_compliant": false,
     "latest_tested_versions": [
         "Snowflake Jan 2023"
     ],

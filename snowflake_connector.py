@@ -46,7 +46,7 @@ class SnowflakeConnector(BaseConnector):
         self._username = None
         self._password = None
 
-    def _get_error_message_from_exception(self, e):
+    def _get_error_msg_from_exception(self, e):
         error_code = SNOWFLAKE_ERROR_CODE_UNAVAILABLE
         error_msg = SNOWFLAKE_ERROR_MSG_UNAVAILABLE
 
@@ -88,7 +88,7 @@ class SnowflakeConnector(BaseConnector):
                 self.save_progress(TEST_CONNECTIVITY_SUCCESS_MSG)
                 return action_result.set_status(phantom.APP_SUCCESS)
         except Exception as e:
-            self.save_progress(self._get_error_message_from_exception(e))
+            self.save_progress(self._get_error_msg_from_exception(e))
             return action_result.set_status(phantom.APP_ERROR, TEST_CONNECTIVITY_ERROR_MSG)
 
     def _handle_run_query(self, param):
@@ -119,7 +119,7 @@ class SnowflakeConnector(BaseConnector):
                 for row in returned_rows:
                     action_result.add_data(self._cleanup_row_values(row))
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
+            error_msg = self._get_error_msg_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(SQL_QUERY_ERROR_MSG, error_msg))
         finally:
@@ -160,7 +160,7 @@ class SnowflakeConnector(BaseConnector):
             row = cursor.fetchone()
             action_result.add_data(row)
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
+            error_msg = self._get_error_msg_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(DISABLE_USER_ERROR_MSG, error_msg))
         finally:
@@ -197,7 +197,7 @@ class SnowflakeConnector(BaseConnector):
                     action_result.add_data(self._cleanup_row_values(row))
 
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
+            error_msg = self._get_error_msg_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
@@ -236,7 +236,7 @@ class SnowflakeConnector(BaseConnector):
                     action_result.add_data(self._cleanup_row_values(row))
 
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
+            error_msg = self._get_error_msg_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
@@ -273,7 +273,7 @@ class SnowflakeConnector(BaseConnector):
 
             comment = param.get('comment')
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
+            error_msg = self._get_error_msg_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, error_msg)
 
@@ -285,7 +285,7 @@ class SnowflakeConnector(BaseConnector):
             row = cursor.fetchone()
             action_result.add_data(row)
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
+            error_msg = self._get_error_msg_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
@@ -313,7 +313,7 @@ class SnowflakeConnector(BaseConnector):
             action_result.add_data(row)
 
         except Exception as e:
-            error_msg = self._get_error_message_from_exception(e)
+            error_msg = self._get_error_msg_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, error_msg)
 
