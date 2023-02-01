@@ -80,8 +80,8 @@ class SnowflakeConnector(BaseConnector):
         self.save_progress(TEST_CONNECTIVITY_PROGRESS_MSG)
 
         try:
-            connection = self._handle_create_connection()
-            cursor = connection.cursor()
+            self._connection = self._handle_create_connection()
+            cursor = self._connection.cursor()
 
             cursor.execute(SNOWFLAKE_VERSION_QUERY)
             if cursor:
@@ -102,10 +102,9 @@ class SnowflakeConnector(BaseConnector):
         database = param.get('database')
         schema = param.get('schema')
 
-        connection = self._handle_create_connection(role, warehouse, database, schema)
-        cursor = connection.cursor(snowflake.connector.DictCursor)
-
         try:
+            self._connection = self._handle_create_connection(role, warehouse, database, schema)
+            cursor = self._connection.cursor(snowflake.connector.DictCursor)
             cursor.execute(query)
             returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
 
@@ -123,8 +122,9 @@ class SnowflakeConnector(BaseConnector):
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(SQL_QUERY_ERROR_MSG, error_msg))
         finally:
-            cursor.close()
-            connection.close()
+            if self._connection:
+                cursor.close()
+                self._connection.close()
 
         summary = action_result.update_summary({})
 
@@ -144,18 +144,9 @@ class SnowflakeConnector(BaseConnector):
         username = param['username']
         role = param.get('role')
 
-        connection = self._handle_create_connection(database=database, role=role)
-        cursor = connection.cursor(snowflake.connector.DictCursor)
-
-        # First to check to see if the user is already disabled
         try:
-            cursor.execute(DESCRIBE_SNOWFLAKE_USER_SQL.format(username=username))
-            desc_user_row = cursor.fetchall()
-            for item in desc_user_row:
-                if 'property' in item and item['property'] == 'DISABLED' and item['value'] == 'true':
-                    action_result.add_data({'status': 'disabled'})
-                    return action_result.set_status(phantom.APP_SUCCESS, 'User {} is already disabled.'.format(username))
-
+            self._connection = self._handle_create_connection(database=database, role=role)
+            cursor = self._connection.cursor(snowflake.connector.DictCursor)
             cursor.execute(DISABLE_SNOWFLAKE_USER_SQL.format(username=username))
             row = cursor.fetchone()
             action_result.add_data(row)
@@ -164,8 +155,9 @@ class SnowflakeConnector(BaseConnector):
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(DISABLE_USER_ERROR_MSG, error_msg))
         finally:
-            cursor.close()
-            connection.close()
+            if self._connection:
+                cursor.close()
+                self._connection.close()
 
         summary = action_result.update_summary({})
         summary['user_status'] = 'disabled'
@@ -181,10 +173,9 @@ class SnowflakeConnector(BaseConnector):
         database = SNOWFLAKE_DATABASE
         role = param.get('role')
 
-        connection = self._handle_create_connection(database=database, role=role)
-        cursor = connection.cursor(snowflake.connector.DictCursor)
-
         try:
+            self._connection = self._handle_create_connection(database=database, role=role)
+            cursor = self._connection.cursor(snowflake.connector.DictCursor)
             cursor.execute(SHOW_NETWORK_POLICIES_SQL)
             returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
             for row in returned_rows:
@@ -201,8 +192,9 @@ class SnowflakeConnector(BaseConnector):
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
-            cursor.close()
-            connection.close()
+            if self._connection:
+                cursor.close()
+                self._connection.close()
 
         summary = action_result.update_summary({})
         summary['total_policies'] = len(action_result.get_data())
@@ -220,10 +212,9 @@ class SnowflakeConnector(BaseConnector):
 
         policy_name = param['policy_name']
 
-        connection = self._handle_create_connection(database=database, role=role)
-        cursor = connection.cursor(snowflake.connector.DictCursor)
-
         try:
+            self._connection = self._handle_create_connection(database=database, role=role)
+            cursor = self._connection.cursor(snowflake.connector.DictCursor)
             cursor.execute(DESCRIBE_NETWORK_POLICY_SQL.format(policy_name=policy_name))
             returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
             for row in returned_rows:
@@ -240,8 +231,9 @@ class SnowflakeConnector(BaseConnector):
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
-            cursor.close()
-            connection.close()
+            if self._connection:
+                cursor.close()
+                self._connection.close()
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_update_network_policy(self, param):
@@ -278,8 +270,8 @@ class SnowflakeConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, error_msg)
 
         try:
-            connection = self._handle_create_connection(database=database, role=role)
-            cursor = connection.cursor(snowflake.connector.DictCursor)
+            self._connection = self._handle_create_connection(database=database, role=role)
+            cursor = self._connection.cursor(snowflake.connector.DictCursor)
             cursor.execute(UPDATE_NETWORK_POLICY_SQL.format(policy_name=policy_name,
                 allowed_ip_list=allowed_ip_list, blocked_ip_list=blocked_ip_list, comment=comment))
             row = cursor.fetchone()
@@ -289,8 +281,9 @@ class SnowflakeConnector(BaseConnector):
             self.save_progress("Error: {}".format(error_msg))
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
-            cursor.close()
-            connection.close()
+            if self._connection:
+                cursor.close()
+                self._connection.close()
 
         return action_result.set_status(phantom.APP_SUCCESS, UPDATE_NETWORK_POLICY_SUCCESS_MSG.format(policy_name=policy_name))
 
@@ -306,8 +299,8 @@ class SnowflakeConnector(BaseConnector):
         role = param.get('role')
 
         try:
-            connection = self._handle_create_connection(role=role, database=database)
-            cursor = connection.cursor(snowflake.connector.DictCursor)
+            self._connection = self._handle_create_connection(role=role, database=database)
+            cursor = self._connection.cursor(snowflake.connector.DictCursor)
             cursor.execute(REMOVE_GRANTS_SQL.format(username=username, role_to_remove=role_to_remove))
             row = cursor.fetchone()
             action_result.add_data(row)
@@ -318,42 +311,11 @@ class SnowflakeConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, error_msg)
 
         finally:
-            cursor.close()
-            connection.close()
+            if self._connection:
+                cursor.close()
+                self._connection.close()
 
         return action_result.set_status(phantom.APP_SUCCESS, REMOVE_GRANTS_SUCCESS_MSG.format(role=role_to_remove))
-
-    def _run_query(self, sql, param, action_result):
-        ret_val = False
-
-        warehouse = param.get('warehouse')
-        database = param.get('database')
-        schema = param.get('schema')
-
-        connection = self._handle_create_connection(warehouse=warehouse, database=database, schema=schema)
-        cursor = connection.cursor()
-        try:
-            cursor.execute(sql)
-            one_row = cursor.fetchone()
-            ret_val = True
-        except Exception:
-            action_result.set_status(phantom.APP_ERROR, 'SQL query failed!')
-
-        if phantom.is_fail(ret_val):
-            return action_result.get_status()
-
-        # Now post process the data,  uncomment code as you deem fit
-
-        # Add the response into the data section
-        action_result.add_data(one_row[0])
-
-        # Add a dictionary that is made up of the most important values from data into the summary
-        summary = action_result.update_summary({})
-        summary['num_data'] = len(one_row[0])
-
-        # Return success, no need to set the message, only the status
-        # BaseConnector will create a textual message based off of the summary dictionary
-        return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_create_connection(self, role=None, warehouse=None, database=None, schema=None):
         ctx = snowflake.connector.connect(
@@ -409,6 +371,7 @@ class SnowflakeConnector(BaseConnector):
         self._account = config['account']
         self._username = config['username']
         self._password = config['password']
+        self._connection = None
 
         return phantom.APP_SUCCESS
 
