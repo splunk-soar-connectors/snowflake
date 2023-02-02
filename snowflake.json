@@ -12,7 +12,7 @@
     "publisher": "Splunk",
     "license": "Copyright (c) 2023 Splunk Inc.",
     "app_version": "1.0.0",
-    "utctime_updated": "2022-12-13T22:47:10.338441Z",
+    "utctime_updated": "2022-12-13T22:47:hjp[338441Z",
     "package_name": "phantom_snowflake",
     "main_module": "snowflake_connector.py",
     "min_phantom_version": "5.3.5",
@@ -48,8 +48,6 @@
             "description": "Validate the asset configuration for connectivity using supplied configuration",
             "type": "test",
             "read_only": true,
-            "parameters": {},
-            "output": [],
             "versions": "EQ(*)"
         },
         {
@@ -70,7 +68,7 @@
                     "order": 0
                 },
                 "role": {
-                    "description": "Role",
+                    "description": "Role to use to execute action",
                     "data_type": "string",
                     "required": false,
                     "order": 1
@@ -198,13 +196,25 @@
                     "order": 0
                 },
                 "role": {
-                    "description": "Role",
+                    "description": "Role to use to execute action",
                     "data_type": "string",
                     "primary": false,
                     "order": 1
                 }
             },
             "output": [
+                {
+                    "data_path": "action_result.parameter.username",
+                    "data_type": "string",
+                    "example_values": [
+                        "test1"
+                    ],
+                    "contains": [
+                        "user name"
+                    ],
+                    "column_name": "Username",
+                    "column_order": 0
+                },
                 {
                     "data_path": "action_result.data.*.status",
                     "data_type": "string",
@@ -234,18 +244,6 @@
                     "example_values": [
                         "Statement executed successfully."
                     ]
-                },
-                {
-                    "data_path": "action_result.parameter.username",
-                    "data_type": "string",
-                    "example_values": [
-                        "test1"
-                    ],
-                    "contains": [
-                        "user name"
-                    ],
-                    "column_name": "Username",
-                    "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.role",
@@ -279,10 +277,10 @@
         {
             "action": "show network policies",
             "identifier": "show_network_policies",
-            "description": "Show network policies",
+            "description": "List available network policies",
             "parameters": {
                 "role": {
-                    "description": "Role",
+                    "description": "Role to use to execute action",
                     "data_type": "string",
                     "order": 1
                 }
@@ -380,7 +378,7 @@
         {
             "action": "describe network policy",
             "identifier": "describe_network_policy",
-            "description": "Describe a network policy",
+            "description": "List the details of a network policy",
             "parameters": {
                 "policy_name": {
                     "description": "Name of policy to describe",
@@ -393,7 +391,7 @@
                     "order": 0
                 },
                 "role": {
-                    "description": "Role",
+                    "description": "Role to use to execute action",
                     "data_type": "string",
                     "order": 1
                 }
@@ -425,10 +423,7 @@
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.parameter.policy_name",
@@ -476,7 +471,7 @@
         {
             "action": "update network policy",
             "identifier": "update_network_policy",
-            "description": "Update the network policy Allow and/or Block IP lists",
+            "description": "Update an existing network policy",
             "parameters": {
                 "policy_name": {
                     "description": "Name of network policy to update",
@@ -489,7 +484,7 @@
                     "order": 0
                 },
                 "role": {
-                    "description": "Role",
+                    "description": "Role to use to execute action",
                     "data_type": "string",
                     "order": 1
                 },
@@ -530,7 +525,6 @@
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
-                        "",
                         "Network policy mypolicy1 was updated successfully"
                     ]
                 },
@@ -602,7 +596,7 @@
         {
             "action": "remove grants",
             "identifier": "remove_grants",
-            "description": "Remove specified grants from a Snowflake user",
+            "description": "Remove a specified granted role from a Snowflake user",
             "parameters": {
                 "username": {
                     "description": "Username",
