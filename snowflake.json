@@ -1,7 +1,7 @@
 {
     "appid": "9dc1ac34-cac9-41fb-af81-e71ffe256f49",
     "name": "Snowflake",
-    "description": "Snowflake",
+    "description": "This app supports investigative and data manipulation actions on Snowflake",
     "type": "siem",
     "product_vendor": "Snowflake",
     "logo": "snowflake.svg",
