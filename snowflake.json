@@ -48,6 +48,8 @@
             "description": "Validate the asset configuration for connectivity using supplied configuration",
             "type": "test",
             "read_only": true,
+            "parameters": {},
+            "output": [],
             "versions": "EQ(*)"
         },
         {
