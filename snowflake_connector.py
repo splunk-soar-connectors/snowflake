@@ -75,10 +75,9 @@ class SnowflakeConnector(BaseConnector):
         return {k: self.convert_value(v) for k, v in row.items()}
 
     def _handle_test_connectivity(self, param):
+        self.save_progress(TEST_CONNECTIVITY_PROGRESS_MSG)
 
         action_result = self.add_action_result(ActionResult(dict(param)))
-
-        self.save_progress(TEST_CONNECTIVITY_PROGRESS_MSG)
 
         try:
             self._connection = self._handle_create_connection()
@@ -203,7 +202,6 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_describe_network_policy(self, param):
-
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -238,7 +236,6 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_update_network_policy(self, param):
-
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -289,7 +286,6 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS, UPDATE_NETWORK_POLICY_SUCCESS_MSG.format(policy_name=policy_name))
 
     def _handle_remove_grants(self, param):
-
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
 
         action_result = self.add_action_result(ActionResult(dict(param)))
