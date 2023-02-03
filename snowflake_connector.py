@@ -1,6 +1,6 @@
 # File: snowflake_connector.py
 #
-# Copyright (c) 2022 Splunk Inc.
+# Copyright (c) 2023 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -55,12 +55,13 @@ class SnowflakeConnector(BaseConnector):
                 if len(e.args) > 1:
                     error_code = e.args[0]
                     error_msg = e.args[1]
+                    return "Error Code: {0}. Error Message: {1}".format(error_code, error_msg)
                 elif len(e.args) == 1:
                     error_msg = e.args[0]
         except Exception:
             pass
 
-        return "Error Code: {0}. Error Message: {1}".format(error_code, error_msg)
+        return "Error Message: {0}".format(error_msg)
 
     def convert_value(self, value):
         if isinstance(value, (bytearray, bytes)):
