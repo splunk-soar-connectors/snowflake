@@ -244,20 +244,17 @@ class SnowflakeConnector(BaseConnector):
         policy_name = param['policy_name']
         role = param.get('role')
 
+        # Putting single quotes around each IP address in the list to satisfy SQL formatting. Empty string to clear.
         try:
             allowed_ip_list = param.get('allowed_ip_list')
             if allowed_ip_list:
-                allowed_ip_list = allowed_ip_list.split(',')
-                allowed_ip_list = [x.strip() for x in allowed_ip_list if x.strip()]
-                allowed_ip_list = "'{0}'".format("','".join(allowed_ip_list))
+                allowed_ip_list = "'{0}'".format("','".join(ip.strip() for ip in allowed_ip_list.split(',')))
             else:
                 allowed_ip_list = ''
 
             blocked_ip_list = param.get('blocked_ip_list')
             if blocked_ip_list:
-                blocked_ip_list = blocked_ip_list.split(',')
-                blocked_ip_list = [x.strip() for x in blocked_ip_list if x.strip()]
-                blocked_ip_list = "'{0}'".format("','".join(blocked_ip_list))
+                blocked_ip_list = "'{0}'".format("','".join(ip.strip() for ip in blocked_ip_list.split(',')))
             else:
                 blocked_ip_list = ''
 
