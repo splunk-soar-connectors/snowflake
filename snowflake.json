@@ -701,7 +701,7 @@
             },
             {
                 "module": "certifi",
-                "input_file": "wheels/py3/certifi-2022.9.24-py3-none-any.whl"
+                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
             },
             {
                 "module": "cffi",
@@ -749,7 +749,7 @@
             },
             {
                 "module": "setuptools",
-                "input_file": "wheels/py3/setuptools-66.1.1-py3-none-any.whl"
+                "input_file": "wheels/py3/setuptools-67.1.0-py3-none-any.whl"
             },
             {
                 "module": "snowflake_connector_python",
