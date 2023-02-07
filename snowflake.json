@@ -12,7 +12,7 @@
     "publisher": "Splunk",
     "license": "Copyright (c) 2023 Splunk Inc.",
     "app_version": "1.0.0",
-    "utctime_updated": "2022-12-13T22:47:hjp[338441Z",
+    "utctime_updated": "2022-12-13T22:47:52.338441Z",
     "package_name": "phantom_snowflake",
     "main_module": "snowflake_connector.py",
     "min_phantom_version": "5.3.5",
@@ -283,7 +283,8 @@
             "parameters": {
                 "role": {
                     "description": "Role to use to execute action",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "order": 0
                 }
             },
             "output": [
