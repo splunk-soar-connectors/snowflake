@@ -283,8 +283,7 @@
             "parameters": {
                 "role": {
                     "description": "Role to use to execute action",
-                    "data_type": "string",
-                    "order": 1
+                    "data_type": "string"
                 }
             },
             "output": [
