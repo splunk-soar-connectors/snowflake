@@ -1,6 +1,6 @@
 # File: snowflake_consts.py
 #
-# Copyright (c) 2022 Splunk Inc.
+# Copyright (c) 2023 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ SNOWFLAKE_ACCOUNT_ADMIN_ROLE = "ACCOUNTADMIN"
 DEFAULT_NUM_ROWS_TO_FETCH = 100
 
 # Test connectivity constants
-SNOWFLAKE_VERSION_QUERY = "SELECT current_version()"
+SNOWFLAKE_VERSION_QUERY = "select current_version();"
 TEST_CONNECTIVITY_PROGRESS_MSG = "Connecting to Snowflake endpoint"
 
 # Action SQL statements
