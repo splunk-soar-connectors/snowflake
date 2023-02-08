@@ -72,25 +72,21 @@
                 "role": {
                     "description": "Role to use to execute action",
                     "data_type": "string",
-                    "required": false,
                     "order": 1
                 },
                 "warehouse": {
                     "description": "Warehouse",
                     "data_type": "string",
-                    "required": false,
                     "order": 2
                 },
                 "database": {
                     "description": "Database",
                     "data_type": "string",
-                    "required": false,
                     "order": 3
                 },
                 "schema": {
                     "description": "Schema",
                     "data_type": "string",
-                    "required": false,
                     "order": 4
                 }
             },
@@ -200,7 +196,6 @@
                 "role": {
                     "description": "Role to use to execute action",
                     "data_type": "string",
-                    "primary": false,
                     "order": 1
                 }
             },
