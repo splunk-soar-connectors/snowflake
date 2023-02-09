@@ -21,6 +21,7 @@ from snowflake_consts import *  # isort: skip
 
 import datetime
 import json
+import traceback
 
 # Phantom App imports
 import phantom.app as phantom
@@ -51,6 +52,8 @@ class SnowflakeConnector(BaseConnector):
     def _get_error_msg_from_exception(self, e):
         error_code = SNOWFLAKE_ERROR_CODE_UNAVAILABLE
         error_msg = SNOWFLAKE_ERROR_MSG_UNAVAILABLE
+
+        self.error_print(traceback.format_exc())
 
         try:
             if e.args:
