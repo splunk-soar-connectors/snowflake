@@ -248,7 +248,7 @@ class SnowflakeConnector(BaseConnector):
         try:
             allowed_ip_list = param.get('allowed_ip_list')
             if allowed_ip_list:
-                allowed_ip_list = "'{0}'".format("','".join(ip.strip() for ip in allowed_ip_list.split(',')))
+                allowed_ip_list = ','.join(f"'{ip.strip()}'" for ip in allowed_ip_list.split(',')))
             else:
                 allowed_ip_list = ''
 
