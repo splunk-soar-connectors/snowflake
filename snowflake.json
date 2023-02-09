@@ -1,0 +1,763 @@
+{
+    "appid": "9dc1ac34-cac9-41fb-af81-e71ffe256f49",
+    "name": "Snowflake",
+    "description": "This app supports investigative and data manipulation actions on Snowflake",
+    "type": "siem",
+    "product_vendor": "Snowflake",
+    "logo": "snowflake.svg",
+    "logo_dark": "snowflake_dark.svg",
+    "product_name": "Snowflake",
+    "python_version": "3",
+    "product_version_regex": ".*",
+    "publisher": "Splunk",
+    "license": "Copyright (c) 2023 Splunk Inc.",
+    "app_version": "1.0.1",
+    "utctime_updated": "2022-12-13T22:47:52.338441Z",
+    "package_name": "phantom_snowflake",
+    "main_module": "snowflake_connector.py",
+    "min_phantom_version": "5.3.5",
+    "app_wizard_version": "1.0.0",
+    "fips_compliant": false,
+    "latest_tested_versions": [
+        "Snowflake Jan 2023"
+    ],
+    "configuration": {
+        "account": {
+            "description": "Account",
+            "data_type": "string",
+            "required": true,
+            "order": 0
+        },
+        "username": {
+            "description": "Username",
+            "data_type": "string",
+            "required": true,
+            "order": 1
+        },
+        "password": {
+            "description": "Password",
+            "data_type": "password",
+            "required": true,
+            "order": 2
+        }
+    },
+    "actions": [
+        {
+            "action": "test connectivity",
+            "identifier": "test_connectivity",
+            "description": "Validate the asset configuration for connectivity using supplied configuration",
+            "type": "test",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "run query",
+            "identifier": "run_query",
+            "description": "Perform a SQL query",
+            "type": "investigate",
+            "read_only": false,
+            "parameters": {
+                "query": {
+                    "description": "Query string",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "sql query"
+                    ],
+                    "order": 0
+                },
+                "role": {
+                    "description": "Role to use to execute action",
+                    "data_type": "string",
+                    "order": 1
+                },
+                "warehouse": {
+                    "description": "Warehouse",
+                    "data_type": "string",
+                    "order": 2
+                },
+                "database": {
+                    "description": "Database",
+                    "data_type": "string",
+                    "order": 3
+                },
+                "schema": {
+                    "description": "Schema",
+                    "data_type": "string",
+                    "order": 4
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Total rows: 4"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.total_rows",
+                    "data_type": "numeric",
+                    "example_values": [
+                        4
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.query",
+                    "data_type": "string",
+                    "example_values": [
+                        "select * from test_table;"
+                    ],
+                    "contains": [
+                        "sql query"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.schema",
+                    "data_type": "string",
+                    "example_values": [
+                        "testschema"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.database",
+                    "data_type": "string",
+                    "example_values": [
+                        "test1db"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.warehouse",
+                    "data_type": "string",
+                    "example_values": [
+                        "warehouse1"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "snowflake_view.display_query_results",
+                "title": "Execute Query"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "disable user",
+            "identifier": "disable_user",
+            "description": "Disable a Snowflake user",
+            "parameters": {
+                "username": {
+                    "description": "Snowflake user name",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "user name"
+                    ],
+                    "order": 0
+                },
+                "role": {
+                    "description": "Role to use to execute action",
+                    "data_type": "string",
+                    "order": 1
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.parameter.username",
+                    "data_type": "string",
+                    "example_values": [
+                        "test1"
+                    ],
+                    "contains": [
+                        "user name"
+                    ],
+                    "column_name": "Username",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Statement executed successfully."
+                    ],
+                    "column_name": "Status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Status: Statement executed successfully."
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Statement executed successfully."
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "read_only": false,
+            "type": "investigate",
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "show network policies",
+            "identifier": "show_network_policies",
+            "description": "List available network policies",
+            "parameters": {
+                "role": {
+                    "description": "Role to use to execute action",
+                    "data_type": "string",
+                    "order": 0
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string",
+                    "example_values": [
+                        "MYPOLICY1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.comment",
+                    "data_type": "string",
+                    "example_values": [
+                        "testing app"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.created_on",
+                    "data_type": "string",
+                    "example_values": [
+                        "2022-12-19 14:10:12.084000-08:00"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.entries_in_allowed_ip_list",
+                    "data_type": "numeric",
+                    "example_values": [
+                        2
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.entries_in_blocked_ip_list",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Total policies: 1"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.total_policies",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "read_only": true,
+            "type": "investigate",
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "snowflake_view.display_query_results",
+                "title": "Show Network Policies"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "describe network policy",
+            "identifier": "describe_network_policy",
+            "description": "List the details of a network policy",
+            "parameters": {
+                "policy_name": {
+                    "description": "Name of policy to describe",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "snowflake policy name"
+                    ],
+                    "order": 0
+                },
+                "role": {
+                    "description": "Role to use to execute action",
+                    "data_type": "string",
+                    "order": 1
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.name",
+                    "data_type": "string",
+                    "example_values": [
+                        "ALLOWED_IP_LIST"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.value",
+                    "data_type": "string",
+                    "example_values": [
+                        "192.168.1.0/24,192.168.2.0/24"
+                    ],
+                    "contains": [
+                        "ip"
+                    ]
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.policy_name",
+                    "data_type": "string",
+                    "example_values": [
+                        "mypolicy1"
+                    ],
+                    "contains": [
+                        "snowflake policy name"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "read_only": true,
+            "type": "investigate",
+            "render": {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "view": "snowflake_view.display_query_results",
+                "title": "Describe Network Policy"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "update network policy",
+            "identifier": "update_network_policy",
+            "description": "Update an existing network policy",
+            "parameters": {
+                "policy_name": {
+                    "description": "Name of network policy to update",
+                    "data_type": "string",
+                    "required": true,
+                    "primary": true,
+                    "contains": [
+                        "snowflake policy name"
+                    ],
+                    "order": 0
+                },
+                "role": {
+                    "description": "Role to use to execute action",
+                    "data_type": "string",
+                    "order": 1
+                },
+                "allowed_ip_list": {
+                    "description": "Comma-separated list of IPs to replace current allow list. Add an empty list to clear all IPs from allow list.",
+                    "data_type": "string",
+                    "order": 2
+                },
+                "blocked_ip_list": {
+                    "description": "Comma-separated list of IPs to replace current block list. Add an empty list to clear all IPs from block list.",
+                    "data_type": "string",
+                    "order": 3
+                },
+                "comment": {
+                    "description": "Replace current comment on network policy",
+                    "data_type": "string",
+                    "order": 4
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Statement executed successfully."
+                    ],
+                    "column_name": "Status",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Network policy mypolicy1 was updated successfully"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.comment",
+                    "data_type": "string",
+                    "example_values": [
+                        "updated policy",
+                        "a new update"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.policy_name",
+                    "data_type": "string",
+                    "example_values": [
+                        "mypolicy1"
+                    ],
+                    "contains": [
+                        "snowflake policy name"
+                    ],
+                    "column_name": "Policy Name",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.allowed_ip_list",
+                    "data_type": "string",
+                    "example_values": [
+                        "192.168.1.0/24, 192.168.2.0/24",
+                        "192.168.10.0/24"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.blocked_ip_list",
+                    "data_type": "string",
+                    "example_values": [
+                        "192.168.1.1, 192.168.2.1",
+                        "192.168.10.1, 192.168.10.5, 192.168.10.6"
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "read_only": false,
+            "type": "investigate",
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        },
+        {
+            "action": "remove grants",
+            "identifier": "remove_grants",
+            "description": "Remove a specified granted role from a Snowflake user",
+            "parameters": {
+                "username": {
+                    "description": "Username",
+                    "data_type": "string",
+                    "required": true,
+                    "contains": [
+                        "user name"
+                    ],
+                    "order": 0
+                },
+                "role_to_remove": {
+                    "description": "Role to remove from user",
+                    "data_type": "string",
+                    "required": true,
+                    "order": 1
+                },
+                "role": {
+                    "description": "Role to use to execute action",
+                    "data_type": "string",
+                    "order": 2
+                }
+            },
+            "output": [
+                {
+                    "data_path": "action_result.data.*.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "Statement executed successfully."
+                    ],
+                    "column_name": "Status",
+                    "column_order": 2
+                },
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string",
+                    "example_values": [
+                        "success"
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Role accountadmin was successfully removed from user"
+                    ]
+                },
+                {
+                    "data_path": "action_result.parameter.username",
+                    "data_type": "string",
+                    "example_values": [
+                        "test2"
+                    ],
+                    "contains": [
+                        "user name"
+                    ],
+                    "column_name": "Username",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.parameter.role_to_remove",
+                    "data_type": "string",
+                    "example_values": [
+                        "accountadmin"
+                    ],
+                    "column_name": "Role to Remove",
+                    "column_order": 1
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                }
+            ],
+            "read_only": false,
+            "type": "investigate",
+            "render": {
+                "type": "table"
+            },
+            "versions": "EQ(*)"
+        }
+    ],
+    "pip39_dependencies": {
+        "wheel": [
+            {
+                "module": "PyJWT",
+                "input_file": "wheels/py3/PyJWT-2.6.0-py3-none-any.whl"
+            },
+            {
+                "module": "asn1crypto",
+                "input_file": "wheels/shared/asn1crypto-1.5.1-py2.py3-none-any.whl"
+            },
+            {
+                "module": "certifi",
+                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
+            },
+            {
+                "module": "cffi",
+                "input_file": "wheels/py39/cffi-1.15.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+            },
+            {
+                "module": "charset_normalizer",
+                "input_file": "wheels/py3/charset_normalizer-2.1.1-py3-none-any.whl"
+            },
+            {
+                "module": "cryptography",
+                "input_file": "wheels/py36/cryptography-38.0.4-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+            },
+            {
+                "module": "filelock",
+                "input_file": "wheels/py3/filelock-3.8.2-py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/py3/idna-3.4-py3-none-any.whl"
+            },
+            {
+                "module": "oscrypto",
+                "input_file": "wheels/shared/oscrypto-1.3.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "pyOpenSSL",
+                "input_file": "wheels/py3/pyOpenSSL-22.1.0-py3-none-any.whl"
+            },
+            {
+                "module": "pycparser",
+                "input_file": "wheels/shared/pycparser-2.21-py2.py3-none-any.whl"
+            },
+            {
+                "module": "pycryptodomex",
+                "input_file": "wheels/py3/pycryptodomex-3.16.0-cp35-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+            },
+            {
+                "module": "pytz",
+                "input_file": "wheels/shared/pytz-2022.6-py2.py3-none-any.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/py3/requests-2.28.1-py3-none-any.whl"
+            },
+            {
+                "module": "setuptools",
+                "input_file": "wheels/py3/setuptools-67.1.0-py3-none-any.whl"
+            },
+            {
+                "module": "snowflake_connector_python",
+                "input_file": "wheels/py39/snowflake_connector_python-2.9.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+            },
+            {
+                "module": "typing_extensions",
+                "input_file": "wheels/py3/typing_extensions-4.4.0-py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/shared/urllib3-1.26.13-py2.py3-none-any.whl"
+            }
+        ]
+    }
+}

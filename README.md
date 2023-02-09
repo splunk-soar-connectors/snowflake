@@ -1,9 +1,218 @@
-# Splunk> Phantom
+[comment]: # "Auto-generated SOAR connector documentation"
+# Snowflake
 
-Welcome to the open-source repository for Splunk> Phantom's snowflake App.
+Publisher: Splunk  
+Connector Version: 1\.0\.1  
+Product Vendor: Snowflake  
+Product Name: Snowflake  
+Product Version Supported (regex): "\.\*"  
+Minimum Product Version: 5\.3\.5  
 
-Please have a look at our [Contributing Guide](https://github.com/Splunk-SOAR-Apps/.github/blob/main/.github/CONTRIBUTING.md) if you are interested in contributing, raising issues, or learning more about open-source Phantom apps.
+This app supports investigative and data manipulation actions on Snowflake
 
-## Legal and License
 
-This Phantom App is licensed under the Apache 2.0 license. Please see our [Contributing Guide](https://github.com/Splunk-SOAR-Apps/.github/blob/main/.github/CONTRIBUTING.md#legal-notice) for further details.
+## Port Details
+
+The app uses HTTPS protocol for communicating with Snowflake. Below are the default ports used by
+the Splunk SOAR Connector.
+
+| SERVICE NAME | TRANSPORT PROTOCOL | PORT |
+|--------------|--------------------|------|
+| https        | tcp                | 443  |
+
+## Roles
+
+Roles are used by Snowflake to **control access to objects** within the organization and allow users
+to perform actions against those objects. Users can have several roles granted to them, and can also
+have a default role assigned. Since a user is allowed to switch roles during a session in order to
+have the appropriate permissions to perform certain actions, the Snowflake app accomodates this by
+having an optional 'role' parameter in each of the actions. If this parameter is left blank, the
+default role assigned to the user will be used.
+
+
+### Configuration Variables
+The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a Snowflake asset in SOAR.
+
+VARIABLE | REQUIRED | TYPE | DESCRIPTION
+-------- | -------- | ---- | -----------
+**account** |  required  | string | Account
+**username** |  required  | string | Username
+**password** |  required  | password | Password
+
+### Supported Actions  
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration  
+[run query](#action-run-query) - Perform a SQL query  
+[disable user](#action-disable-user) - Disable a Snowflake user  
+[show network policies](#action-show-network-policies) - List available network policies  
+[describe network policy](#action-describe-network-policy) - List the details of a network policy  
+[update network policy](#action-update-network-policy) - Update an existing network policy  
+[remove grants](#action-remove-grants) - Remove a specified granted role from a Snowflake user  
+
+## action: 'test connectivity'
+Validate the asset configuration for connectivity using supplied configuration
+
+Type: **test**  
+Read only: **True**
+
+#### Action Parameters
+No parameters are required for this action
+
+#### Action Output
+No Output  
+
+## action: 'run query'
+Perform a SQL query
+
+Type: **investigate**  
+Read only: **False**
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**query** |  required  | Query string | string |  `sql query` 
+**role** |  optional  | Role to use to execute action | string | 
+**warehouse** |  optional  | Warehouse | string | 
+**database** |  optional  | Database | string | 
+**schema** |  optional  | Schema | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action\_result\.data | string |  |  
+action\_result\.status | string |  |   success 
+action\_result\.message | string |  |   Total rows\: 4 
+action\_result\.summary\.total\_rows | numeric |  |   4 
+action\_result\.parameter\.role | string |  |   accountadmin 
+action\_result\.parameter\.query | string |  `sql query`  |   select \* from test\_table; 
+action\_result\.parameter\.schema | string |  |   testschema 
+action\_result\.parameter\.database | string |  |   test1db 
+action\_result\.parameter\.warehouse | string |  |   warehouse1 
+summary\.total\_objects | numeric |  |   1 
+summary\.total\_objects\_successful | numeric |  |   1   
+
+## action: 'disable user'
+Disable a Snowflake user
+
+Type: **investigate**  
+Read only: **False**
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**username** |  required  | Snowflake user name | string |  `user name` 
+**role** |  optional  | Role to use to execute action | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action\_result\.parameter\.username | string |  `user name`  |   test1 
+action\_result\.data\.\*\.status | string |  |   Statement executed successfully\. 
+action\_result\.status | string |  |   success 
+action\_result\.message | string |  |   Status\: Statement executed successfully\. 
+action\_result\.summary\.status | string |  |   Statement executed successfully\. 
+action\_result\.parameter\.role | string |  |   accountadmin 
+summary\.total\_objects | numeric |  |   1 
+summary\.total\_objects\_successful | numeric |  |   1   
+
+## action: 'show network policies'
+List available network policies
+
+Type: **investigate**  
+Read only: **True**
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**role** |  optional  | Role to use to execute action | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action\_result\.data\.\*\.name | string |  |   MYPOLICY1 
+action\_result\.parameter\.role | string |  |   accountadmin 
+action\_result\.data\.\*\.comment | string |  |   testing app 
+action\_result\.data\.\*\.created\_on | string |  |   2022\-12\-19 14\:10\:12\.084000\-08\:00 
+action\_result\.data\.\*\.entries\_in\_allowed\_ip\_list | numeric |  |   2 
+action\_result\.data\.\*\.entries\_in\_blocked\_ip\_list | numeric |  |   1 
+action\_result\.status | string |  |   success 
+action\_result\.message | string |  |   Total policies\: 1 
+action\_result\.summary\.total\_policies | numeric |  |   1 
+summary\.total\_objects | numeric |  |   1 
+summary\.total\_objects\_successful | numeric |  |   1   
+
+## action: 'describe network policy'
+List the details of a network policy
+
+Type: **investigate**  
+Read only: **True**
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**policy\_name** |  required  | Name of policy to describe | string |  `snowflake policy name` 
+**role** |  optional  | Role to use to execute action | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action\_result\.data\.\*\.name | string |  |   ALLOWED\_IP\_LIST 
+action\_result\.data\.\*\.value | string |  `ip`  |   192\.168\.1\.0/24,192\.168\.2\.0/24 
+action\_result\.status | string |  |   success 
+action\_result\.message | string |  |  
+action\_result\.parameter\.policy\_name | string |  `snowflake policy name`  |   mypolicy1 
+action\_result\.parameter\.role | string |  |   accountadmin 
+summary\.total\_objects | numeric |  |   1 
+summary\.total\_objects\_successful | numeric |  |   1   
+
+## action: 'update network policy'
+Update an existing network policy
+
+Type: **investigate**  
+Read only: **False**
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**policy\_name** |  required  | Name of network policy to update | string |  `snowflake policy name` 
+**role** |  optional  | Role to use to execute action | string | 
+**allowed\_ip\_list** |  optional  | Comma\-separated list of IPs to replace current allow list\. Add an empty list to clear all IPs from allow list\. | string | 
+**blocked\_ip\_list** |  optional  | Comma\-separated list of IPs to replace current block list\. Add an empty list to clear all IPs from block list\. | string | 
+**comment** |  optional  | Replace current comment on network policy | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action\_result\.data\.\*\.status | string |  |   Statement executed successfully\. 
+action\_result\.status | string |  |   success 
+action\_result\.message | string |  |   Network policy mypolicy1 was updated successfully 
+action\_result\.parameter\.comment | string |  |   updated policy  a new update 
+action\_result\.parameter\.policy\_name | string |  `snowflake policy name`  |   mypolicy1 
+action\_result\.parameter\.role | string |  |   accountadmin 
+action\_result\.parameter\.allowed\_ip\_list | string |  |   192\.168\.1\.0/24, 192\.168\.2\.0/24  192\.168\.10\.0/24 
+action\_result\.parameter\.blocked\_ip\_list | string |  |   192\.168\.1\.1, 192\.168\.2\.1  192\.168\.10\.1, 192\.168\.10\.5, 192\.168\.10\.6 
+summary\.total\_objects | numeric |  |   1 
+summary\.total\_objects\_successful | numeric |  |   1   
+
+## action: 'remove grants'
+Remove a specified granted role from a Snowflake user
+
+Type: **investigate**  
+Read only: **False**
+
+#### Action Parameters
+PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
+--------- | -------- | ----------- | ---- | --------
+**username** |  required  | Username | string |  `user name` 
+**role\_to\_remove** |  required  | Role to remove from user | string | 
+**role** |  optional  | Role to use to execute action | string | 
+
+#### Action Output
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action\_result\.data\.\*\.status | string |  |   Statement executed successfully\. 
+action\_result\.status | string |  |   success 
+action\_result\.message | string |  |   Role accountadmin was successfully removed from user 
+action\_result\.parameter\.username | string |  `user name`  |   test2 
+action\_result\.parameter\.role\_to\_remove | string |  |   accountadmin 
+summary\.total\_objects | numeric |  |   1 
+summary\.total\_objects\_successful | numeric |  |   1 
