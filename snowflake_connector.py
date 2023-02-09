@@ -14,6 +14,8 @@
 # and limitations under the License.
 #
 
+# Import order matters here - if isort is allowed to put the Snowflake connector
+# import later in the file, the connector crashes at runtime.
 import snowflake.connector  # isort: skip
 from snowflake_consts import *  # isort: skip
 
@@ -110,8 +112,6 @@ class SnowflakeConnector(BaseConnector):
 
             for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
-
-            self.debug_print("returned_rows: {}".format(returned_rows))
 
             while len(returned_rows) > 0:
                 returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
@@ -248,13 +248,13 @@ class SnowflakeConnector(BaseConnector):
         try:
             allowed_ip_list = param.get('allowed_ip_list')
             if allowed_ip_list:
-                allowed_ip_list = "'{0}'".format("','".join(ip.strip() for ip in allowed_ip_list.split(',')))
+                allowed_ip_list = ','.join(f"'{ip.strip()}'" for ip in allowed_ip_list.split(','))
             else:
                 allowed_ip_list = ''
 
             blocked_ip_list = param.get('blocked_ip_list')
             if blocked_ip_list:
-                blocked_ip_list = "'{0}'".format("','".join(ip.strip() for ip in blocked_ip_list.split(',')))
+                blocked_ip_list = ','.join(f"'{ip.strip()}'" for ip in blocked_ip_list.split(','))
             else:
                 blocked_ip_list = ''
 
