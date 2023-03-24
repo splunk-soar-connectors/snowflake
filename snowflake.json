@@ -23,7 +23,7 @@
     ],
     "configuration": {
         "account": {
-            "description": "Account",
+            "description": "Account Identifier (i.e. <account identifier>.snowflakecomputing.net, not the entire URL)",
             "data_type": "string",
             "required": true,
             "order": 0
