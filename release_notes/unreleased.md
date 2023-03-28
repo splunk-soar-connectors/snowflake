@@ -1,4 +1,1 @@
 **Unreleased**
-* Clarified account configuration parameter documentation [PAPP-29507]
-* Updated Snowflake connector version due to bug fixes [PAPP-29895]
-* Updated cryptography dependency due to vulnerability CVE-2023-23931 [PAPP-29895]
