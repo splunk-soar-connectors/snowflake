@@ -696,7 +696,7 @@
             },
             {
                 "module": "certifi",
-                "input_file": "wheels/py3/certifi-2023.7.22-py3-none-any.whl"
+                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
             },
             {
                 "module": "cffi",
@@ -708,7 +708,7 @@
             },
             {
                 "module": "cryptography",
-                "input_file": "wheels/py3/cryptography-41.0.5-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py36/cryptography-39.0.2-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
             },
             {
                 "module": "filelock",
@@ -732,7 +732,7 @@
             },
             {
                 "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-23.3.0-py3-none-any.whl"
+                "input_file": "wheels/py3/pyOpenSSL-23.2.0-py3-none-any.whl"
             },
             {
                 "module": "pycparser",
@@ -768,7 +768,7 @@
             },
             {
                 "module": "urllib3",
-                "input_file": "wheels/shared/urllib3-1.26.15-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/urllib3-1.26.18-py2.py3-none-any.whl"
             }
         ]
     }
