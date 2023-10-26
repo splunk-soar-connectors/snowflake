@@ -7,6 +7,7 @@ filelock==3.10.0
 idna==3.4
 oscrypto==1.3.0
 packaging==23.0
+platformdirs==3.11.0
 pycparser==2.21
 pycryptodomex==3.17
 PyJWT==2.6.0
@@ -14,5 +15,7 @@ pyOpenSSL==23.2.0
 pytz==2022.7.1
 requests==2.31.0
 snowflake-connector-python==3.3.1
+sortedcontainers==2.4.0
+tomlkit==0.12.1
 typing_extensions==4.5.0
 urllib3==1.26.18
