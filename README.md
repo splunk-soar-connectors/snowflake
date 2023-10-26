@@ -2,11 +2,11 @@
 # Snowflake
 
 Publisher: Splunk  
-Connector Version: 1.1.0  
+Connector Version: 1.1.1  
 Product Vendor: Snowflake  
 Product Name: Snowflake  
 Product Version Supported (regex): ".\*"  
-Minimum Product Version: 5.3.5  
+Minimum Product Version: 5.5.0  
 
 This app supports investigative and data manipulation actions on Snowflake
 
