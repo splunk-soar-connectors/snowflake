@@ -12,7 +12,7 @@ pycryptodomex==3.17
 PyJWT==2.6.0
 pyOpenSSL==23.0.0
 pytz==2022.7.1
-requests==2.31.0
+requests==2.31.0    # Updated to match the version on platform and freeze it at this version.
 snowflake-connector-python==3.0.2
 typing_extensions==4.5.0
 urllib3==1.26.18
