@@ -2,7 +2,7 @@
 # Snowflake
 
 Publisher: Splunk  
-Connector Version: 1.1.0  
+Connector Version: 1.1.1  
 Product Vendor: Snowflake  
 Product Name: Snowflake  
 Product Version Supported (regex): ".\*"  
