@@ -15,7 +15,7 @@
     "utctime_updated": "2022-12-13T22:47:52.338441Z",
     "package_name": "phantom_snowflake",
     "main_module": "snowflake_connector.py",
-    "min_phantom_version": "5.3.5",
+    "min_phantom_version": "6.1.1",
     "app_wizard_version": "1.0.0",
     "fips_compliant": false,
     "latest_tested_versions": [
@@ -696,7 +696,7 @@
             },
             {
                 "module": "certifi",
-                "input_file": "wheels/py3/certifi-2022.12.7-py3-none-any.whl"
+                "input_file": "wheels/py3/certifi-2023.7.22-py3-none-any.whl"
             },
             {
                 "module": "cffi",
@@ -708,7 +708,7 @@
             },
             {
                 "module": "cryptography",
-                "input_file": "wheels/py36/cryptography-39.0.2-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py3/cryptography-41.0.6-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
             },
             {
                 "module": "filelock",
@@ -727,8 +727,12 @@
                 "input_file": "wheels/py3/packaging-23.0-py3-none-any.whl"
             },
             {
+                "module": "platformdirs",
+                "input_file": "wheels/py3/platformdirs-3.8.1-py3-none-any.whl"
+            },
+            {
                 "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-23.0.0-py3-none-any.whl"
+                "input_file": "wheels/py3/pyOpenSSL-23.3.0-py3-none-any.whl"
             },
             {
                 "module": "pycparser",
@@ -744,11 +748,19 @@
             },
             {
                 "module": "requests",
-                "input_file": "wheels/py3/requests-2.28.2-py3-none-any.whl"
+                "input_file": "wheels/py3/requests-2.31.0-py3-none-any.whl"
             },
             {
                 "module": "snowflake_connector_python",
-                "input_file": "wheels/py39/snowflake_connector_python-3.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py39/snowflake_connector_python-3.1.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+            },
+            {
+                "module": "sortedcontainers",
+                "input_file": "wheels/shared/sortedcontainers-2.4.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "tomlkit",
+                "input_file": "wheels/py3/tomlkit-0.12.3-py3-none-any.whl"
             },
             {
                 "module": "typing_extensions",
@@ -756,7 +768,7 @@
             },
             {
                 "module": "urllib3",
-                "input_file": "wheels/shared/urllib3-1.26.15-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/urllib3-1.26.18-py2.py3-none-any.whl"
             }
         ]
     }
