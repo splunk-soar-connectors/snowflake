@@ -10,7 +10,7 @@
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2023 Splunk Inc.",
+    "license": "Copyright (c) 2023-2024 Splunk Inc.",
     "app_version": "1.1.1",
     "utctime_updated": "2023-12-14T09:54:40.000000Z",
     "package_name": "phantom_snowflake",
@@ -695,28 +695,16 @@
                 "input_file": "wheels/shared/asn1crypto-1.5.1-py2.py3-none-any.whl"
             },
             {
-                "module": "certifi",
-                "input_file": "wheels/py3/certifi-2023.7.22-py3-none-any.whl"
-            },
-            {
                 "module": "cffi",
-                "input_file": "wheels/py39/cffi-1.15.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-            },
-            {
-                "module": "charset_normalizer",
-                "input_file": "wheels/py3/charset_normalizer-2.1.1-py3-none-any.whl"
+                "input_file": "wheels/py39/cffi-1.15.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
             },
             {
                 "module": "cryptography",
-                "input_file": "wheels/py3/cryptography-41.0.6-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py39/cryptography-42.0.5-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
             },
             {
                 "module": "filelock",
                 "input_file": "wheels/py3/filelock-3.10.0-py3-none-any.whl"
-            },
-            {
-                "module": "idna",
-                "input_file": "wheels/py3/idna-3.4-py3-none-any.whl"
             },
             {
                 "module": "oscrypto",
@@ -728,11 +716,11 @@
             },
             {
                 "module": "platformdirs",
-                "input_file": "wheels/py3/platformdirs-3.8.1-py3-none-any.whl"
+                "input_file": "wheels/py3/platformdirs-4.2.1-py3-none-any.whl"
             },
             {
                 "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-23.3.0-py3-none-any.whl"
+                "input_file": "wheels/py3/pyOpenSSL-24.1.0-py3-none-any.whl"
             },
             {
                 "module": "pycparser",
@@ -740,19 +728,15 @@
             },
             {
                 "module": "pycryptodomex",
-                "input_file": "wheels/py3/pycryptodomex-3.17-cp35-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py3/pycryptodomex-3.17-cp35-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
             },
             {
                 "module": "pytz",
                 "input_file": "wheels/shared/pytz-2022.7.1-py2.py3-none-any.whl"
             },
             {
-                "module": "requests",
-                "input_file": "wheels/py3/requests-2.31.0-py3-none-any.whl"
-            },
-            {
                 "module": "snowflake_connector_python",
-                "input_file": "wheels/py39/snowflake_connector_python-3.1.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+                "input_file": "wheels/py39/snowflake_connector_python-3.9.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
             },
             {
                 "module": "sortedcontainers",
@@ -760,15 +744,11 @@
             },
             {
                 "module": "tomlkit",
-                "input_file": "wheels/py3/tomlkit-0.12.3-py3-none-any.whl"
+                "input_file": "wheels/py3/tomlkit-0.12.4-py3-none-any.whl"
             },
             {
                 "module": "typing_extensions",
                 "input_file": "wheels/py3/typing_extensions-4.5.0-py3-none-any.whl"
-            },
-            {
-                "module": "urllib3",
-                "input_file": "wheels/shared/urllib3-1.26.18-py2.py3-none-any.whl"
             }
         ]
     }
