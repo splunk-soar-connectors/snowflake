@@ -716,7 +716,7 @@
             },
             {
                 "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-23.3.0-py3-none-any.whl"
+                "input_file": "wheels/py3/pyOpenSSL-24.1.0-py3-none-any.whl"
             },
             {
                 "module": "pycparser",
