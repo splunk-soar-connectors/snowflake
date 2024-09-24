@@ -716,11 +716,11 @@
             },
             {
                 "module": "platformdirs",
-                "input_file": "wheels/py3/platformdirs-4.2.2-py3-none-any.whl"
+                "input_file": "wheels/py3/platformdirs-4.3.6-py3-none-any.whl"
             },
             {
                 "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-24.1.0-py3-none-any.whl"
+                "input_file": "wheels/py3/pyOpenSSL-24.2.1-py3-none-any.whl"
             },
             {
                 "module": "pycparser",
@@ -744,7 +744,7 @@
             },
             {
                 "module": "tomlkit",
-                "input_file": "wheels/py3/tomlkit-0.12.5-py3-none-any.whl"
+                "input_file": "wheels/py3/tomlkit-0.13.2-py3-none-any.whl"
             },
             {
                 "module": "typing_extensions",
