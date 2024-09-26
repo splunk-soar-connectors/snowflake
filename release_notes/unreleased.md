@@ -1,2 +1,2 @@
 **Unreleased**
-* Updated pyOpenSSL dependency to due to security vulnerabilities [PAPP-34764]
+* Updated dependencies due to security vulnerabilities [PAPP-34764]
