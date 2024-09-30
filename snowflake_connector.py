@@ -70,7 +70,7 @@ class SnowflakeConnector(BaseConnector):
 
     def convert_value(self, value):
         if isinstance(value, (bytearray, bytes)):
-            return value.decode('utf-8')
+            return value.decode("utf-8")
         elif isinstance(value, (datetime.datetime, datetime.timedelta, datetime.date)):
             return str(value)
         else:
@@ -101,11 +101,11 @@ class SnowflakeConnector(BaseConnector):
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
-        query = param['query']
-        role = param.get('role')
-        warehouse = param.get('warehouse')
-        database = param.get('database')
-        schema = param.get('schema')
+        query = param["query"]
+        role = param.get("role")
+        warehouse = param.get("warehouse")
+        database = param.get("database")
+        schema = param.get("schema")
 
         try:
             self._connection = self._handle_create_connection(role, warehouse, database, schema)
@@ -123,7 +123,7 @@ class SnowflakeConnector(BaseConnector):
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
-            return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(SQL_QUERY_ERROR_MSG, error_msg))
+            return action_result.set_status(phantom.APP_ERROR, "{0}: {1}".format(SQL_QUERY_ERROR_MSG, error_msg))
         finally:
             if self._connection:
                 cursor.close()
@@ -144,8 +144,8 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        username = param['username']
-        role = param.get('role')
+        username = param["username"]
+        role = param.get("role")
 
         try:
             self._connection = self._handle_create_connection(database=database, role=role)
@@ -156,14 +156,14 @@ class SnowflakeConnector(BaseConnector):
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
-            return action_result.set_status(phantom.APP_ERROR, '{0}: {1}'.format(DISABLE_USER_ERROR_MSG, error_msg))
+            return action_result.set_status(phantom.APP_ERROR, "{0}: {1}".format(DISABLE_USER_ERROR_MSG, error_msg))
         finally:
             if self._connection:
                 cursor.close()
                 self._connection.close()
 
         summary = action_result.update_summary({})
-        summary['user_status'] = 'disabled'
+        summary["user_status"] = "disabled"
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -174,7 +174,7 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        role = param.get('role')
+        role = param.get("role")
 
         try:
             self._connection = self._handle_create_connection(database=database, role=role)
@@ -200,7 +200,7 @@ class SnowflakeConnector(BaseConnector):
                 self._connection.close()
 
         summary = action_result.update_summary({})
-        summary['total_policies'] = len(action_result.get_data())
+        summary["total_policies"] = len(action_result.get_data())
 
         return action_result.set_status(phantom.APP_SUCCESS)
 
@@ -210,9 +210,9 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        role = param.get('role')
+        role = param.get("role")
 
-        policy_name = param['policy_name']
+        policy_name = param["policy_name"]
 
         try:
             self._connection = self._handle_create_connection(database=database, role=role)
@@ -244,24 +244,24 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        policy_name = param['policy_name']
-        role = param.get('role')
+        policy_name = param["policy_name"]
+        role = param.get("role")
 
         # Putting single quotes around each IP address in the list to satisfy SQL formatting. Empty string to clear.
         try:
-            allowed_ip_list = param.get('allowed_ip_list')
+            allowed_ip_list = param.get("allowed_ip_list")
             if allowed_ip_list:
-                allowed_ip_list = ','.join(f"'{ip.strip()}'" for ip in allowed_ip_list.split(','))
+                allowed_ip_list = ",".join(f"'{ip.strip()}'" for ip in allowed_ip_list.split(","))
             else:
-                allowed_ip_list = ''
+                allowed_ip_list = ""
 
-            blocked_ip_list = param.get('blocked_ip_list')
+            blocked_ip_list = param.get("blocked_ip_list")
             if blocked_ip_list:
-                blocked_ip_list = ','.join(f"'{ip.strip()}'" for ip in blocked_ip_list.split(','))
+                blocked_ip_list = ",".join(f"'{ip.strip()}'" for ip in blocked_ip_list.split(","))
             else:
-                blocked_ip_list = ''
+                blocked_ip_list = ""
 
-            comment = param.get('comment')
+            comment = param.get("comment")
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
             self.save_progress("Error: {}".format(error_msg))
@@ -270,8 +270,11 @@ class SnowflakeConnector(BaseConnector):
         try:
             self._connection = self._handle_create_connection(database=database, role=role)
             cursor = self._connection.cursor(snowflake.connector.DictCursor)
-            cursor.execute(UPDATE_NETWORK_POLICY_SQL.format(policy_name=policy_name,
-                allowed_ip_list=allowed_ip_list, blocked_ip_list=blocked_ip_list, comment=comment))
+            cursor.execute(
+                UPDATE_NETWORK_POLICY_SQL.format(
+                    policy_name=policy_name, allowed_ip_list=allowed_ip_list, blocked_ip_list=blocked_ip_list, comment=comment
+                )
+            )
             row = cursor.fetchone()
             action_result.add_data(row)
         except Exception as e:
@@ -291,9 +294,9 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        username = param['username']
-        role_to_remove = param['role_to_remove']
-        role = param.get('role')
+        username = param["username"]
+        role_to_remove = param["role_to_remove"]
+        role = param.get("role")
 
         try:
             self._connection = self._handle_create_connection(role=role, database=database)
@@ -316,13 +319,7 @@ class SnowflakeConnector(BaseConnector):
 
     def _handle_create_connection(self, role=None, warehouse=None, database=None, schema=None):
         ctx = snowflake.connector.connect(
-            user=self._username,
-            password=self._password,
-            account=self._account,
-            role=role,
-            warehouse=warehouse,
-            database=database,
-            schema=schema
+            user=self._username, password=self._password, account=self._account, role=role, warehouse=warehouse, database=database, schema=schema
         )
         return ctx
 
@@ -334,25 +331,25 @@ class SnowflakeConnector(BaseConnector):
 
         self.debug_print("action_id", self.get_action_identifier())
 
-        if action_id == 'test_connectivity':
+        if action_id == "test_connectivity":
             ret_val = self._handle_test_connectivity(param)
 
-        if action_id == 'run_query':
+        if action_id == "run_query":
             ret_val = self._handle_run_query(param)
 
-        if action_id == 'disable_user':
+        if action_id == "disable_user":
             ret_val = self._handle_disable_user(param)
 
-        if action_id == 'remove_grants':
+        if action_id == "remove_grants":
             ret_val = self._handle_remove_grants(param)
 
-        if action_id == 'show_network_policies':
+        if action_id == "show_network_policies":
             ret_val = self._handle_show_network_policies(param)
 
-        if action_id == 'describe_network_policy':
+        if action_id == "describe_network_policy":
             ret_val = self._handle_describe_network_policy(param)
 
-        if action_id == 'update_network_policy':
+        if action_id == "update_network_policy":
             ret_val = self._handle_update_network_policy(param)
 
         return ret_val
@@ -365,9 +362,9 @@ class SnowflakeConnector(BaseConnector):
         # get the asset config
         config = self.get_config()
 
-        self._account = config['account']
-        self._username = config['username']
-        self._password = config['password']
+        self._account = config["account"]
+        self._username = config["username"]
+        self._password = config["password"]
         self._connection = None
 
         return phantom.APP_SUCCESS
@@ -382,13 +379,14 @@ def main():
     import argparse
 
     import pudb
+
     pudb.set_trace()
 
     argparser = argparse.ArgumentParser()
 
-    argparser.add_argument('input_test_json', help='Input Test JSON file')
-    argparser.add_argument('-u', '--username', help='username', required=False)
-    argparser.add_argument('-p', '--password', help='password', required=False)
+    argparser.add_argument("input_test_json", help="Input Test JSON file")
+    argparser.add_argument("-u", "--username", help="username", required=False)
+    argparser.add_argument("-p", "--password", help="password", required=False)
 
     args = argparser.parse_args()
     session_id = None
@@ -400,28 +398,29 @@ def main():
 
         # User specified a username but not a password, so ask
         import getpass
+
         password = getpass.getpass("Password: ")
 
     if username and password:
         try:
-            login_url = SnowflakeConnector._get_phantom_base_url() + '/login'
+            login_url = SnowflakeConnector._get_phantom_base_url() + "/login"
 
             print("Accessing the Login page")
             r = requests.get(login_url, verify=False)
-            csrftoken = r.cookies['csrftoken']
+            csrftoken = r.cookies["csrftoken"]
 
             data = dict()
-            data['username'] = username
-            data['password'] = password
-            data['csrfmiddlewaretoken'] = csrftoken
+            data["username"] = username
+            data["password"] = password
+            data["csrfmiddlewaretoken"] = csrftoken
 
             headers = dict()
-            headers['Cookie'] = 'csrftoken=' + csrftoken
-            headers['Referer'] = login_url
+            headers["Cookie"] = "csrftoken=" + csrftoken
+            headers["Referer"] = login_url
 
             print("Logging into Platform to get the session id")
             r2 = requests.post(login_url, verify=False, data=data, headers=headers)
-            session_id = r2.cookies['sessionid']
+            session_id = r2.cookies["sessionid"]
         except Exception as e:
             print("Unable to get session id from the platform. Error: " + str(e))
             exit(1)
@@ -435,8 +434,8 @@ def main():
         connector.print_progress_message = True
 
         if session_id is not None:
-            in_json['user_session_token'] = session_id
-            connector._set_csrf_info(csrftoken, headers['Referer'])
+            in_json["user_session_token"] = session_id
+            connector._set_csrf_info(csrftoken, headers["Referer"])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
         print(json.dumps(json.loads(ret_val), indent=4))
@@ -444,5 +443,5 @@ def main():
     exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

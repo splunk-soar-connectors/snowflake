@@ -696,11 +696,11 @@
             },
             {
                 "module": "cffi",
-                "input_file": "wheels/py39/cffi-1.15.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+                "input_file": "wheels/py39/cffi-1.15.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "cryptography",
-                "input_file": "wheels/py39/cryptography-42.0.8-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+                "input_file": "wheels/py39/cryptography-42.0.8-cp39-abi3-manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "filelock",
@@ -716,11 +716,11 @@
             },
             {
                 "module": "platformdirs",
-                "input_file": "wheels/py3/platformdirs-4.2.2-py3-none-any.whl"
+                "input_file": "wheels/py3/platformdirs-4.3.6-py3-none-any.whl"
             },
             {
                 "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-24.1.0-py3-none-any.whl"
+                "input_file": "wheels/py3/pyOpenSSL-24.2.1-py3-none-any.whl"
             },
             {
                 "module": "pycparser",
@@ -728,7 +728,7 @@
             },
             {
                 "module": "pycryptodomex",
-                "input_file": "wheels/py3/pycryptodomex-3.20.0-cp35-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+                "input_file": "wheels/py3/pycryptodomex-3.20.0-cp35-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "pytz",
@@ -736,7 +736,7 @@
             },
             {
                 "module": "snowflake_connector_python",
-                "input_file": "wheels/py39/snowflake_connector_python-3.9.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+                "input_file": "wheels/py39/snowflake_connector_python-3.9.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "sortedcontainers",
@@ -744,7 +744,7 @@
             },
             {
                 "module": "tomlkit",
-                "input_file": "wheels/py3/tomlkit-0.12.5-py3-none-any.whl"
+                "input_file": "wheels/py3/tomlkit-0.13.2-py3-none-any.whl"
             },
             {
                 "module": "typing_extensions",
