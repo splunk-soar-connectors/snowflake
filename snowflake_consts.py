@@ -28,24 +28,25 @@ DESCRIBE_SNOWFLAKE_USER_SQL = "desc user {username};"
 DISABLE_SNOWFLAKE_USER_SQL = "alter user {username} set disabled=true;"
 SHOW_NETWORK_POLICIES_SQL = "show network policies;"
 DESCRIBE_NETWORK_POLICY_SQL = "describe network policy {policy_name};"
-UPDATE_NETWORK_POLICY_SQL = "alter network policy {policy_name} " \
-                                "set allowed_ip_list=({allowed_ip_list}) blocked_ip_list=({blocked_ip_list}) comment='{comment}';"
-REMOVE_GRANTS_SQL = 'revoke role {role_to_remove} from user {username};'
+UPDATE_NETWORK_POLICY_SQL = (
+    "alter network policy {policy_name} " "set allowed_ip_list=({allowed_ip_list}) blocked_ip_list=({blocked_ip_list}) comment='{comment}';"
+)
+REMOVE_GRANTS_SQL = "revoke role {role_to_remove} from user {username};"
 
 # Action error messages
-TEST_CONNECTIVITY_ERROR_MSG = 'Test connectivity failed'
-SQL_QUERY_ERROR_MSG = 'SQL query failed'
-DISABLE_USER_ERROR_MSG = 'Disable user failed'
-SHOW_NETWORK_POLICIES_ERROR_MSG = 'Show network policies failed'
-DESCRIBE_NETWORK_POLICY_ERROR_MSG = 'Describe network policy failed'
+TEST_CONNECTIVITY_ERROR_MSG = "Test connectivity failed"
+SQL_QUERY_ERROR_MSG = "SQL query failed"
+DISABLE_USER_ERROR_MSG = "Disable user failed"
+SHOW_NETWORK_POLICIES_ERROR_MSG = "Show network policies failed"
+DESCRIBE_NETWORK_POLICY_ERROR_MSG = "Describe network policy failed"
 
 # Action success messages
-TEST_CONNECTIVITY_SUCCESS_MSG = 'Test connectivity passed'
-REMOVE_GRANTS_SUCCESS_MSG = 'Role {role} was successfully removed from user'
-UPDATE_NETWORK_POLICY_SUCCESS_MSG = 'Network policy {policy_name} was updated successfully'
+TEST_CONNECTIVITY_SUCCESS_MSG = "Test connectivity passed"
+REMOVE_GRANTS_SUCCESS_MSG = "Role {role} was successfully removed from user"
+UPDATE_NETWORK_POLICY_SUCCESS_MSG = "Network policy {policy_name} was updated successfully"
 
 # Default error messages
-SNOWFLAKE_ERROR_CODE_UNAVAILABLE = 'Unavailable'
-SNOWFLAKE_ERROR_MSG_UNAVAILABLE = 'Unavailable. Please check the asset configuration and|or the action parameters.'
+SNOWFLAKE_ERROR_CODE_UNAVAILABLE = "Unavailable"
+SNOWFLAKE_ERROR_MSG_UNAVAILABLE = "Unavailable. Please check the asset configuration and|or the action parameters."
 
-SNOWFLAKE_TOTAL_ROWS_JSON = 'total_rows'
+SNOWFLAKE_TOTAL_ROWS_JSON = "total_rows"

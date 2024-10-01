@@ -15,7 +15,7 @@
 # and limitations under the License.
 def display_query_results(provides, all_results, context):
 
-    context['results'] = results = []
+    context["results"] = results = []
 
     adjusted_names = dict()
 
@@ -23,18 +23,18 @@ def display_query_results(provides, all_results, context):
         for result in action_results:
             headers_set = set()
             table = dict()
-            table['data'] = rows = []
+            table["data"] = rows = []
             data = result.get_data()
             if data:
                 headers_set.update(data[0].keys())
             headers = sorted(headers_set)
-            table['headers'] = headers
+            table["headers"] = headers
 
             for item in data:
                 row = []
                 for header in headers:
-                    row.append({ 'value': item.get(adjusted_names.get(header, header)) })
+                    row.append({"value": item.get(adjusted_names.get(header, header))})
                 rows.append(row)
             results.append(table)
 
-    return 'query_results.html'
+    return "query_results.html"
