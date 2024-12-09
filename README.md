@@ -2,11 +2,11 @@
 # Snowflake
 
 Publisher: Splunk  
-Connector Version: 1.1.3  
+Connector Version: 1.1.4  
 Product Vendor: Snowflake  
 Product Name: Snowflake  
 Product Version Supported (regex): ".\*"  
-Minimum Product Version: 6.2.1  
+Minimum Product Version: 6.2.2  
 
 This app supports investigative and data manipulation actions on Snowflake
 
@@ -30,8 +30,8 @@ having an optional 'role' parameter in each of the actions. If this parameter is
 default role assigned to the user will be used.
 
 
-### Configuration Variables
-The below configuration variables are required for this Connector to operate.  These variables are specified when configuring a Snowflake asset in SOAR.
+### Configuration variables
+This table lists the configuration variables required to operate Snowflake. These variables are specified when configuring a Snowflake asset in Splunk SOAR.
 
 VARIABLE | REQUIRED | TYPE | DESCRIPTION
 -------- | -------- | ---- | -----------

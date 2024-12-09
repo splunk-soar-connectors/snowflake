@@ -1,2 +1,1 @@
 **Unreleased**
-* [PAPP-35037] bumped snowflake-connector-python to remove CVE-2024-49750
