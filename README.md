@@ -6,7 +6,7 @@ Connector Version: 1.1.4
 Product Vendor: Snowflake  
 Product Name: Snowflake  
 Product Version Supported (regex): ".\*"  
-Minimum Product Version: 6.2.2  
+Minimum Product Version: 6.3.0  
 
 This app supports investigative and data manipulation actions on Snowflake
 
