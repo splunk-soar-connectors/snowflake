@@ -1,7 +1,7 @@
 [comment]: # "Auto-generated SOAR connector documentation"
 # Snowflake
 
-Publisher: Splunk  
+Publisher: Splunk
 Connector Version: 1.1.4  
 Product Vendor: Snowflake  
 Product Name: Snowflake  
