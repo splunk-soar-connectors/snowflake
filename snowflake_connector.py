@@ -1,6 +1,6 @@
 # File: snowflake_connector.py
 #
-# Copyright (c) 2023-2024 Splunk Inc.
+# Copyright (c) 2023-2025 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,15 +31,12 @@ from phantom.base_connector import BaseConnector
 
 
 class RetVal(tuple):
-
     def __new__(cls, val1, val2=None):
         return tuple.__new__(RetVal, (val1, val2))
 
 
 class SnowflakeConnector(BaseConnector):
-
     def __init__(self):
-
         # Call the BaseConnectors init first
         super(SnowflakeConnector, self).__init__()
 
@@ -60,21 +57,20 @@ class SnowflakeConnector(BaseConnector):
                 if len(e.args) > 1:
                     error_code = e.args[0]
                     error_msg = e.args[1]
-                    return "Error Code: {0}. Error Message: {1}".format(error_code, error_msg)
-                elif len(e.args) == 1:
+                    return f"Error Code: {error_code}. Error Message: {error_msg}"
+                if len(e.args) == 1:
                     error_msg = e.args[0]
         except Exception:
             pass
 
-        return "Error Message: {0}".format(error_msg)
+        return f"Error Message: {error_msg}"
 
     def convert_value(self, value):
         if isinstance(value, (bytearray, bytes)):
             return value.decode("utf-8")
-        elif isinstance(value, (datetime.datetime, datetime.timedelta, datetime.date)):
+        if isinstance(value, (datetime.datetime, datetime.timedelta, datetime.date)):
             return str(value)
-        else:
-            return value
+        return value
 
     def _cleanup_row_values(self, row):
         return {k: self.convert_value(v) for k, v in row.items()}
@@ -97,7 +93,7 @@ class SnowflakeConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, TEST_CONNECTIVITY_ERROR_MSG)
 
     def _handle_run_query(self, param):
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -122,8 +118,8 @@ class SnowflakeConnector(BaseConnector):
                     action_result.add_data(self._cleanup_row_values(row))
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
-            self.save_progress("Error: {}".format(error_msg))
-            return action_result.set_status(phantom.APP_ERROR, "{0}: {1}".format(SQL_QUERY_ERROR_MSG, error_msg))
+            self.save_progress(f"Error: {error_msg}")
+            return action_result.set_status(phantom.APP_ERROR, f"{SQL_QUERY_ERROR_MSG}: {error_msg}")
         finally:
             if self._connection:
                 cursor.close()
@@ -139,7 +135,7 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_disable_user(self, param):
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -155,8 +151,8 @@ class SnowflakeConnector(BaseConnector):
             action_result.add_data(row)
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
-            self.save_progress("Error: {}".format(error_msg))
-            return action_result.set_status(phantom.APP_ERROR, "{0}: {1}".format(DISABLE_USER_ERROR_MSG, error_msg))
+            self.save_progress(f"Error: {error_msg}")
+            return action_result.set_status(phantom.APP_ERROR, f"{DISABLE_USER_ERROR_MSG}: {error_msg}")
         finally:
             if self._connection:
                 cursor.close()
@@ -168,8 +164,7 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_show_network_policies(self, param):
-
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -183,7 +178,7 @@ class SnowflakeConnector(BaseConnector):
             returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
             for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
-            self.debug_print("returned_rows: {}".format(returned_rows))
+            self.debug_print(f"returned_rows: {returned_rows}")
 
             while len(returned_rows) > 0:
                 returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
@@ -192,7 +187,7 @@ class SnowflakeConnector(BaseConnector):
 
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
-            self.save_progress("Error: {}".format(error_msg))
+            self.save_progress(f"Error: {error_msg}")
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
             if self._connection:
@@ -205,7 +200,7 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_describe_network_policy(self, param):
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -221,7 +216,7 @@ class SnowflakeConnector(BaseConnector):
             returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
             for row in returned_rows:
                 action_result.add_data(self._cleanup_row_values(row))
-            self.debug_print("returned_rows: {}".format(returned_rows))
+            self.debug_print(f"returned_rows: {returned_rows}")
 
             while len(returned_rows) > 0:
                 returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
@@ -230,7 +225,7 @@ class SnowflakeConnector(BaseConnector):
 
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
-            self.save_progress("Error: {}".format(error_msg))
+            self.save_progress(f"Error: {error_msg}")
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
             if self._connection:
@@ -239,7 +234,7 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_update_network_policy(self, param):
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -264,7 +259,7 @@ class SnowflakeConnector(BaseConnector):
             comment = param.get("comment")
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
-            self.save_progress("Error: {}".format(error_msg))
+            self.save_progress(f"Error: {error_msg}")
             return action_result.set_status(phantom.APP_ERROR, error_msg)
 
         try:
@@ -279,7 +274,7 @@ class SnowflakeConnector(BaseConnector):
             action_result.add_data(row)
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
-            self.save_progress("Error: {}".format(error_msg))
+            self.save_progress(f"Error: {error_msg}")
             return action_result.set_status(phantom.APP_ERROR, error_msg)
         finally:
             if self._connection:
@@ -289,7 +284,7 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS, UPDATE_NETWORK_POLICY_SUCCESS_MSG.format(policy_name=policy_name))
 
     def _handle_remove_grants(self, param):
-        self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
+        self.save_progress(f"In action handler for: {self.get_action_identifier()}")
 
         action_result = self.add_action_result(ActionResult(dict(param)))
 
@@ -307,7 +302,7 @@ class SnowflakeConnector(BaseConnector):
 
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
-            self.save_progress("Error: {}".format(error_msg))
+            self.save_progress(f"Error: {error_msg}")
             return action_result.set_status(phantom.APP_ERROR, error_msg)
 
         finally:
@@ -395,7 +390,6 @@ def main():
     password = args.password
 
     if username is not None and password is None:
-
         # User specified a username but not a password, so ask
         import getpass
 

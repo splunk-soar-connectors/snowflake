@@ -1,6 +1,6 @@
 # File: snowflake_consts.py
 #
-# Copyright (c) 2023-2024 Splunk Inc.
+# Copyright (c) 2023-2025 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ DISABLE_SNOWFLAKE_USER_SQL = "alter user {username} set disabled=true;"
 SHOW_NETWORK_POLICIES_SQL = "show network policies;"
 DESCRIBE_NETWORK_POLICY_SQL = "describe network policy {policy_name};"
 UPDATE_NETWORK_POLICY_SQL = (
-    "alter network policy {policy_name} " "set allowed_ip_list=({allowed_ip_list}) blocked_ip_list=({blocked_ip_list}) comment='{comment}';"
+    "alter network policy {policy_name} set allowed_ip_list=({allowed_ip_list}) blocked_ip_list=({blocked_ip_list}) comment='{comment}';"
 )
 REMOVE_GRANTS_SQL = "revoke role {role_to_remove} from user {username};"
 
