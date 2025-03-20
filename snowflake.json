@@ -10,7 +10,7 @@
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2023-2024 Splunk Inc.",
+    "license": "Copyright (c) 2023-2025 Splunk Inc.",
     "app_version": "1.1.4",
     "utctime_updated": "2024-12-09T14:09:58.000000Z",
     "package_name": "phantom_snowflake",
@@ -674,6 +674,10 @@
                     "example_values": [
                         1
                     ]
+                },
+                {
+                    "data_path": "action_result.parameter.role",
+                    "data_type": "string"
                 }
             ],
             "read_only": false,

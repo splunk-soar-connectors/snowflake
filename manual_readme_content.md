@@ -1,4 +1,3 @@
-
 ## Port Details
 
 The app uses HTTPS protocol for communicating with Snowflake. Below are the default ports used by
@@ -6,7 +5,7 @@ the Splunk SOAR Connector.
 
 | SERVICE NAME | TRANSPORT PROTOCOL | PORT |
 |--------------|--------------------|------|
-| https        | tcp                | 443  |
+| https | tcp | 443 |
 
 ## Roles
 
