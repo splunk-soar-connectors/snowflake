@@ -1,9 +1,9 @@
 # Snowflake
 
-Publisher: Splunk \
-Connector Version: 1.1.4 \
-Product Vendor: Snowflake \
-Product Name: Snowflake \
+Publisher: Splunk <br>
+Connector Version: 1.1.4 <br>
+Product Vendor: Snowflake <br>
+Product Name: Snowflake <br>
 Minimum Product Version: 6.3.0
 
 This app supports investigative and data manipulation actions on Snowflake
@@ -38,19 +38,19 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
-[run query](#action-run-query) - Perform a SQL query \
-[disable user](#action-disable-user) - Disable a Snowflake user \
-[show network policies](#action-show-network-policies) - List available network policies \
-[describe network policy](#action-describe-network-policy) - List the details of a network policy \
-[update network policy](#action-update-network-policy) - Update an existing network policy \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
+[run query](#action-run-query) - Perform a SQL query <br>
+[disable user](#action-disable-user) - Disable a Snowflake user <br>
+[show network policies](#action-show-network-policies) - List available network policies <br>
+[describe network policy](#action-describe-network-policy) - List the details of a network policy <br>
+[update network policy](#action-update-network-policy) - Update an existing network policy <br>
 [remove grants](#action-remove-grants) - Remove a specified granted role from a Snowflake user
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -65,7 +65,7 @@ No Output
 
 Perform a SQL query
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -98,7 +98,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Disable a Snowflake user
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -125,7 +125,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 List available network policies
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -154,7 +154,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 List the details of a network policy
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -181,7 +181,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Update an existing network policy
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **False**
 
 #### Action Parameters
@@ -213,7 +213,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Remove a specified granted role from a Snowflake user
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **False**
 
 #### Action Parameters
