@@ -1,3 +1,1 @@
 **Unreleased**
-* chore(ci): update pre-commit config
-* update snowflake_connector_python dependency
