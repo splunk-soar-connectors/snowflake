@@ -1,9 +1,9 @@
-asn1crypto==1.5.1
+git+https://github.com/phantomcyber/asn1crypto@soar-v1.0#egg=asn1crypto
 cffi==1.15.1
 filelock==3.10.0
-oscrypto==1.3.0
+git+https://github.com/phantomcyber/oscrypto@soar-v1.0#egg=oscrypto
 packaging==23.0
-pycparser==2.21
+pycparser==2.23
 pycryptodomex==3.20.0
 PyJWT==2.6.0
 pyOpenSSL==24.2.1
