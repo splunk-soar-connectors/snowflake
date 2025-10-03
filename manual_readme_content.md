@@ -30,16 +30,15 @@ The simplest authentication method using username and password credentials.
 - **username**: Your Snowflake username
 - **password**: Your Snowflake password
 
-### 2. Certificate-Based Authentication (Key Pair)
+### 2. Key-Pair Authentication
 
 Enhanced security authentication using RSA key pair for passwordless authentication.
 
 **Required Configuration:**
 
-- **auth_type**: Set to "Certificate Based Authentication(CBA)"
+- **auth_type**: Set to "Key-Pair Authentication"
 - **username**: Your Snowflake username
 - **private_key**: RSA private key in PEM format
-- **private_key_password**: (Optional) Password for encrypted private keys
 
 #### Setting Up Key Pair Authentication
 

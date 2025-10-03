@@ -10,6 +10,11 @@
     "python_version": "3",
     "product_version_regex": ".*",
     "publisher": "Splunk",
+    "contributors": [
+        {
+            "name": "Alan Shaikh"
+        }
+    ],
     "license": "Copyright (c) 2023-2025 Splunk Inc.",
     "app_version": "1.1.5",
     "utctime_updated": "2025-08-20T21:21:29.915286Z",
