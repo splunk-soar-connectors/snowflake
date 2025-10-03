@@ -390,16 +390,17 @@ class SnowflakeConnector(BaseConnector):
         self._account = config["account"]
         self._username = config["username"]
         self._password = config.get("password")
+        self._connection = None
         self._private_key = self._get_private_key(config.get("private_key"))
         self._auth_type = config.get("auth_type", "Password")
 
         if self._auth_type == "Password":
             if not self._password:
-                self.error_print("Password is required for Password Authentication")
+                self.save_progress("Error: Password is required for Password Authentication")
                 return phantom.APP_ERROR
         else:
             if not self._private_key:
-                self.error_print("Private Key is required for Certificate Based Authentication")
+                self.save_progress("Error: A valid Private Key is required for Key-Pair Authentication")
                 return phantom.APP_ERROR
 
         return phantom.APP_SUCCESS

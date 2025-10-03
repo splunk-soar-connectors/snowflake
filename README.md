@@ -1,7 +1,7 @@
 # Snowflake
 
 Publisher: Splunk <br>
-Connector Version: 1.1.6 <br>
+Connector Version: 1.1.5 <br>
 Product Vendor: Snowflake <br>
 Product Name: Snowflake <br>
 Minimum Product Version: 6.3.0
@@ -96,7 +96,7 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 **auth_type** | required | string | Authentication type to use for connectivity |
 **username** | required | string | Username |
 **password** | optional | password | Password (required for Password Authentication) |
-**private_key** | optional | password | Private Key (required for CBA) |
+**private_key** | optional | password | Private Key (required for Key-Pair Authentication) |
 
 ### Supported Actions
 
