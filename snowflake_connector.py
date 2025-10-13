@@ -21,11 +21,13 @@ from snowflake_consts import *  # isort: skip
 
 import datetime
 import json
+import re
 import traceback
 
 # Phantom App imports
 import phantom.app as phantom
 import requests
+from cryptography.hazmat.primitives import serialization
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 
@@ -45,6 +47,8 @@ class SnowflakeConnector(BaseConnector):
         self._account = None
         self._username = None
         self._password = None
+        self._private_key = None
+        self._auth_type = None
 
     def _get_error_msg_from_exception(self, e):
         error_code = SNOWFLAKE_ERROR_CODE_UNAVAILABLE
@@ -314,10 +318,35 @@ class SnowflakeConnector(BaseConnector):
         return action_result.set_status(phantom.APP_SUCCESS, REMOVE_GRANTS_SUCCESS_MSG.format(role=role_to_remove))
 
     def _handle_create_connection(self, role=None, warehouse=None, database=None, schema=None):
-        ctx = snowflake.connector.connect(
-            user=self._username, password=self._password, account=self._account, role=role, warehouse=warehouse, database=database, schema=schema
-        )
-        return ctx
+        if self._auth_type == "Password":
+            return snowflake.connector.connect(
+                user=self._username,
+                password=self._password,
+                account=self._account,
+                role=role,
+                warehouse=warehouse,
+                database=database,
+                schema=schema,
+            )
+        else:
+            p_key = serialization.load_pem_private_key(data=self._private_key, password=None)
+
+            pkb = p_key.private_bytes(
+                encoding=serialization.Encoding.DER, format=serialization.PrivateFormat.PKCS8, encryption_algorithm=serialization.NoEncryption()
+            )
+
+            return snowflake.connector.connect(
+                user=self._username, private_key=pkb, account=self._account, role=role, warehouse=warehouse, database=database, schema=schema
+            )
+
+    def _get_private_key(self, key):
+        if key is not None:
+            p = re.compile("(-----.*?-----) (.*) (-----.*?-----)")
+            m = p.match(key)
+
+            if m:
+                return "\n".join([m.group(1), m.group(2).replace(" ", "\n"), m.group(3)]).encode("utf-8")
+        return None
 
     def handle_action(self, param):
         ret_val = phantom.APP_SUCCESS
@@ -360,8 +389,19 @@ class SnowflakeConnector(BaseConnector):
 
         self._account = config["account"]
         self._username = config["username"]
-        self._password = config["password"]
+        self._password = config.get("password")
         self._connection = None
+        self._private_key = self._get_private_key(config.get("private_key"))
+        self._auth_type = config.get("auth_type", "Password")
+
+        if self._auth_type == "Password":
+            if not self._password:
+                self.save_progress("Error: Password is required for Password Authentication")
+                return phantom.APP_ERROR
+        else:
+            if not self._private_key:
+                self.save_progress("Error: A valid Private Key is required for Key-Pair Authentication")
+                return phantom.APP_ERROR
 
         return phantom.APP_SUCCESS
 
