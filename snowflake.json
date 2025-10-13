@@ -7,7 +7,7 @@
     "logo": "logo_snowflake.svg",
     "logo_dark": "logo_snowflake_dark.svg",
     "product_name": "Snowflake",
-    "python_version": "3",
+    "python_version": "3.9, 3.13",
     "product_version_regex": ".*",
     "publisher": "Splunk",
     "contributors": [
@@ -714,15 +714,19 @@
         "wheel": [
             {
                 "module": "PyJWT",
-                "input_file": "wheels/py3/PyJWT-2.6.0-py3-none-any.whl"
+                "input_file": "wheels/shared/PyJWT-2.10.1-py3-none-any.whl"
             },
             {
                 "module": "asn1crypto",
                 "input_file": "wheels/shared/asn1crypto-1.5.1-py2.py3-none-any.whl"
             },
             {
+                "module": "boto3",
+                "input_file": "wheels/shared/boto3-1.40.9-py3-none-any.whl"
+            },
+            {
                 "module": "cffi",
-                "input_file": "wheels/py39/cffi-1.15.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py39/cffi-1.17.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
             },
             {
                 "module": "cryptography",
@@ -730,39 +734,43 @@
             },
             {
                 "module": "filelock",
-                "input_file": "wheels/py3/filelock-3.10.0-py3-none-any.whl"
+                "input_file": "wheels/shared/filelock-3.19.1-py3-none-any.whl"
             },
             {
                 "module": "oscrypto",
                 "input_file": "wheels/shared/oscrypto-1.3.0-py2.py3-none-any.whl"
             },
             {
+                "module": "jmespath",
+                "input_file": "wheels/shared/jmespath-1.0.1-py3-none-any.whl"
+            },
+            {
                 "module": "packaging",
-                "input_file": "wheels/py3/packaging-23.0-py3-none-any.whl"
+                "input_file": "wheels/shared/packaging-25.0-py3-none-any.whl"
             },
             {
                 "module": "platformdirs",
-                "input_file": "wheels/py3/platformdirs-4.3.8-py3-none-any.whl"
+                "input_file": "wheels/shared/platformdirs-4.3.8-py3-none-any.whl"
             },
             {
                 "module": "pyOpenSSL",
-                "input_file": "wheels/py3/pyOpenSSL-24.2.1-py3-none-any.whl"
+                "input_file": "wheels/shared/pyOpenSSL-24.2.1-py3-none-any.whl"
             },
             {
                 "module": "pycparser",
-                "input_file": "wheels/shared/pycparser-2.21-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pycparser-2.23-py3-none-any.whl"
             },
             {
                 "module": "pycryptodomex",
-                "input_file": "wheels/py3/pycryptodomex-3.20.0-cp35-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py39/pycryptodomex-3.20.0-cp35-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "pytz",
-                "input_file": "wheels/shared/pytz-2022.7.1-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pytz-2025.2-py2.py3-none-any.whl"
             },
             {
                 "module": "snowflake_connector_python",
-                "input_file": "wheels/py39/snowflake_connector_python-3.13.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py39/snowflake_connector_python-3.17.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
             },
             {
                 "module": "sortedcontainers",
@@ -770,11 +778,87 @@
             },
             {
                 "module": "tomlkit",
-                "input_file": "wheels/py3/tomlkit-0.13.3-py3-none-any.whl"
+                "input_file": "wheels/shared/tomlkit-0.13.3-py3-none-any.whl"
             },
             {
                 "module": "typing_extensions",
-                "input_file": "wheels/py3/typing_extensions-4.5.0-py3-none-any.whl"
+                "input_file": "wheels/shared/typing_extensions-4.15.0-py3-none-any.whl"
+            }
+        ]
+    },
+    "pip313_dependencies": {
+        "wheel": [
+            {
+                "module": "PyJWT",
+                "input_file": "wheels/shared/PyJWT-2.10.1-py3-none-any.whl"
+            },
+            {
+                "module": "asn1crypto",
+                "input_file": "wheels/shared/asn1crypto-1.5.1-py2.py3-none-any.whl"
+            },
+            {
+                "module": "boto3",
+                "input_file": "wheels/shared/boto3-1.40.9-py3-none-any.whl"
+            },
+            {
+                "module": "cffi",
+                "input_file": "wheels/py313/cffi-1.17.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+            },
+            {
+                "module": "cryptography",
+                "input_file": "wheels/py313/cryptography-46.0.2-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl"
+            },
+            {
+                "module": "filelock",
+                "input_file": "wheels/shared/filelock-3.19.1-py3-none-any.whl"
+            },
+            {
+                "module": "oscrypto",
+                "input_file": "wheels/shared/oscrypto-1.3.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "jmespath",
+                "input_file": "wheels/shared/jmespath-1.0.1-py3-none-any.whl"
+            },
+            {
+                "module": "packaging",
+                "input_file": "wheels/shared/packaging-25.0-py3-none-any.whl"
+            },
+            {
+                "module": "platformdirs",
+                "input_file": "wheels/shared/platformdirs-4.3.8-py3-none-any.whl"
+            },
+            {
+                "module": "pyOpenSSL",
+                "input_file": "wheels/shared/pyOpenSSL-24.2.1-py3-none-any.whl"
+            },
+            {
+                "module": "pycparser",
+                "input_file": "wheels/shared/pycparser-2.23-py3-none-any.whl"
+            },
+            {
+                "module": "pycryptodomex",
+                "input_file": "wheels/py313/pycryptodomex-3.23.0-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+            },
+            {
+                "module": "pytz",
+                "input_file": "wheels/shared/pytz-2025.2-py2.py3-none-any.whl"
+            },
+            {
+                "module": "snowflake_connector_python",
+                "input_file": "wheels/py313/snowflake_connector_python-3.17.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+            },
+            {
+                "module": "sortedcontainers",
+                "input_file": "wheels/shared/sortedcontainers-2.4.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "tomlkit",
+                "input_file": "wheels/shared/tomlkit-0.13.3-py3-none-any.whl"
+            },
+            {
+                "module": "typing_extensions",
+                "input_file": "wheels/shared/typing_extensions-4.15.0-py3-none-any.whl"
             }
         ]
     }
