@@ -700,11 +700,11 @@
             },
             {
                 "module": "boto3",
-                "input_file": "wheels/py3/boto3-1.40.61-py3-none-any.whl"
+                "input_file": "wheels/py3/boto3-1.40.64-py3-none-any.whl"
             },
             {
                 "module": "botocore",
-                "input_file": "wheels/py3/botocore-1.40.61-py3-none-any.whl"
+                "input_file": "wheels/py3/botocore-1.40.64-py3-none-any.whl"
             },
             {
                 "module": "cffi",
@@ -784,11 +784,11 @@
             },
             {
                 "module": "boto3",
-                "input_file": "wheels/py3/boto3-1.40.61-py3-none-any.whl"
+                "input_file": "wheels/py3/boto3-1.40.64-py3-none-any.whl"
             },
             {
                 "module": "botocore",
-                "input_file": "wheels/py3/botocore-1.40.61-py3-none-any.whl"
+                "input_file": "wheels/py3/botocore-1.40.64-py3-none-any.whl"
             },
             {
                 "module": "cffi",
