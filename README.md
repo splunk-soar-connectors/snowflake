@@ -1,7 +1,7 @@
 # Snowflake
 
 Publisher: Splunk <br>
-Connector Version: 1.1.5 <br>
+Connector Version: 1.1.6 <br>
 Product Vendor: Snowflake <br>
 Product Name: Snowflake <br>
 Minimum Product Version: 6.3.0
