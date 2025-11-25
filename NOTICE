@@ -4,7 +4,7 @@ Third Party Software Attributions:
 
 @@@@============================================================================
 
-Library: PyJWT - 2.6.0
+Library: PyJWT - 2.10.1
 Homepage: https://github.com/jpadilla/pyjwt
 License: MIT License
 License Text:
@@ -34,35 +34,7 @@ SOFTWARE.
 
 @@@@============================================================================
 
-Library: asn1crypto - 1.5.1
-Homepage: https://github.com/wbond/asn1crypto
-License: MIT License
-License Text:
-
-Copyright (c) 2015-2022 Will Bond <will@wbond.net>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-@@@@============================================================================
-
-Library: cffi - 1.15.1
+Library: cffi - 1.17.1
 Homepage: http://cffi.readthedocs.org
 License: MIT License
 License Text:
@@ -97,9 +69,9 @@ documentation is licensed as follows:
 
 @@@@============================================================================
 
-Library: filelock - 3.10.0
+Library: filelock - 3.18.0
 Homepage: https://github.com/tox-dev/py-filelock
-License: The Unlicense (Unlicense)
+License: Unlicense
 License Text:
 
 This is free and unencumbered software released into the public domain.
@@ -130,35 +102,7 @@ For more information, please refer to <http://unlicense.org>
 
 @@@@============================================================================
 
-Library: oscrypto - 1.3.0
-Homepage: https://github.com/wbond/oscrypto
-License: MIT License
-License Text:
-
-Copyright (c) 2015-2022 Will Bond <will@wbond.net>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-@@@@============================================================================
-
-Library: packaging - 23.0
+Library: packaging - 25.0
 Homepage: https://github.com/pypa/packaging
 License: Apache Software License; BSD License
 License Text:
@@ -170,7 +114,7 @@ under the terms of *both* these licenses.
 
 @@@@============================================================================
 
-Library: pyOpenSSL - 24.2.1
+Library: pyOpenSSL - 25.1.0
 Homepage: https://pyopenssl.org/
 License: Apache Software License
 License Text:
@@ -381,14 +325,14 @@ License Text:
 
 @@@@============================================================================
 
-Library: pycparser - 2.21
+Library: pycparser - 2.23
 Homepage: https://github.com/eliben/pycparser
 License: BSD License
 License Text:
 
 pycparser -- A C parser in Python
 
-Copyright (c) 2008-2020, Eli Bendersky
+Copyright (c) 2008-2022, Eli Bendersky
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification,
@@ -399,7 +343,7 @@ are permitted provided that the following conditions are met:
 * Redistributions in binary form must reproduce the above copyright notice,
   this list of conditions and the following disclaimer in the documentation
   and/or other materials provided with the distribution.
-* Neither the name of Eli Bendersky nor the names of its contributors may
+* Neither the name of the copyright holder nor the names of its contributors may
   be used to endorse or promote products derived from this software without
   specific prior written permission.
 
@@ -417,9 +361,9 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @@@@============================================================================
 
-Library: pycryptodomex - 3.20.0
+Library: pycryptodomex - 3.23.0
 Homepage: https://www.pycryptodome.org
-License: Apache Software License; BSD License; Public Domain
+License: BSD License; Public Domain
 License Text:
 
 The source code in PyCryptodome is partially in the public domain
@@ -487,35 +431,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @@@@============================================================================
 
-Library: pytz - 2022.7.1
-Homepage: http://pythonhosted.org/pytz
-License: MIT License
-License Text:
-
-Copyright (c) 2003-2019 Stuart Bishop <stuart@stuartbishop.net>
-
-Permission is hereby granted, free of charge, to any person obtaining a
-copy of this software and associated documentation files (the "Software"),
-to deal in the Software without restriction, including without limitation
-the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-DEALINGS IN THE SOFTWARE.
-
-
-@@@@============================================================================
-
-Library: snowflake-connector-python - 3.13.1
+Library: snowflake-connector-python - 3.16.0
 Homepage: https://www.snowflake.com/
 License: Apache Software License
 License Text:
@@ -744,21 +660,21 @@ Requests Copyright 2019 Kenneth Reitz
 
 @@@@============================================================================
 
-Library: typing_extensions - 4.5.0
+Library: typing_extensions - 4.14.1
 Homepage: https://github.com/python/typing_extensions
-License: Python Software Foundation License
+License: PSF-2.0
 License Text:
 
 A. HISTORY OF THE SOFTWARE
 ==========================
 
 Python was created in the early 1990s by Guido van Rossum at Stichting
-Mathematisch Centrum (CWI, see http://www.cwi.nl) in the Netherlands
+Mathematisch Centrum (CWI, see https://www.cwi.nl) in the Netherlands
 as a successor of a language called ABC.  Guido remains Python's
 principal author, although it includes many contributions from others.
 
 In 1995, Guido continued his work on Python at the Corporation for
-National Research Initiatives (CNRI, see http://www.cnri.reston.va.us)
+National Research Initiatives (CNRI, see https://www.cnri.reston.va.us)
 in Reston, Virginia where he released several versions of the
 software.
 
@@ -770,7 +686,7 @@ https://www.python.org/psf/) was formed, a non-profit organization
 created specifically to own Python-related Intellectual Property.
 Zope Corporation was a sponsoring member of the PSF.
 
-All Python releases are Open Source (see http://www.opensource.org for
+All Python releases are Open Source (see https://opensource.org for
 the Open Source Definition).  Historically, most, but not all, Python
 releases have also been GPL-compatible; the table below summarizes
 the various releases.
@@ -810,6 +726,17 @@ direction to make these releases possible.
 B. TERMS AND CONDITIONS FOR ACCESSING OR OTHERWISE USING PYTHON
 ===============================================================
 
+Python software and documentation are licensed under the
+Python Software Foundation License Version 2.
+
+Starting with Python 3.8.6, examples, recipes, and other code in
+the documentation are dual licensed under the PSF License Version 2
+and the Zero-Clause BSD license.
+
+Some software incorporated into Python is under different licenses.
+The licenses are listed with code falling under that license.
+
+
 PYTHON SOFTWARE FOUNDATION LICENSE VERSION 2
 --------------------------------------------
 
@@ -824,7 +751,7 @@ analyze, test, perform and/or display publicly, prepare derivative works,
 distribute, and otherwise use Python alone or in any derivative version,
 provided, however, that PSF's License Agreement and PSF's notice of copyright,
 i.e., "Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
-2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022 Python Software Foundation;
+2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Python Software Foundation;
 All Rights Reserved" are retained in Python alone or in any derivative version
 prepared by Licensee.
 
@@ -1003,4 +930,18 @@ FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
 OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON DOCUMENTATION
+----------------------------------------------------------------------
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
 
