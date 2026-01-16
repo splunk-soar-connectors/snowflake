@@ -1,6 +1,6 @@
 git+https://github.com/phantomcyber/asn1crypto@soar-v1.0#egg=asn1crypto
 cffi==1.17.1
-filelock==3.18.0
+filelock==3.20.1
 git+https://github.com/phantomcyber/oscrypto@soar-v1.0#egg=oscrypto
 packaging==25.0
 pycparser==2.23
