@@ -15,7 +15,7 @@
 
 import unittest
 
-from snowflake_utils import escape_sql_string, format_ip_list, validate_identifier
+from snowflake_utils import build_network_policy_set_clause, escape_sql_string, format_ip_list, validate_identifier
 
 
 class SnowflakeUtilsTest(unittest.TestCase):
@@ -39,6 +39,22 @@ class SnowflakeUtilsTest(unittest.TestCase):
 
     def test_escape_sql_string_doubles_single_quotes(self):
         self.assertEqual(escape_sql_string("it's restricted"), "it''s restricted")
+
+    def test_network_policy_clause_preserves_omitted_fields(self):
+        self.assertEqual(build_network_policy_set_clause(comment="updated"), "comment='updated'")
+
+    def test_network_policy_clause_clears_explicit_empty_list(self):
+        self.assertEqual(build_network_policy_set_clause(allowed_ip_list=""), "allowed_ip_list=()")
+
+    def test_network_policy_clause_updates_only_supplied_fields(self):
+        self.assertEqual(
+            build_network_policy_set_clause(blocked_ip_list="192.0.2.0/24", comment="it's blocked"),
+            "blocked_ip_list=('192.0.2.0/24') comment='it''s blocked'",
+        )
+
+    def test_network_policy_clause_requires_an_update(self):
+        with self.assertRaisesRegex(ValueError, "Provide at least one"):
+            build_network_policy_set_clause()
 
 
 if __name__ == "__main__":

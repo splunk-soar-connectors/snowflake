@@ -18,7 +18,7 @@
 # import later in the file, the connector crashes at runtime.
 import snowflake.connector  # isort: skip
 from snowflake_consts import *  # isort: skip
-from snowflake_utils import escape_sql_string, format_ip_list, validate_identifier  # isort: skip
+from snowflake_utils import build_network_policy_set_clause, validate_identifier  # isort: skip
 
 import datetime
 import json
@@ -254,22 +254,16 @@ class SnowflakeConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, str(e))
         role = param.get("role")
 
-        # Putting single quotes around each IP address in the list to satisfy SQL formatting. Empty string to clear.
         try:
-            allowed_ip_list = format_ip_list(param.get("allowed_ip_list"), "allowed_ip_list")
-            blocked_ip_list = format_ip_list(param.get("blocked_ip_list"), "blocked_ip_list")
-            comment = escape_sql_string(param.get("comment"))
+            policy_updates = {key: param[key] for key in ("allowed_ip_list", "blocked_ip_list", "comment") if key in param}
+            set_clause = build_network_policy_set_clause(**policy_updates)
         except ValueError as e:
             return action_result.set_status(phantom.APP_ERROR, str(e))
 
         try:
             self._connection = self._handle_create_connection(database=database, role=role)
             cursor = self._connection.cursor(snowflake.connector.DictCursor)
-            cursor.execute(
-                UPDATE_NETWORK_POLICY_SQL.format(
-                    policy_name=policy_name, allowed_ip_list=allowed_ip_list, blocked_ip_list=blocked_ip_list, comment=comment
-                )
-            )
+            cursor.execute(UPDATE_NETWORK_POLICY_SQL.format(policy_name=policy_name, set_clause=set_clause))
             row = cursor.fetchone()
             action_result.add_data(row)
         except Exception as e:

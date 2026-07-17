@@ -31,6 +31,13 @@ class SnowflakeManifestTest(unittest.TestCase):
         self.assertIn("action_result.summary.new_login_status", output_paths)
         self.assertIn("action_result.summary.existing_sessions", output_paths)
 
+    def test_update_network_policy_documents_omitted_fields(self):
+        action = next(action for action in self.manifest["actions"] if action["identifier"] == "update_network_policy")
+
+        for parameter_name in ("allowed_ip_list", "blocked_ip_list", "comment"):
+            with self.subTest(parameter_name=parameter_name):
+                self.assertIn("Omit to leave unchanged", action["parameters"][parameter_name]["description"])
+
 
 if __name__ == "__main__":
     unittest.main()

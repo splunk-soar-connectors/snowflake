@@ -191,9 +191,9 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **policy_name** | required | Name of network policy to update | string | `snowflake policy name` |
 **role** | optional | Role to use to execute action | string | |
-**allowed_ip_list** | optional | Comma-separated list of IPs to replace current allow list. Add an empty list to clear all IPs from allow list. | string | |
-**blocked_ip_list** | optional | Comma-separated list of IPs to replace current block list. Add an empty list to clear all IPs from block list. | string | |
-**comment** | optional | Replace current comment on network policy | string | |
+**allowed_ip_list** | optional | Comma-separated list of IPs to replace the current allow list. Omit to leave unchanged or provide an empty list to clear it. | string | |
+**blocked_ip_list** | optional | Comma-separated list of IPs to replace the current block list. Omit to leave unchanged or provide an empty list to clear it. | string | |
+**comment** | optional | Replace the current network policy comment. Omit to leave unchanged or provide an empty value to clear it. | string | |
 
 #### Action Output
 

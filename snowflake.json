@@ -493,17 +493,17 @@
                     "order": 1
                 },
                 "allowed_ip_list": {
-                    "description": "Comma-separated list of IPs to replace current allow list. Add an empty list to clear all IPs from allow list.",
+                    "description": "Comma-separated list of IPs to replace the current allow list. Omit to leave unchanged or provide an empty list to clear it.",
                     "data_type": "string",
                     "order": 2
                 },
                 "blocked_ip_list": {
-                    "description": "Comma-separated list of IPs to replace current block list. Add an empty list to clear all IPs from block list.",
+                    "description": "Comma-separated list of IPs to replace the current block list. Omit to leave unchanged or provide an empty list to clear it.",
                     "data_type": "string",
                     "order": 3
                 },
                 "comment": {
-                    "description": "Replace current comment on network policy",
+                    "description": "Replace the current network policy comment. Omit to leave unchanged or provide an empty value to clear it.",
                     "data_type": "string",
                     "order": 4
                 }
