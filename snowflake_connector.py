@@ -164,9 +164,10 @@ class SnowflakeConnector(BaseConnector):
                 self._connection.close()
 
         summary = action_result.update_summary({})
-        summary["user_status"] = "disabled"
+        summary["new_login_status"] = "disabled"
+        summary["existing_sessions"] = "not terminated"
 
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, DISABLE_USER_SUCCESS_MSG.format(username=username))
 
     def _handle_show_network_policies(self, param):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")

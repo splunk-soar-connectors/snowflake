@@ -181,7 +181,7 @@
         {
             "action": "disable user",
             "identifier": "disable_user",
-            "description": "Disable a Snowflake user",
+            "description": "Prevent a Snowflake user from starting new sessions. Existing sessions are not terminated",
             "parameters": {
                 "username": {
                     "description": "Snowflake user name",
@@ -232,14 +232,21 @@
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
-                        "Status: Statement executed successfully."
+                        "New logins disabled for user test1; existing sessions were not terminated"
                     ]
                 },
                 {
-                    "data_path": "action_result.summary.status",
+                    "data_path": "action_result.summary.new_login_status",
                     "data_type": "string",
                     "example_values": [
-                        "Statement executed successfully."
+                        "disabled"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.existing_sessions",
+                    "data_type": "string",
+                    "example_values": [
+                        "not terminated"
                     ]
                 },
                 {

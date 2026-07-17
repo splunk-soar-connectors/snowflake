@@ -42,6 +42,7 @@ DESCRIBE_NETWORK_POLICY_ERROR_MSG = "Describe network policy failed"
 
 # Action success messages
 TEST_CONNECTIVITY_SUCCESS_MSG = "Test connectivity passed"
+DISABLE_USER_SUCCESS_MSG = "New logins disabled for user {username}; existing sessions were not terminated"
 REMOVE_GRANTS_SUCCESS_MSG = "Role {role} was successfully removed from user"
 UPDATE_NETWORK_POLICY_SUCCESS_MSG = "Network policy {policy_name} was updated successfully"
 
