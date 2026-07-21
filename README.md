@@ -40,7 +40,7 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 [test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
 [run query](#action-run-query) - Perform a SQL query <br>
-[disable user](#action-disable-user) - Disable a Snowflake user <br>
+[disable user](#action-disable-user) - Prevent a Snowflake user from starting new sessions. Existing sessions are not terminated <br>
 [show network policies](#action-show-network-policies) - List available network policies <br>
 [describe network policy](#action-describe-network-policy) - List the details of a network policy <br>
 [update network policy](#action-update-network-policy) - Update an existing network policy <br>
@@ -96,7 +96,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 ## action: 'disable user'
 
-Disable a Snowflake user
+Prevent a Snowflake user from starting new sessions. Existing sessions are not terminated
 
 Type: **investigate** <br>
 Read only: **False**
@@ -115,8 +115,9 @@ DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 action_result.parameter.username | string | `user name` | test1 |
 action_result.data.\*.status | string | | Statement executed successfully. |
 action_result.status | string | | success |
-action_result.message | string | | Status: Statement executed successfully. |
-action_result.summary.status | string | | Statement executed successfully. |
+action_result.message | string | | New logins disabled for user test1; existing sessions were not terminated |
+action_result.summary.new_login_status | string | | disabled |
+action_result.summary.existing_sessions | string | | not terminated |
 action_result.parameter.role | string | | accountadmin |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
@@ -190,9 +191,9 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 --------- | -------- | ----------- | ---- | --------
 **policy_name** | required | Name of network policy to update | string | `snowflake policy name` |
 **role** | optional | Role to use to execute action | string | |
-**allowed_ip_list** | optional | Comma-separated list of IPs to replace current allow list. Add an empty list to clear all IPs from allow list. | string | |
-**blocked_ip_list** | optional | Comma-separated list of IPs to replace current block list. Add an empty list to clear all IPs from block list. | string | |
-**comment** | optional | Replace current comment on network policy | string | |
+**allowed_ip_list** | optional | Comma-separated list of IPs to replace the current allow list. Omit to leave unchanged or provide an empty list to clear it. | string | |
+**blocked_ip_list** | optional | Comma-separated list of IPs to replace the current block list. Omit to leave unchanged or provide an empty list to clear it. | string | |
+**comment** | optional | Replace the current network policy comment. Omit to leave unchanged or provide an empty value to clear it. | string | |
 
 #### Action Output
 

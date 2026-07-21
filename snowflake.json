@@ -181,7 +181,7 @@
         {
             "action": "disable user",
             "identifier": "disable_user",
-            "description": "Disable a Snowflake user",
+            "description": "Prevent a Snowflake user from starting new sessions. Existing sessions are not terminated",
             "parameters": {
                 "username": {
                     "description": "Snowflake user name",
@@ -232,14 +232,21 @@
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
-                        "Status: Statement executed successfully."
+                        "New logins disabled for user test1; existing sessions were not terminated"
                     ]
                 },
                 {
-                    "data_path": "action_result.summary.status",
+                    "data_path": "action_result.summary.new_login_status",
                     "data_type": "string",
                     "example_values": [
-                        "Statement executed successfully."
+                        "disabled"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.existing_sessions",
+                    "data_type": "string",
+                    "example_values": [
+                        "not terminated"
                     ]
                 },
                 {
@@ -486,17 +493,17 @@
                     "order": 1
                 },
                 "allowed_ip_list": {
-                    "description": "Comma-separated list of IPs to replace current allow list. Add an empty list to clear all IPs from allow list.",
+                    "description": "Comma-separated list of IPs to replace the current allow list. Omit to leave unchanged or provide an empty list to clear it.",
                     "data_type": "string",
                     "order": 2
                 },
                 "blocked_ip_list": {
-                    "description": "Comma-separated list of IPs to replace current block list. Add an empty list to clear all IPs from block list.",
+                    "description": "Comma-separated list of IPs to replace the current block list. Omit to leave unchanged or provide an empty list to clear it.",
                     "data_type": "string",
                     "order": 3
                 },
                 "comment": {
-                    "description": "Replace current comment on network policy",
+                    "description": "Replace the current network policy comment. Omit to leave unchanged or provide an empty value to clear it.",
                     "data_type": "string",
                     "order": 4
                 }
@@ -700,11 +707,11 @@
             },
             {
                 "module": "boto3",
-                "input_file": "wheels/py3/boto3-1.42.30-py3-none-any.whl"
+                "input_file": "wheels/py3/boto3-1.42.97-py3-none-any.whl"
             },
             {
                 "module": "botocore",
-                "input_file": "wheels/py3/botocore-1.42.30-py3-none-any.whl"
+                "input_file": "wheels/py3/botocore-1.42.97-py3-none-any.whl"
             },
             {
                 "module": "cffi",
@@ -720,7 +727,7 @@
             },
             {
                 "module": "jmespath",
-                "input_file": "wheels/py3/jmespath-1.0.1-py3-none-any.whl"
+                "input_file": "wheels/py3/jmespath-1.1.0-py3-none-any.whl"
             },
             {
                 "module": "oscrypto",
@@ -748,11 +755,11 @@
             },
             {
                 "module": "pytz",
-                "input_file": "wheels/shared/pytz-2025.2-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pytz-2026.2-py2.py3-none-any.whl"
             },
             {
                 "module": "s3transfer",
-                "input_file": "wheels/py3/s3transfer-0.16.0-py3-none-any.whl"
+                "input_file": "wheels/py3/s3transfer-0.16.1-py3-none-any.whl"
             },
             {
                 "module": "snowflake_connector_python",
@@ -764,7 +771,7 @@
             },
             {
                 "module": "tomlkit",
-                "input_file": "wheels/py3/tomlkit-0.14.0-py3-none-any.whl"
+                "input_file": "wheels/py3/tomlkit-0.15.1-py3-none-any.whl"
             },
             {
                 "module": "typing_extensions",
@@ -784,11 +791,11 @@
             },
             {
                 "module": "boto3",
-                "input_file": "wheels/py3/boto3-1.42.30-py3-none-any.whl"
+                "input_file": "wheels/py3/boto3-1.43.50-py3-none-any.whl"
             },
             {
                 "module": "botocore",
-                "input_file": "wheels/py3/botocore-1.42.30-py3-none-any.whl"
+                "input_file": "wheels/py3/botocore-1.43.50-py3-none-any.whl"
             },
             {
                 "module": "cffi",
@@ -800,11 +807,11 @@
             },
             {
                 "module": "filelock",
-                "input_file": "wheels/py3/filelock-3.20.1-py3-none-any.whl"
+                "input_file": "wheels/py3/filelock-3.18.0-py3-none-any.whl"
             },
             {
                 "module": "jmespath",
-                "input_file": "wheels/py3/jmespath-1.0.1-py3-none-any.whl"
+                "input_file": "wheels/py3/jmespath-1.1.0-py3-none-any.whl"
             },
             {
                 "module": "oscrypto",
@@ -816,7 +823,7 @@
             },
             {
                 "module": "platformdirs",
-                "input_file": "wheels/py3/platformdirs-4.5.1-py3-none-any.whl"
+                "input_file": "wheels/py3/platformdirs-4.10.0-py3-none-any.whl"
             },
             {
                 "module": "pycparser",
@@ -832,11 +839,11 @@
             },
             {
                 "module": "pytz",
-                "input_file": "wheels/shared/pytz-2025.2-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pytz-2026.2-py2.py3-none-any.whl"
             },
             {
                 "module": "s3transfer",
-                "input_file": "wheels/py3/s3transfer-0.16.0-py3-none-any.whl"
+                "input_file": "wheels/py3/s3transfer-0.19.1-py3-none-any.whl"
             },
             {
                 "module": "snowflake_connector_python",
@@ -848,7 +855,7 @@
             },
             {
                 "module": "tomlkit",
-                "input_file": "wheels/py3/tomlkit-0.14.0-py3-none-any.whl"
+                "input_file": "wheels/py3/tomlkit-0.15.1-py3-none-any.whl"
             },
             {
                 "module": "typing_extensions",

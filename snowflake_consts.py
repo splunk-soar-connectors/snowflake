@@ -28,9 +28,7 @@ DESCRIBE_SNOWFLAKE_USER_SQL = "desc user {username};"
 DISABLE_SNOWFLAKE_USER_SQL = "alter user {username} set disabled=true;"
 SHOW_NETWORK_POLICIES_SQL = "show network policies;"
 DESCRIBE_NETWORK_POLICY_SQL = "describe network policy {policy_name};"
-UPDATE_NETWORK_POLICY_SQL = (
-    "alter network policy {policy_name} set allowed_ip_list=({allowed_ip_list}) blocked_ip_list=({blocked_ip_list}) comment='{comment}';"
-)
+UPDATE_NETWORK_POLICY_SQL = "alter network policy {policy_name} set {set_clause};"
 REMOVE_GRANTS_SQL = "revoke role {role_to_remove} from user {username};"
 
 # Action error messages
@@ -42,6 +40,7 @@ DESCRIBE_NETWORK_POLICY_ERROR_MSG = "Describe network policy failed"
 
 # Action success messages
 TEST_CONNECTIVITY_SUCCESS_MSG = "Test connectivity passed"
+DISABLE_USER_SUCCESS_MSG = "New logins disabled for user {username}; existing sessions were not terminated"
 REMOVE_GRANTS_SUCCESS_MSG = "Role {role} was successfully removed from user"
 UPDATE_NETWORK_POLICY_SUCCESS_MSG = "Network policy {policy_name} was updated successfully"
 
