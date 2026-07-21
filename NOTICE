@@ -97,7 +97,7 @@ documentation is licensed as follows:
 
 @@@@============================================================================
 
-Library: filelock - 3.18.0
+Library: filelock - 3.20.1
 Homepage: https://github.com/tox-dev/py-filelock
 License: Unlicense
 License Text:
