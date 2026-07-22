@@ -18,6 +18,7 @@
 # import later in the file, the connector crashes at runtime.
 import snowflake.connector  # isort: skip
 from snowflake_consts import *  # isort: skip
+from snowflake_utils import build_network_policy_set_clause, validate_identifier  # isort: skip
 
 import datetime
 import json
@@ -159,7 +160,10 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        username = param["username"]
+        try:
+            username = validate_identifier(param["username"], "username")
+        except ValueError as e:
+            return action_result.set_status(phantom.APP_ERROR, str(e))
         role = param.get("role")
 
         try:
@@ -178,9 +182,10 @@ class SnowflakeConnector(BaseConnector):
                 self._connection.close()
 
         summary = action_result.update_summary({})
-        summary["user_status"] = "disabled"
+        summary["new_login_status"] = "disabled"
+        summary["existing_sessions"] = "not terminated"
 
-        return action_result.set_status(phantom.APP_SUCCESS)
+        return action_result.set_status(phantom.APP_SUCCESS, DISABLE_USER_SUCCESS_MSG.format(username=username))
 
     def _handle_show_network_policies(self, param):
         self.save_progress(f"In action handler for: {self.get_action_identifier()}")
@@ -226,7 +231,10 @@ class SnowflakeConnector(BaseConnector):
         database = SNOWFLAKE_DATABASE
         role = param.get("role")
 
-        policy_name = param["policy_name"]
+        try:
+            policy_name = validate_identifier(param["policy_name"], "policy_name")
+        except ValueError as e:
+            return action_result.set_status(phantom.APP_ERROR, str(e))
 
         try:
             self._connection = self._handle_create_connection(database=database, role=role)
@@ -258,37 +266,22 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        policy_name = param["policy_name"]
+        try:
+            policy_name = validate_identifier(param["policy_name"], "policy_name")
+        except ValueError as e:
+            return action_result.set_status(phantom.APP_ERROR, str(e))
         role = param.get("role")
 
-        # Putting single quotes around each IP address in the list to satisfy SQL formatting. Empty string to clear.
         try:
-            allowed_ip_list = param.get("allowed_ip_list")
-            if allowed_ip_list:
-                allowed_ip_list = ",".join(f"'{ip.strip()}'" for ip in allowed_ip_list.split(","))
-            else:
-                allowed_ip_list = ""
-
-            blocked_ip_list = param.get("blocked_ip_list")
-            if blocked_ip_list:
-                blocked_ip_list = ",".join(f"'{ip.strip()}'" for ip in blocked_ip_list.split(","))
-            else:
-                blocked_ip_list = ""
-
-            comment = param.get("comment")
-        except Exception as e:
-            error_msg = self._get_error_msg_from_exception(e)
-            self.save_progress(f"Error: {error_msg}")
-            return action_result.set_status(phantom.APP_ERROR, error_msg)
+            policy_updates = {key: param[key] for key in ("allowed_ip_list", "blocked_ip_list", "comment") if key in param}
+            set_clause = build_network_policy_set_clause(**policy_updates)
+        except ValueError as e:
+            return action_result.set_status(phantom.APP_ERROR, str(e))
 
         try:
             self._connection = self._handle_create_connection(database=database, role=role)
             cursor = self._connection.cursor(snowflake.connector.DictCursor)
-            cursor.execute(
-                UPDATE_NETWORK_POLICY_SQL.format(
-                    policy_name=policy_name, allowed_ip_list=allowed_ip_list, blocked_ip_list=blocked_ip_list, comment=comment
-                )
-            )
+            cursor.execute(UPDATE_NETWORK_POLICY_SQL.format(policy_name=policy_name, set_clause=set_clause))
             row = cursor.fetchone()
             action_result.add_data(row)
         except Exception as e:
@@ -308,8 +301,11 @@ class SnowflakeConnector(BaseConnector):
         action_result = self.add_action_result(ActionResult(dict(param)))
 
         database = SNOWFLAKE_DATABASE
-        username = param["username"]
-        role_to_remove = param["role_to_remove"]
+        try:
+            username = validate_identifier(param["username"], "username")
+            role_to_remove = validate_identifier(param["role_to_remove"], "role_to_remove")
+        except ValueError as e:
+            return action_result.set_status(phantom.APP_ERROR, str(e))
         role = param.get("role")
 
         try:
