@@ -77,6 +77,23 @@ class SnowflakeConnector(BaseConnector):
     def _cleanup_row_values(self, row):
         return {k: self.convert_value(v) for k, v in row.items()}
 
+    @staticmethod
+    def _get_unique_column_names(description):
+        column_names = []
+        used_names = set()
+        for index, column in enumerate(description):
+            column_name = column.name if hasattr(column, "name") else column[0]
+            if column_name in used_names:
+                duplicate_name = f"{column_name}__duplicate_{index}"
+                duplicate_index = 1
+                while duplicate_name in used_names:
+                    duplicate_name = f"{column_name}__duplicate_{index}_{duplicate_index}"
+                    duplicate_index += 1
+                column_name = duplicate_name
+            used_names.add(column_name)
+            column_names.append(column_name)
+        return column_names
+
     def _handle_test_connectivity(self, param):
         self.save_progress(TEST_CONNECTIVITY_PROGRESS_MSG)
 
@@ -107,17 +124,18 @@ class SnowflakeConnector(BaseConnector):
 
         try:
             self._connection = self._handle_create_connection(role, warehouse, database, schema)
-            cursor = self._connection.cursor(snowflake.connector.DictCursor)
+            cursor = self._connection.cursor()
             cursor.execute(query)
+            column_names = self._get_unique_column_names(cursor.description)
             returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
 
             for row in returned_rows:
-                action_result.add_data(self._cleanup_row_values(row))
+                action_result.add_data(self._cleanup_row_values(dict(zip(column_names, row))))
 
             while len(returned_rows) > 0:
                 returned_rows = cursor.fetchmany(DEFAULT_NUM_ROWS_TO_FETCH)
                 for row in returned_rows:
-                    action_result.add_data(self._cleanup_row_values(row))
+                    action_result.add_data(self._cleanup_row_values(dict(zip(column_names, row))))
         except Exception as e:
             error_msg = self._get_error_msg_from_exception(e)
             self.save_progress(f"Error: {error_msg}")
