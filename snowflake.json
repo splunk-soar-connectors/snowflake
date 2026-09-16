@@ -711,11 +711,11 @@
             },
             {
                 "module": "cffi",
-                "input_file": "wheels/py39/cffi-1.17.1-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py39/cffi-2.0.0-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "cryptography",
-                "input_file": "wheels/py3/cryptography-45.0.7-cp37-abi3-manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py3/cryptography-46.0.7-cp38-abi3-manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "filelock",
@@ -751,7 +751,7 @@
             },
             {
                 "module": "pyopenssl",
-                "input_file": "wheels/py3/pyopenssl-25.1.0-py3-none-any.whl"
+                "input_file": "wheels/py3/pyopenssl-26.0.0-py3-none-any.whl"
             },
             {
                 "module": "pytz",
@@ -763,7 +763,7 @@
             },
             {
                 "module": "snowflake_connector_python",
-                "input_file": "wheels/py39/snowflake_connector_python-3.16.0-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py39/snowflake_connector_python-4.4.0-cp39-cp39-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "sortedcontainers",
@@ -795,11 +795,11 @@
             },
             {
                 "module": "cffi",
-                "input_file": "wheels/py313/cffi-1.17.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py313/cffi-2.0.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "cryptography",
-                "input_file": "wheels/py3/cryptography-45.0.7-cp311-abi3-manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py3/cryptography-46.0.7-cp311-abi3-manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "filelock",
@@ -835,7 +835,7 @@
             },
             {
                 "module": "pyopenssl",
-                "input_file": "wheels/py3/pyopenssl-25.1.0-py3-none-any.whl"
+                "input_file": "wheels/py3/pyopenssl-26.0.0-py3-none-any.whl"
             },
             {
                 "module": "pytz",
@@ -847,7 +847,7 @@
             },
             {
                 "module": "snowflake_connector_python",
-                "input_file": "wheels/py313/snowflake_connector_python-3.16.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py313/snowflake_connector_python-4.4.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "sortedcontainers",
