@@ -698,10 +698,6 @@
     "pip39_dependencies": {
         "wheel": [
             {
-                "module": "PyJWT",
-                "input_file": "wheels/py3/PyJWT-2.10.1-py3-none-any.whl"
-            },
-            {
                 "module": "asn1crypto",
                 "input_file": "wheels/py3/asn1crypto-1.5.1-py3-none-any.whl"
             },
@@ -750,6 +746,10 @@
                 "input_file": "wheels/py3/pycryptodomex-3.23.0-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
+                "module": "pyjwt",
+                "input_file": "wheels/py3/pyjwt-2.13.0-py3-none-any.whl"
+            },
+            {
                 "module": "pyopenssl",
                 "input_file": "wheels/py3/pyopenssl-25.1.0-py3-none-any.whl"
             },
@@ -781,10 +781,6 @@
     },
     "pip313_dependencies": {
         "wheel": [
-            {
-                "module": "PyJWT",
-                "input_file": "wheels/py3/PyJWT-2.10.1-py3-none-any.whl"
-            },
             {
                 "module": "asn1crypto",
                 "input_file": "wheels/py3/asn1crypto-1.5.1-py3-none-any.whl"
@@ -832,6 +828,10 @@
             {
                 "module": "pycryptodomex",
                 "input_file": "wheels/py3/pycryptodomex-3.23.0-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+            },
+            {
+                "module": "pyjwt",
+                "input_file": "wheels/py3/pyjwt-2.13.0-py3-none-any.whl"
             },
             {
                 "module": "pyopenssl",
