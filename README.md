@@ -4,7 +4,7 @@ Publisher: Splunk <br>
 Connector Version: 1.1.10 <br>
 Product Vendor: Snowflake <br>
 Product Name: Snowflake <br>
-Minimum Product Version: 6.3.0
+Minimum Product Version: 7.0.0
 
 This app supports investigative and data manipulation actions on Snowflake
 
