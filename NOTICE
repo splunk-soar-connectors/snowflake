@@ -484,7 +484,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @@@@============================================================================
 
-Library: snowflake-connector-python - 4.4.0
+Library: snowflake-connector-python - 4.7.3
 Homepage: https://www.snowflake.com/
 License: Apache Software License
 License Text:
