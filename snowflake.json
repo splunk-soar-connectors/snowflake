@@ -703,11 +703,11 @@
             },
             {
                 "module": "boto3",
-                "input_file": "wheels/py3/boto3-1.43.97-py3-none-any.whl"
+                "input_file": "wheels/py3/boto3-1.43.110-py3-none-any.whl"
             },
             {
                 "module": "botocore",
-                "input_file": "wheels/py3/botocore-1.43.97-py3-none-any.whl"
+                "input_file": "wheels/py3/botocore-1.43.110-py3-none-any.whl"
             },
             {
                 "module": "cffi",
@@ -735,7 +735,7 @@
             },
             {
                 "module": "platformdirs",
-                "input_file": "wheels/py3/platformdirs-4.11.9-py3-none-any.whl"
+                "input_file": "wheels/py3/platformdirs-4.12.4-py3-none-any.whl"
             },
             {
                 "module": "pycparser",
@@ -755,7 +755,7 @@
             },
             {
                 "module": "pytz",
-                "input_file": "wheels/shared/pytz-2026.3.post1-py2.py3-none-any.whl"
+                "input_file": "wheels/shared/pytz-2026.5-py2.py3-none-any.whl"
             },
             {
                 "module": "s3transfer",
@@ -763,7 +763,7 @@
             },
             {
                 "module": "snowflake_connector_python",
-                "input_file": "wheels/py313/snowflake_connector_python-4.4.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+                "input_file": "wheels/py313/snowflake_connector_python-4.7.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
             },
             {
                 "module": "sortedcontainers",
