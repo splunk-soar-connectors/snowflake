@@ -11,7 +11,6 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-from soar_sdk.abstract import SOARClient
 from soar_sdk.action_results import ActionOutput
 from soar_sdk.params import Param, Params
 
@@ -21,8 +20,8 @@ from ..consts import (
     DISABLE_USER_ERROR_MSG,
     DISABLE_USER_SUCCESS_MSG,
 )
-from ..connection import validated_identifier
-from .statement import StatementResult, execute_statement
+from ..connection import action_result, validated_identifier
+from .statement import execute_statement
 
 
 class DisableUserParams(Params):
@@ -40,20 +39,20 @@ class DisableUserSummary(ActionOutput):
     existing_sessions: str
 
 
-def disable_user(
-    params: DisableUserParams, soar: SOARClient, asset: Asset
-) -> list[StatementResult]:
-    username = validated_identifier(params.username, "username")
-    result = execute_statement(
-        asset,
-        DISABLE_SNOWFLAKE_USER_SQL.format(username=username),
-        role=params.role,
-        error_prefix=DISABLE_USER_ERROR_MSG,
-    )
-    soar.set_summary(
-        DisableUserSummary(
-            new_login_status="disabled", existing_sessions="not terminated"
+def disable_user(params: DisableUserParams, asset: Asset):
+    with action_result(params) as result:
+        username = validated_identifier(params.username, "username")
+        execute_statement(
+            result,
+            asset,
+            DISABLE_SNOWFLAKE_USER_SQL.format(username=username),
+            role=params.role,
+            error_prefix=DISABLE_USER_ERROR_MSG,
         )
-    )
-    soar.set_message(DISABLE_USER_SUCCESS_MSG.format(username=username))
+        result.set_summary(
+            DisableUserSummary(
+                new_login_status="disabled", existing_sessions="not terminated"
+            ).model_dump()
+        )
+        result.set_status(True, DISABLE_USER_SUCCESS_MSG.format(username=username))
     return result

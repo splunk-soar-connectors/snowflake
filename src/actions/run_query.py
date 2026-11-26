@@ -13,16 +13,11 @@
 
 from collections.abc import Iterator
 
-from soar_sdk.abstract import SOARClient
-from soar_sdk.action_results import (
-    ActionOutput,
-    OutputFieldSpecification,
-    PermissiveActionOutput,
-)
+from soar_sdk.action_results import ActionOutput, OutputFieldSpecification
 from soar_sdk.params import Param, Params
 
 from ..asset import Asset
-from ..connection import fetch_rows, normalize_row, open_cursor
+from ..connection import action_result, fetch_rows, normalize_row, open_cursor
 from ..consts import SQL_QUERY_ERROR_MSG
 
 
@@ -38,7 +33,7 @@ class RunQueryParams(Params):
     )
 
 
-class QueryRow(PermissiveActionOutput):
+class QueryRow(ActionOutput):
     @classmethod
     def _to_json_schema(
         cls, parent_datapath="action_result.data.*", column_order_counter=None
@@ -69,25 +64,21 @@ def unique_column_names(description) -> list[str]:
     return names
 
 
-def run_query(params: RunQueryParams, soar: SOARClient, asset: Asset) -> list[QueryRow]:
-    with open_cursor(
-        asset,
-        error_prefix=SQL_QUERY_ERROR_MSG,
-        role=params.role,
-        warehouse=params.warehouse,
-        database=params.database,
-        schema=params.schema_name,
-    ) as cursor:
-        cursor.execute(params.query)
-        names = unique_column_names(cursor.description)
-        rows = (
-            [
-                QueryRow(**normalize_row(dict(zip(names, row, strict=True))))
-                for row in fetch_rows(cursor)
-            ]
-            if names
-            else []
-        )
-        total_rows = max(cursor.rowcount or 0, 0)
-    soar.set_summary(QuerySummary(total_rows=total_rows))
-    return rows
+def run_query(params: RunQueryParams, asset: Asset):
+    with action_result(params) as result:
+        with open_cursor(
+            asset,
+            error_prefix=SQL_QUERY_ERROR_MSG,
+            role=params.role,
+            warehouse=params.warehouse,
+            database=params.database,
+            schema=params.schema_name,
+        ) as cursor:
+            cursor.execute(params.query)
+            names = unique_column_names(cursor.description)
+            if names:
+                for row in fetch_rows(cursor):
+                    result.add_data(normalize_row(dict(zip(names, row, strict=True))))
+            total_rows = max(cursor.rowcount or 0, 0)
+        result.set_summary(QuerySummary(total_rows=total_rows).model_dump())
+    return result

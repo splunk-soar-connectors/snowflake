@@ -11,13 +11,18 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-from soar_sdk.action_results import OutputField, PermissiveActionOutput
+from soar_sdk.action_results import ActionOutput, OutputField
 from soar_sdk.params import Param, Params
 
 from ..asset import Asset
-from ..connection import fetch_rows, normalize_row, open_cursor
+from ..connection import (
+    action_result,
+    fetch_rows,
+    normalize_row,
+    open_cursor,
+    validated_identifier,
+)
 from ..consts import DESCRIBE_NETWORK_POLICY_SQL, SNOWFLAKE_DATABASE
-from ..connection import validated_identifier
 
 
 class DescribeNetworkPolicyParams(Params):
@@ -29,21 +34,20 @@ class DescribeNetworkPolicyParams(Params):
     role: str | None = Param(description="Role to use to execute action")
 
 
-class NetworkPolicyProperty(PermissiveActionOutput):
+class NetworkPolicyProperty(ActionOutput):
     name: str | None = None
     value: str | None = OutputField(
         cef_types=["ip"], example_values=["192.168.1.0/24,192.168.2.0/24"]
     )
 
 
-def describe_network_policy(
-    params: DescribeNetworkPolicyParams, asset: Asset
-) -> list[NetworkPolicyProperty]:
-    policy_name = validated_identifier(params.policy_name, "policy_name")
-    with open_cursor(
-        asset, dictionaries=True, database=SNOWFLAKE_DATABASE, role=params.role
-    ) as cursor:
-        cursor.execute(DESCRIBE_NETWORK_POLICY_SQL.format(policy_name=policy_name))
-        return [
-            NetworkPolicyProperty(**normalize_row(row)) for row in fetch_rows(cursor)
-        ]
+def describe_network_policy(params: DescribeNetworkPolicyParams, asset: Asset):
+    with action_result(params) as result:
+        policy_name = validated_identifier(params.policy_name, "policy_name")
+        with open_cursor(
+            asset, dictionaries=True, database=SNOWFLAKE_DATABASE, role=params.role
+        ) as cursor:
+            cursor.execute(DESCRIBE_NETWORK_POLICY_SQL.format(policy_name=policy_name))
+            for row in fetch_rows(cursor):
+                result.add_data(normalize_row(row))
+    return result

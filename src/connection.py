@@ -16,7 +16,9 @@ from contextlib import closing, contextmanager
 from datetime import date, timedelta
 from typing import Any
 
+from soar_sdk.action_results import ActionResult
 from soar_sdk.exceptions import ActionFailure
+from soar_sdk.params import Params
 
 from .asset import Asset
 from .consts import DEFAULT_NUM_ROWS_TO_FETCH, SNOWFLAKE_ERROR_MSG_UNAVAILABLE
@@ -28,6 +30,21 @@ class SnowflakeActionFailure(ActionFailure):
 
     def __str__(self) -> str:
         return self.message
+
+
+@contextmanager
+def action_result(params: Params) -> Iterator[ActionResult]:
+    # The SDK's automatic failure result drops inputs and any rows read before
+    # an exception. Retain both on the same result that receives the error.
+    result = ActionResult(
+        status=True,
+        message="",
+        param=params.model_dump(by_alias=True, exclude_none=True),
+    )
+    try:
+        yield result
+    except SnowflakeActionFailure as error:
+        result.set_status(False, str(error))
 
 
 def validated_identifier(value: str, parameter_name: str) -> str:

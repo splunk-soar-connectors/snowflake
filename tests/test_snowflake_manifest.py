@@ -42,10 +42,24 @@ class SnowflakeManifestTest(unittest.TestCase):
         query = self.actions["run_query"]
         paths = {field["data_path"] for field in query["output"]}
         assert "schema" in query["parameters"]
+        assert "action_result.parameter.schema" in paths
         assert "action_result.data" in paths
         assert "action_result.summary.total_rows" in paths
-        for name in ("run_query", "show_network_policies", "describe_network_policy"):
-            assert self.actions[name]["render"]["type"] == "custom"
+        for name, title in (
+            ("run_query", "Execute Query"),
+            ("show_network_policies", "Show Network Policies"),
+            ("describe_network_policy", "Describe Network Policy"),
+        ):
+            render = self.actions[name]["render"]
+            assert render["view"].endswith("views.display_query_results")
+            assert {
+                key: render[key] for key in ("type", "width", "height", "title")
+            } == {
+                "type": "custom",
+                "width": 10,
+                "height": 5,
+                "title": title,
+            }
 
     def test_update_network_policy_documents_omitted_fields(self):
         action = self.actions["update_network_policy"]

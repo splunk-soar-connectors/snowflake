@@ -11,14 +11,13 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-from soar_sdk.abstract import SOARClient
 from soar_sdk.params import Param, Params
 
 from ..asset import Asset
 from ..consts import UPDATE_NETWORK_POLICY_SQL, UPDATE_NETWORK_POLICY_SUCCESS_MSG
-from ..connection import SnowflakeActionFailure, validated_identifier
+from ..connection import SnowflakeActionFailure, action_result, validated_identifier
 from ..utils import build_network_policy_set_clause
-from .statement import StatementResult, execute_statement
+from .statement import execute_statement
 
 
 class UpdateNetworkPolicyParams(Params):
@@ -40,22 +39,26 @@ class UpdateNetworkPolicyParams(Params):
     )
 
 
-def update_network_policy(
-    params: UpdateNetworkPolicyParams, soar: SOARClient, asset: Asset
-) -> list[StatementResult]:
-    policy_name = validated_identifier(params.policy_name, "policy_name")
-    try:
-        updates = build_network_policy_set_clause(
-            allowed_ip_list=params.allowed_ip_list,
-            blocked_ip_list=params.blocked_ip_list,
-            comment=params.comment,
+def update_network_policy(params: UpdateNetworkPolicyParams, asset: Asset):
+    with action_result(params) as result:
+        policy_name = validated_identifier(params.policy_name, "policy_name")
+        try:
+            updates = build_network_policy_set_clause(
+                allowed_ip_list=params.allowed_ip_list,
+                blocked_ip_list=params.blocked_ip_list,
+                comment=params.comment,
+            )
+        except ValueError as error:
+            raise SnowflakeActionFailure(str(error)) from error
+        execute_statement(
+            result,
+            asset,
+            UPDATE_NETWORK_POLICY_SQL.format(
+                policy_name=policy_name, set_clause=updates
+            ),
+            role=params.role,
         )
-    except ValueError as error:
-        raise SnowflakeActionFailure(str(error)) from error
-    result = execute_statement(
-        asset,
-        UPDATE_NETWORK_POLICY_SQL.format(policy_name=policy_name, set_clause=updates),
-        role=params.role,
-    )
-    soar.set_message(UPDATE_NETWORK_POLICY_SUCCESS_MSG.format(policy_name=policy_name))
+        result.set_status(
+            True, UPDATE_NETWORK_POLICY_SUCCESS_MSG.format(policy_name=policy_name)
+        )
     return result

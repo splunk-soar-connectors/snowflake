@@ -11,13 +11,12 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-from soar_sdk.abstract import SOARClient
 from soar_sdk.params import Param, Params
 
 from ..asset import Asset
 from ..consts import REMOVE_GRANTS_SQL, REMOVE_GRANTS_SUCCESS_MSG
-from ..connection import validated_identifier
-from .statement import StatementResult, execute_statement
+from ..connection import action_result, validated_identifier
+from .statement import execute_statement
 
 
 class RemoveGrantsParams(Params):
@@ -30,15 +29,15 @@ class RemoveGrantsParams(Params):
     role: str | None = Param(description="Role to use to execute action")
 
 
-def remove_grants(
-    params: RemoveGrantsParams, soar: SOARClient, asset: Asset
-) -> list[StatementResult]:
-    username = validated_identifier(params.username, "username")
-    role_to_remove = validated_identifier(params.role_to_remove, "role_to_remove")
-    result = execute_statement(
-        asset,
-        REMOVE_GRANTS_SQL.format(username=username, role_to_remove=role_to_remove),
-        role=params.role,
-    )
-    soar.set_message(REMOVE_GRANTS_SUCCESS_MSG.format(role=role_to_remove))
+def remove_grants(params: RemoveGrantsParams, asset: Asset):
+    with action_result(params) as result:
+        username = validated_identifier(params.username, "username")
+        role_to_remove = validated_identifier(params.role_to_remove, "role_to_remove")
+        execute_statement(
+            result,
+            asset,
+            REMOVE_GRANTS_SQL.format(username=username, role_to_remove=role_to_remove),
+            role=params.role,
+        )
+        result.set_status(True, REMOVE_GRANTS_SUCCESS_MSG.format(role=role_to_remove))
     return result

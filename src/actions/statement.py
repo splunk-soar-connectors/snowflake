@@ -11,22 +11,27 @@
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 
-from soar_sdk.action_results import OutputField, PermissiveActionOutput
+from soar_sdk.action_results import ActionOutput, ActionResult, OutputField
 
 from ..asset import Asset
 from ..connection import open_cursor
 from ..consts import SNOWFLAKE_DATABASE
 
 
-class StatementResult(PermissiveActionOutput):
+class StatementResult(ActionOutput):
     status: str | None = OutputField(
         column_name="Status", example_values=["Statement executed successfully."]
     )
 
 
 def execute_statement(
-    asset: Asset, statement: str, *, role: str | None, error_prefix: str | None = None
-) -> list[StatementResult]:
+    result: ActionResult,
+    asset: Asset,
+    statement: str,
+    *,
+    role: str | None,
+    error_prefix: str | None = None,
+) -> None:
     with open_cursor(
         asset,
         dictionaries=True,
@@ -36,4 +41,5 @@ def execute_statement(
     ) as cursor:
         cursor.execute(statement)
         row = cursor.fetchone()
-        return [] if row is None else [StatementResult(**row)]
+        if row is not None:
+            result.add_data(row)
