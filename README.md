@@ -38,7 +38,7 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
+[test connectivity](#action-test-connectivity) - test connectivity <br>
 [run query](#action-run-query) - Perform a SQL query <br>
 [disable user](#action-disable-user) - Prevent a Snowflake user from starting new sessions. Existing sessions are not terminated <br>
 [show network policies](#action-show-network-policies) - List available network policies <br>
@@ -48,10 +48,12 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ## action: 'test connectivity'
 
-Validate the asset configuration for connectivity using supplied configuration
+test connectivity
 
 Type: **test** <br>
 Read only: **True**
+
+Basic test for app.
 
 #### Action Parameters
 
@@ -59,7 +61,12 @@ No parameters are required for this action
 
 #### Action Output
 
-No Output
+DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
+--------- | ---- | -------- | --------------
+action_result.status | string | | success failure |
+action_result.message | string | | |
+summary.total_objects | numeric | | 1 |
+summary.total_objects_successful | numeric | | 1 |
 
 ## action: 'run query'
 
@@ -82,15 +89,15 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
+action_result.status | string | | success failure |
+action_result.message | string | | |
+action_result.parameter.query | string | `sql query` | |
+action_result.parameter.role | string | | |
+action_result.parameter.warehouse | string | | |
+action_result.parameter.database | string | | |
+action_result.parameter.schema | string | | |
 action_result.data | string | | |
-action_result.status | string | | success |
-action_result.message | string | | Total rows: 4 |
-action_result.summary.total_rows | numeric | | 4 |
-action_result.parameter.role | string | | accountadmin |
-action_result.parameter.query | string | `sql query` | select * from test_table; |
-action_result.parameter.schema | string | | testschema |
-action_result.parameter.database | string | | test1db |
-action_result.parameter.warehouse | string | | warehouse1 |
+action_result.summary.total_rows | numeric | | |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
 
@@ -112,13 +119,13 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.parameter.username | string | `user name` | test1 |
+action_result.status | string | | success failure |
+action_result.message | string | | |
+action_result.parameter.username | string | `user name` | |
+action_result.parameter.role | string | | |
 action_result.data.\*.status | string | | Statement executed successfully. |
-action_result.status | string | | success |
-action_result.message | string | | New logins disabled for user test1; existing sessions were not terminated |
-action_result.summary.new_login_status | string | | disabled |
-action_result.summary.existing_sessions | string | | not terminated |
-action_result.parameter.role | string | | accountadmin |
+action_result.summary.new_login_status | string | | |
+action_result.summary.existing_sessions | string | | |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
 
@@ -139,15 +146,15 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.data.\*.name | string | | MYPOLICY1 |
-action_result.parameter.role | string | | accountadmin |
-action_result.data.\*.comment | string | | testing app |
-action_result.data.\*.created_on | string | | 2022-12-19 14:10:12.084000-08:00 |
-action_result.data.\*.entries_in_allowed_ip_list | numeric | | 2 |
-action_result.data.\*.entries_in_blocked_ip_list | numeric | | 1 |
-action_result.status | string | | success |
-action_result.message | string | | Total policies: 1 |
-action_result.summary.total_policies | numeric | | 1 |
+action_result.status | string | | success failure |
+action_result.message | string | | |
+action_result.parameter.role | string | | |
+action_result.data.\*.name | string | | |
+action_result.data.\*.comment | string | | |
+action_result.data.\*.created_on | string | | |
+action_result.data.\*.entries_in_allowed_ip_list | numeric | | |
+action_result.data.\*.entries_in_blocked_ip_list | numeric | | |
+action_result.summary.total_policies | numeric | | |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
 
@@ -169,12 +176,12 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
-action_result.data.\*.name | string | | ALLOWED_IP_LIST |
-action_result.data.\*.value | string | `ip` | 192.168.1.0/24,192.168.2.0/24 |
-action_result.status | string | | success |
+action_result.status | string | | success failure |
 action_result.message | string | | |
-action_result.parameter.policy_name | string | `snowflake policy name` | mypolicy1 |
-action_result.parameter.role | string | | accountadmin |
+action_result.parameter.policy_name | string | `snowflake policy name` | |
+action_result.parameter.role | string | | |
+action_result.data.\*.name | string | | |
+action_result.data.\*.value | string | `ip` | 192.168.1.0/24,192.168.2.0/24 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
 
@@ -199,14 +206,14 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
+action_result.status | string | | success failure |
+action_result.message | string | | |
+action_result.parameter.policy_name | string | `snowflake policy name` | |
+action_result.parameter.role | string | | |
+action_result.parameter.allowed_ip_list | string | | |
+action_result.parameter.blocked_ip_list | string | | |
+action_result.parameter.comment | string | | |
 action_result.data.\*.status | string | | Statement executed successfully. |
-action_result.status | string | | success |
-action_result.message | string | | Network policy mypolicy1 was updated successfully |
-action_result.parameter.comment | string | | updated policy a new update |
-action_result.parameter.policy_name | string | `snowflake policy name` | mypolicy1 |
-action_result.parameter.role | string | | accountadmin |
-action_result.parameter.allowed_ip_list | string | | 192.168.1.0/24, 192.168.2.0/24 192.168.10.0/24 |
-action_result.parameter.blocked_ip_list | string | | 192.168.1.1, 192.168.2.1 192.168.10.1, 192.168.10.5, 192.168.10.6 |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
 
@@ -229,14 +236,14 @@ PARAMETER | REQUIRED | DESCRIPTION | TYPE | CONTAINS
 
 DATA PATH | TYPE | CONTAINS | EXAMPLE VALUES
 --------- | ---- | -------- | --------------
+action_result.status | string | | success failure |
+action_result.message | string | | |
+action_result.parameter.username | string | `user name` | |
+action_result.parameter.role_to_remove | string | | |
+action_result.parameter.role | string | | |
 action_result.data.\*.status | string | | Statement executed successfully. |
-action_result.status | string | | success |
-action_result.message | string | | Role accountadmin was successfully removed from user |
-action_result.parameter.username | string | `user name` | test2 |
-action_result.parameter.role_to_remove | string | | accountadmin |
 summary.total_objects | numeric | | 1 |
 summary.total_objects_successful | numeric | | 1 |
-action_result.parameter.role | string | | |
 
 ______________________________________________________________________
 
