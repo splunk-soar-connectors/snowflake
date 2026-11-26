@@ -1,5 +1,3 @@
-# File: snowflake_consts.py
-#
 # Copyright (c) 2023-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,12 +38,18 @@ DESCRIBE_NETWORK_POLICY_ERROR_MSG = "Describe network policy failed"
 
 # Action success messages
 TEST_CONNECTIVITY_SUCCESS_MSG = "Test connectivity passed"
-DISABLE_USER_SUCCESS_MSG = "New logins disabled for user {username}; existing sessions were not terminated"
+DISABLE_USER_SUCCESS_MSG = (
+    "New logins disabled for user {username}; existing sessions were not terminated"
+)
 REMOVE_GRANTS_SUCCESS_MSG = "Role {role} was successfully removed from user"
-UPDATE_NETWORK_POLICY_SUCCESS_MSG = "Network policy {policy_name} was updated successfully"
+UPDATE_NETWORK_POLICY_SUCCESS_MSG = (
+    "Network policy {policy_name} was updated successfully"
+)
 
 # Default error messages
 SNOWFLAKE_ERROR_CODE_UNAVAILABLE = "Unavailable"
-SNOWFLAKE_ERROR_MSG_UNAVAILABLE = "Unavailable. Please check the asset configuration and|or the action parameters."
+SNOWFLAKE_ERROR_MSG_UNAVAILABLE = (
+    "Unavailable. Please check the asset configuration and|or the action parameters."
+)
 
 SNOWFLAKE_TOTAL_ROWS_JSON = "total_rows"

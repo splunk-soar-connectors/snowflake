@@ -1,5 +1,3 @@
-# File: snowflake_utils.py
-#
 # Copyright (c) 2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,7 +36,9 @@ def format_ip_list(value, parameter_name):
     for raw_ip in value.split(","):
         ip_value = raw_ip.strip()
         if not ip_value:
-            raise ValueError(f"Invalid {parameter_name}: empty list entries are not allowed")
+            raise ValueError(
+                f"Invalid {parameter_name}: empty list entries are not allowed"
+            )
         try:
             ipaddress.ip_network(ip_value, strict=False)
         except ValueError as error:
@@ -53,20 +53,28 @@ def escape_sql_string(value):
         return ""
     if not isinstance(value, str):
         raise ValueError("Invalid comment: expected a string")
-    return value.replace("'", "''")
+    return value.replace("\\", "\\\\").replace("'", "''")
 
 
-def build_network_policy_set_clause(*, allowed_ip_list=MISSING, blocked_ip_list=MISSING, comment=MISSING):
+def build_network_policy_set_clause(
+    *, allowed_ip_list=MISSING, blocked_ip_list=MISSING, comment=MISSING
+):
     assignments = []
 
     if allowed_ip_list is not MISSING and allowed_ip_list is not None:
-        assignments.append(f"allowed_ip_list=({format_ip_list(allowed_ip_list, 'allowed_ip_list')})")
+        assignments.append(
+            f"allowed_ip_list=({format_ip_list(allowed_ip_list, 'allowed_ip_list')})"
+        )
     if blocked_ip_list is not MISSING and blocked_ip_list is not None:
-        assignments.append(f"blocked_ip_list=({format_ip_list(blocked_ip_list, 'blocked_ip_list')})")
+        assignments.append(
+            f"blocked_ip_list=({format_ip_list(blocked_ip_list, 'blocked_ip_list')})"
+        )
     if comment is not MISSING and comment is not None:
         assignments.append(f"comment='{escape_sql_string(comment)}'")
 
     if not assignments:
-        raise ValueError("Provide at least one of allowed_ip_list, blocked_ip_list, or comment")
+        raise ValueError(
+            "Provide at least one of allowed_ip_list, blocked_ip_list, or comment"
+        )
 
     return " ".join(assignments)
